@@ -10,4 +10,31 @@ public class Product {
     private Float manufactureCost; //Поле не может быть null
     private UnitOfMeasure unitOfMeasure; //Поле не может быть null
     private Person owner; //Поле не может быть null
+
+    private static int idCounter;
+
+    static {
+        idCounter = 1;
+    }
+
+    {
+        creationDate = java.time.LocalDateTime.now();
+    }
+
+    public Product(String name, Coordinates coordinates, Double price, String partNumber, Float manufactureCost, UnitOfMeasure unitOfMeasure, Person owner) {
+        this.id = idCounter;
+        this.name = name;
+        this.coordinates = coordinates;
+        this.price = price;
+        this.partNumber = partNumber;
+        this.manufactureCost = manufactureCost;
+        this.unitOfMeasure = unitOfMeasure;
+        this.owner = owner;
+        idCounter++;
+    }
+
+    public static int getIdCounter() {
+        return idCounter;
+    }
+
 }
