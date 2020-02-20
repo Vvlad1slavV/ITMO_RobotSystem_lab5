@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="27d6ab18-6f11-44fe-a30f-882149f0e6ca" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/itmo/r3135/Control.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/itmo/r3135/Control.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -118,7 +119,7 @@
       <workItem from="1582219396973" duration="429000" />
       <workItem from="1582219838954" duration="47000" />
       <workItem from="1582219921998" duration="314000" />
-      <workItem from="1582220244233" duration="440000" />
+      <workItem from="1582220244233" duration="2023000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1582057827934</created>
@@ -204,7 +205,14 @@
       <option name="project" value="LOCAL" />
       <updated>1582220172659</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Vlad_1">
+      <created>1582220762232</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1582220762232</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
