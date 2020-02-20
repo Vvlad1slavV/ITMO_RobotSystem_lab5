@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="27d6ab18-6f11-44fe-a30f-882149f0e6ca" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/com/itmo/r3135/Commander.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/itmo/r3135/Commander.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,6 +26,13 @@
             <value>
               <list>
                 <branch-info repo="$PROJECT_DIR$" source="master" />
+              </list>
+            </value>
+          </entry>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/master" />
               </list>
             </value>
           </entry>
@@ -96,6 +103,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -109,6 +121,9 @@
       <updated>1582055617234</updated>
       <workItem from="1582055620114" duration="1902000" />
       <workItem from="1582188068381" duration="7377000" />
+      <workItem from="1582218997387" duration="398000" />
+      <workItem from="1582219396973" duration="429000" />
+      <workItem from="1582219838954" duration="47000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1582057827934</created>
@@ -180,7 +195,14 @@
       <option name="project" value="LOCAL" />
       <updated>1582207005447</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="commander_3">
+      <created>1582219029681</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1582219029681</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -191,7 +213,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
@@ -208,6 +232,7 @@
     <MESSAGE value="Vlad_2" />
     <MESSAGE value="commander_1" />
     <MESSAGE value="commander_2" />
-    <option name="LAST_COMMIT_MESSAGE" value="commander_2" />
+    <MESSAGE value="commander_3" />
+    <option name="LAST_COMMIT_MESSAGE" value="commander_3" />
   </component>
 </project>
