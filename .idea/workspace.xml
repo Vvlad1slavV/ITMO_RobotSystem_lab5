@@ -69,6 +69,7 @@
   <component name="ProjectId" id="1Xzj3V4icx7vMkCMqIgWr1QrJVm" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -209,5 +210,11 @@
     <MESSAGE value="commander_1" />
     <MESSAGE value="commander_2" />
     <option name="LAST_COMMIT_MESSAGE" value="commander_2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="552" y="254" key="Vcs.Push.Dialog.v2" timestamp="1582219799426">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1582219799426" />
   </component>
 </project>
