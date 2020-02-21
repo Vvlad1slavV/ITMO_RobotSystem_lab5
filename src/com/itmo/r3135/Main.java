@@ -19,7 +19,6 @@ public class Main {
                 File jsonPath = new File(inputString);
                 if (!jsonPath.exists()) {
                     System.out.println("Файл по указанному пути (" + jsonPath.toString() + ") не существует.");
-
                 } else {
                     if (!jsonPath.isFile())
                         System.out.println("Путь " + jsonPath.toString() + " не содержит имени файла");
