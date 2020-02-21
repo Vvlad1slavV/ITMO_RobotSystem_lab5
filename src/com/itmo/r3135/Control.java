@@ -3,7 +3,10 @@ package com.itmo.r3135;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.*;
+import java.lang.reflect.Type;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -144,7 +147,41 @@ public class Control {
     }
 
     public void load_collection() throws IOException {
-
+        int startSize = products.size();
+        try {
+            if(!jsonFile.exists()) throw new FileNotFoundException(); //Очень маловероятно, но возможно файл успеют стереть во время работы программы.
+        } catch (FileNotFoundException e){
+            System.out.println(("Файл по указанному пути (" + jsonFile.getAbsolutePath() + ") не существует."));
+        }
+        try {
+            if(!jsonFile.canRead() || !jsonFile.canWrite()) throw new SecurityException();
+        } catch (SecurityException e){
+            System.out.println("Файл защищён от чтения и(или) записи. Для работы коректной программы нужны оба разрешения.");
+        }
+        try {
+            if(jsonFile.length() == 0) throw new JsonSyntaxException("");
+        }catch (JsonSyntaxException e){
+            System.out.println("Файл пуст.");
+        }
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(jsonFile))) {
+            System.out.println("Идет загрузка коллекции из файла" + jsonFile.getAbsolutePath());
+            StringBuilder stringBuilder = new StringBuilder();
+            String nextString;
+                while((nextString = bufferedReader.readLine()) != null){
+                    stringBuilder.append(nextString);
+            }
+            Type typeOfCollectoin = new TypeToken<HashSet<Product>>(){}.getType();
+            try {
+                HashSet<Product> addedProduct = gson.fromJson(stringBuilder.toString(), typeOfCollectoin);
+                for (Product p: addedProduct) {
+                    products.add(p);
+                }
+            }catch (JsonSyntaxException e){
+                System.out.println("Ошибка синтаксиса Json. Файл не может быть загружен.");
+                System.exit(666);
+            }
+            System.out.println("Коллекций успешно загружена. Добавлено " + (products.size() - startSize) + " элементов.");
+        }
     }
 
 
