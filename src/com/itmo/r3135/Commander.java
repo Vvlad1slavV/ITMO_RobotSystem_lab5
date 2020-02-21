@@ -76,7 +76,7 @@ public class Commander {
                             control.print_field_descending_price(finalUserCommand[1]);
                             break;
                         default:
-                            System.out.println("Неопознанная команда. Наберите 'help' для справки.");
+                            System.out.println("Неопознанная команда. Наберите 'help' для получения доступных команд.");
                     }
                 }
                 catch (ArrayIndexOutOfBoundsException ex) {

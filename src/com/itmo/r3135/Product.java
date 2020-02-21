@@ -37,4 +37,7 @@ public class Product {
         return idCounter;
     }
 
+    public int getId() {
+        return id;
+    }
 }
