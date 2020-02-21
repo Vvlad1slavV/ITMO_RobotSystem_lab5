@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="27d6ab18-6f11-44fe-a30f-882149f0e6ca" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/itmo/r3135/Control.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/itmo/r3135/Control.java" afterDir="false" />
-    </list>
+    <list default="true" id="27d6ab18-6f11-44fe-a30f-882149f0e6ca" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +112,7 @@
       <updated>1582055617234</updated>
       <workItem from="1582055620114" duration="1902000" />
       <workItem from="1582188068381" duration="7377000" />
-      <workItem from="1582277106410" duration="3810000" />
+      <workItem from="1582277106410" duration="4073000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1582057827934</created>
@@ -187,7 +184,14 @@
       <option name="project" value="LOCAL" />
       <updated>1582207005447</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="control_1">
+      <created>1582287608646</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1582287608646</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -217,6 +221,7 @@
     <MESSAGE value="Vlad_2" />
     <MESSAGE value="commander_1" />
     <MESSAGE value="commander_2" />
-    <option name="LAST_COMMIT_MESSAGE" value="commander_2" />
+    <MESSAGE value="control_1" />
+    <option name="LAST_COMMIT_MESSAGE" value="control_1" />
   </component>
 </project>
