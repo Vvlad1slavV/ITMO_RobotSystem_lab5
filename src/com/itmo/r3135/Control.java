@@ -38,6 +38,7 @@ public class Control {
             System.out.println("Файл по указанному пути не существует.");
             System.exit(1);
         }
+        load_collection();
 
     }
 
