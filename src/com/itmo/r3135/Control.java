@@ -109,7 +109,7 @@ public class Control {
         FileWriter fileWriter = new FileWriter(jsonFile);
         try {
             fileWriter.write(gson.toJson(products));
-            System.out.println(gson.toJson(products));
+            //System.out.println(gson.toJson(products));
             fileWriter.flush();
             System.out.println("Файл успешно сохранён.");
         } catch (Exception ex) {
