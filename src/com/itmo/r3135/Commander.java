@@ -1,6 +1,7 @@
 package com.itmo.r3135;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Scanner;
 
 public class Commander {
@@ -13,7 +14,10 @@ public class Commander {
         userCommand = "";
     }
 
-    public Commander() {}
+    public Commander( Control control) {
+        this.control = control;
+
+    }
 
     public void interactiveMod() throws IOException {
         try(Scanner commandReader = new Scanner(System.in)) {
