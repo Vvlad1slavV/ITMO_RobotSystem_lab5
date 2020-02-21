@@ -39,7 +39,6 @@ public class Control {
             System.exit(1);
         }
         load_collection();
-
     }
 
     public void help() {
@@ -162,7 +161,7 @@ public class Control {
         try {
             if(jsonFile.length() == 0) throw new JsonSyntaxException("");
         }catch (JsonSyntaxException e){
-            System.out.println("Файл пуст.");
+            System.out.println("Файл пуст. Возможно только добавление в коллекцию.");
         }
         try(BufferedReader bufferedReader = new BufferedReader(new FileReader(jsonFile))) {
             System.out.println("Идет загрузка коллекции из файла" + jsonFile.getAbsolutePath());
