@@ -71,7 +71,7 @@ public class Control {
                     //Добавить проверку совместимости элемента
                     System.out.println("Элемент успешно добавлен.");
                 }
-            } catch (JsonSyntaxException | IOException ex) {
+            } catch (JsonSyntaxException ex) {
                 System.out.println("Возникла ошибка синтаксиса Json. Элемент не был добавлен");
             }
         }
