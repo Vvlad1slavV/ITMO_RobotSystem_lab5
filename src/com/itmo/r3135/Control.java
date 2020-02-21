@@ -90,6 +90,7 @@ public class Control {
                     if (p.getId() == Integer.parseInt(s)) {
                         products.remove(p);
                         System.out.println("Элемент коллекции успешно удалён.");
+                        save();
                         break;
                     }
                 }
