@@ -79,9 +79,23 @@ public class Control {
     }
 
     public void remove_by_id(String s) {
-        for (Product p : products) {
-            if (p.getId() == Integer.parseInt(s)) {
-            }
+        try {
+            int startSize = products.size();
+            if (products.size() > 0) {
+                for (Product p : products) {
+                    if (p.getId() == Integer.parseInt(s)) {
+                        products.remove(p);
+                        System.out.println("Элемент коллекции успешно удалён.");
+                        break;
+                    }
+                }
+                if (startSize == products.size()) {
+                    System.out.println("Элемент не был удалён. Элемент с id " + s + " не существует.");
+                }
+            } else System.out.println("Коллекция пуста.");
+        } catch (
+                Exception ex) {
+            System.out.println("Ошибка ввода id.");
         }
     }
 
@@ -97,10 +111,10 @@ public class Control {
             fileWriter.write(gson.toJson(products));
             System.out.println(gson.toJson(products));
             fileWriter.flush();
-            System.out.println("Файл успешно сохранён");
+            System.out.println("Файл успешно сохранён.");
         } catch (Exception ex) {
-            System.out.println("При записи файла что-то пошло не так");
-        }finally {
+            System.out.println("При записи файла что-то пошло не так.");
+        } finally {
             fileWriter.close();
         }
     }
