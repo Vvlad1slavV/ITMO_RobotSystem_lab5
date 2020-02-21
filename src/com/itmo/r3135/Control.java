@@ -70,7 +70,6 @@ public class Control {
 
                     //Добавить проверку совместимости элемента
                     System.out.println("Элемент успешно добавлен.");
-                    save();
                 }
             } catch (JsonSyntaxException | IOException ex) {
                 System.out.println("Возникла ошибка синтаксиса Json. Элемент не был добавлен");
@@ -90,7 +89,6 @@ public class Control {
                     if (p.getId() == Integer.parseInt(s)) {
                         products.remove(p);
                         System.out.println("Элемент коллекции успешно удалён.");
-                        save();
                         break;
                     }
                 }
@@ -107,7 +105,6 @@ public class Control {
     public void clear() throws IOException {
         products.clear();
         System.out.print("Коллекция очищена.");
-        save();
     }
 
     public void save() throws IOException {
