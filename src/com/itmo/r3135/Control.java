@@ -161,10 +161,11 @@ public class Control {
         try {
             if(jsonFile.length() == 0) throw new JsonSyntaxException("");
         }catch (JsonSyntaxException e){
-            System.out.println("Файл пуст. Возможно только добавление в коллекцию.");
+            System.out.println("Файл пуст. Возможно только добавление элементов в коллекцию.");
+            return;
         }
         try(BufferedReader bufferedReader = new BufferedReader(new FileReader(jsonFile))) {
-            System.out.println("Идет загрузка коллекции из файла" + jsonFile.getAbsolutePath());
+            System.out.println("Идет загрузка коллекции из файла " + jsonFile.getAbsolutePath());
             StringBuilder stringBuilder = new StringBuilder();
             String nextString;
                 while((nextString = bufferedReader.readLine()) != null){
