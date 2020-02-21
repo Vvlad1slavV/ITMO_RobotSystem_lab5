@@ -72,12 +72,20 @@ public class Control {
     }
 
     public void update_id(String s) {
+
     }
 
     public void remove_by_id(String s) {
+        for (Product p : products) {
+            if (p.getId() == Integer.parseInt(s)) {
+            }
+        }
     }
 
     public void clear() {
+        products.clear();
+        System.out.print("Коллекция очищена.");
+        save();
     }
 
     public void save() {
