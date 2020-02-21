@@ -16,7 +16,6 @@ public class Commander {
 
     public Commander( Control control) {
         this.control = control;
-
     }
 
     public void interactiveMod() throws IOException {

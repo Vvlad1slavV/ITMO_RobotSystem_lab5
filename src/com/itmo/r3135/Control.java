@@ -1,15 +1,18 @@
 package com.itmo.r3135;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
 import java.lang.reflect.Type;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashSet;
 
 public class Control {
-
     private File jsonFile;
     private HashSet<Product> products;
     private Gson gson;
@@ -20,7 +23,7 @@ public class Control {
         products = new HashSet();
     }
 
-    public Control(String filePath) {
+    public Control(String filePath) throws IOException {
         if (filePath == null) {
             System.out.println("Путь к файлу json не обнаружен.");
             System.exit(1);
@@ -30,10 +33,12 @@ public class Control {
         if (jsonPath.exists()) {
             this.jsonFile = jsonPath;
             System.out.println("Файл " + this.jsonFile.toString() + " успешно обнаружен");
+
         } else {
             System.out.println("Файл по указанному пути не существует.");
             System.exit(1);
         }
+
     }
 
     public void help() {
@@ -66,7 +71,7 @@ public class Control {
                     System.out.println("Элемент успешно добавлен.");
                     save();
                 }
-            } catch (JsonSyntaxException ex) {
+            } catch (JsonSyntaxException | IOException ex) {
                 System.out.println("Возникла ошибка синтаксиса Json. Элемент не был добавлен");
             }
         }
@@ -77,19 +82,44 @@ public class Control {
     }
 
     public void remove_by_id(String s) {
-        for (Product p : products) {
-            if (p.getId() == Integer.parseInt(s)) {
-            }
+        try {
+            int startSize = products.size();
+            if (products.size() > 0) {
+                for (Product p : products) {
+                    if (p.getId() == Integer.parseInt(s)) {
+                        products.remove(p);
+                        System.out.println("Элемент коллекции успешно удалён.");
+                        break;
+                    }
+                }
+                if (startSize == products.size()) {
+                    System.out.println("Элемент не был удалён. Элемент с id " + s + " не существует.");
+                }
+            } else System.out.println("Коллекция пуста.");
+        } catch (
+                Exception ex) {
+            System.out.println("Ошибка ввода id.");
         }
     }
 
-    public void clear() {
+    public void clear() throws IOException {
         products.clear();
         System.out.print("Коллекция очищена.");
         save();
     }
 
-    public void save() {
+    public void save() throws IOException {
+        FileWriter fileWriter = new FileWriter(jsonFile);
+        try {
+            fileWriter.write(gson.toJson(products));
+            //System.out.println(gson.toJson(products));
+            fileWriter.flush();
+            System.out.println("Файл успешно сохранён.");
+        } catch (Exception ex) {
+            System.out.println("При записи файла что-то пошло не так.");
+        } finally {
+            fileWriter.close();
+        }
     }
 
     public void execute_script(String s) {
