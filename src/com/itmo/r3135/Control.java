@@ -1,11 +1,34 @@
 package com.itmo.r3135;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 
 public class Control {
 
+    private File jsonFile;
+    private HashSet<Product> products;
 
     //control methods
+    {
+        products = new HashSet();
+    }
+
+    public Control(String filePath) {
+        if (filePath == null) {
+            System.out.println("Путь к файлу json не обнаружен.");
+            System.exit(1);
+        }
+        File jsonPath = new File(filePath);
+
+        if (jsonPath.exists()) {
+            this.jsonFile = jsonPath;
+            System.out.println("Файл " + this.jsonFile.toString() + " успешно обнаружен");
+        } else {
+            System.out.println("Файл по указанному пути не существует.");
+            System.exit(1);
+        }
+    }
 
     public void help() {
         System.out.printf("%-25s%5s%n","add {element}", "Добавить новый элемент в коллекцию");
