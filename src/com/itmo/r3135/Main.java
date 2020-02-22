@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) throws IOException {
+
         picture.gamepad();
         Scanner input = new Scanner(System.in);
         while (true) {

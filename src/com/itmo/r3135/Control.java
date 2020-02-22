@@ -2,7 +2,9 @@ package com.itmo.r3135;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.google.gson.reflect.TypeToken;
+import org.w3c.dom.ls.LSOutput;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -63,16 +65,13 @@ public class Control {
     }
 
     public void add(String s) {
-
         try {
-
             Product addProduct = gson.fromJson(s, Product.class);
             addProduct.setCreationDate(java.time.LocalDateTime.now());
             addProduct.setId(uniqueoIdGeneration(products));
             if (checkNull(addProduct)) {
                 System.out.println("Элемент не удовлетворяет требованиям коллекции");
             } else if (products.add(addProduct)) {
-                System.out.println("ДОБАВЛЕН " + checkNull(addProduct));
                 System.out.println("Элемент успешно добавлен.");
             }
         } catch (JsonSyntaxException ex) {
@@ -102,19 +101,39 @@ public class Control {
         int newId;
         int counter;
         while (true) {
-            counter=0;
+            counter = 0;
             newId = Math.abs(r.nextInt());
             for (Product product : products) {
                 if (product.getId() == newId) {
                     break;
-                }
-                else counter++;
+                } else counter++;
             }
-            if(counter==products.size()){return newId;}
+            if (counter == products.size()) {
+                return newId;
+            }
         }
     }
 
-    public void update_id(String s) {
+    public void update_id(String id, String elem) {
+        try {
+          //  System.out.println("ID:" +id);
+          //  System.out.println("Элемент" + elem);
+            Product newProduct = gson.fromJson(elem, Product.class);
+            int startSize = products.size();
+            if (checkNull(newProduct)) {
+                System.out.println("Элемент не удовлетворяет требованиям коллекции");
+            } else {
+                remove_by_id(id);
+                newProduct.setCreationDate(java.time.LocalDateTime.now());
+                newProduct.setId(Integer.parseInt(id));
+                if (startSize - products.size() == 1)
+                    if (products.add(newProduct)) {
+                        System.out.println("Элемент успешно обновлён.");
+                    } else System.out.println("При замене элементов что-то пошло не так");
+            }
+        } catch (JsonSyntaxException ex) {
+            System.out.println("Возникла ошибка при замене элемента");
+        }
     }
 
     public void remove_by_id(String s) {
@@ -132,8 +151,7 @@ public class Control {
                     System.out.println("Элемент не был удалён. Элемент с id " + s + " не существует.");
                 }
             } else System.out.println("Коллекция пуста.");
-        } catch (
-                Exception ex) {
+        } catch (Exception ex) {
             System.out.println("Ошибка ввода id.");
         }
     }

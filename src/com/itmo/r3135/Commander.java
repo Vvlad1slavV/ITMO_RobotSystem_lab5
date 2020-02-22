@@ -38,8 +38,8 @@ public class Commander {
                         case "add":
                             control.add(finalUserCommand[1]);
                             break;
-                        case "update id":
-                            control.update_id(finalUserCommand[1]);
+                        case "update":
+                            control.update_id(finalUserCommand[1].split(" ", 2)[0], finalUserCommand[1].split(" ", 2)[1]);
                             break;
                         case "remove_by_id":
                             control.remove_by_id(finalUserCommand[1]);
@@ -54,7 +54,7 @@ public class Commander {
                             control.execute_script(finalUserCommand[1]);
                             break;
                         case "exit":
-//                            exit without save
+                            System.out.println("Для завершения работы введите 'exit' без аргументов");
                             break;
                         case "add_if_min ":
                             control.add_if_min (finalUserCommand[1]);
