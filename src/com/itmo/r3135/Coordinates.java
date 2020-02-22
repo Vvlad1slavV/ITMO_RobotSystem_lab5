@@ -4,6 +4,11 @@ public class Coordinates {
     private Float x; //Значение поля должно быть больше -50, Поле не может быть null
     private double y;
 
+    public Coordinates(Float x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
     public Float getX() {
         return x;
     }

@@ -1,7 +1,6 @@
 package com.itmo.r3135;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
@@ -11,6 +10,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Random;
 
 public class Control {
     private File jsonFile;
@@ -63,21 +63,58 @@ public class Control {
     }
 
     public void add(String s) {
-        {
-            try {
-                if (products.add(gson.fromJson(s, Product.class))) {
 
-                    //Добавить проверку совместимости элемента
-                    System.out.println("Элемент успешно добавлен.");
-                }
-            } catch (JsonSyntaxException ex) {
-                System.out.println("Возникла ошибка синтаксиса Json. Элемент не был добавлен");
+        try {
+
+            Product addProduct = gson.fromJson(s, Product.class);
+            addProduct.setCreationDate(java.time.LocalDateTime.now());
+            addProduct.setId(uniqueoIdGeneration(products));
+            if (checkNull(addProduct)) {
+                System.out.println("Элемент не удовлетворяет требованиям коллекции");
+            } else if (products.add(addProduct)) {
+                System.out.println("ДОБАВЛЕН " + checkNull(addProduct));
+                System.out.println("Элемент успешно добавлен.");
             }
+        } catch (JsonSyntaxException ex) {
+            System.out.println("Возникла ошибка синтаксиса Json. Элемент не был добавлен");
+        }
+    }
+
+    //проверка на null-поля
+    private boolean checkNull(Product product) {
+        try {
+            return product.getName() == null || (product.getName() != null && product.getName().isEmpty()) || product.getCoordinates() == null ||
+                    (product.getCoordinates() != null && (product.getCoordinates().getX() == null || (product.getCoordinates().getX() != null && product.getCoordinates().getY() <= -50))) ||
+                    product.getCreationDate() == null || (product.getPrice() != null && product.getPrice() <= 0) ||
+                    product.getPartNumber() == null || (product.getPartNumber() != null && product.getPartNumber().length() < 21) ||
+                    product.getManufactureCost() == null || product.getUnitOfMeasure() == null || product.getOwner() == null ||
+                    product.getOwner().getName() == null || (product.getOwner().getName() != null && product.getOwner().getName().isEmpty()) ||
+                    product.getOwner().getBirthday() == null || product.getOwner().getEyeColor() == null || product.getOwner().getHairColor() == null;
+        } catch (Exception ex) {
+            System.out.println("В процессе проверки объекта произошла ошибка");
+            return true;
+        }
+
+    }
+
+    private int uniqueoIdGeneration(HashSet<Product> products) {
+        Random r = new Random();
+        int newId;
+        int counter;
+        while (true) {
+            counter=0;
+            newId = Math.abs(r.nextInt());
+            for (Product product : products) {
+                if (product.getId() == newId) {
+                    break;
+                }
+                else counter++;
+            }
+            if(counter==products.size()){return newId;}
         }
     }
 
     public void update_id(String s) {
-
     }
 
     public void remove_by_id(String s) {
@@ -147,35 +184,39 @@ public class Control {
     public void load_collection() throws IOException {
         int startSize = products.size();
         try {
-            if(!jsonFile.exists()) throw new FileNotFoundException(); //Очень маловероятно, но возможно файл успеют стереть во время работы программы.
-        } catch (FileNotFoundException e){
+            if (!jsonFile.exists())
+                throw new FileNotFoundException(); //Очень маловероятно, но возможно файл успеют стереть во время работы программы.
+        } catch (FileNotFoundException e) {
             System.out.println(("Файл по указанному пути (" + jsonFile.getAbsolutePath() + ") не существует."));
+            return;
         }
         try {
-            if(!jsonFile.canRead() || !jsonFile.canWrite()) throw new SecurityException();
-        } catch (SecurityException e){
+            if (!jsonFile.canRead() || !jsonFile.canWrite()) throw new SecurityException();
+        } catch (SecurityException e) {
             System.out.println("Файл защищён от чтения и(или) записи. Для работы коректной программы нужны оба разрешения.");
+            return;
         }
         try {
-            if(jsonFile.length() == 0) throw new JsonSyntaxException("");
-        }catch (JsonSyntaxException e){
+            if (jsonFile.length() == 0) throw new JsonSyntaxException("");
+        } catch (JsonSyntaxException e) {
             System.out.println("Файл пуст. Возможно только добавление элементов в коллекцию.");
             return;
         }
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(jsonFile))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(jsonFile))) {
             System.out.println("Идет загрузка коллекции из файла " + jsonFile.getAbsolutePath());
             StringBuilder stringBuilder = new StringBuilder();
             String nextString;
-                while((nextString = bufferedReader.readLine()) != null){
-                    stringBuilder.append(nextString);
+            while ((nextString = bufferedReader.readLine()) != null) {
+                stringBuilder.append(nextString);
             }
-            Type typeOfCollectoin = new TypeToken<HashSet<Product>>(){}.getType();
+            Type typeOfCollectoin = new TypeToken<HashSet<Product>>() {
+            }.getType();
             try {
                 HashSet<Product> addedProduct = gson.fromJson(stringBuilder.toString(), typeOfCollectoin);
-                for (Product p: addedProduct) {
+                for (Product p : addedProduct) {
                     products.add(p);
                 }
-            }catch (JsonSyntaxException e){
+            } catch (JsonSyntaxException e) {
                 System.out.println("Ошибка синтаксиса Json. Файл не может быть загружен.");
                 System.exit(666);
             }

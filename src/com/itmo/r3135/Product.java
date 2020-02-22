@@ -1,5 +1,7 @@
 package com.itmo.r3135;
 
+import java.time.LocalDateTime;
+
 public class Product {
     private int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
@@ -33,11 +35,51 @@ public class Product {
         idCounter++;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public static int getIdCounter() {
         return idCounter;
     }
 
     public int getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public String getPartNumber() {
+        return partNumber;
+    }
+
+    public Float getManufactureCost() {
+        return manufactureCost;
+    }
+
+    public UnitOfMeasure getUnitOfMeasure() {
+        return unitOfMeasure;
+    }
+
+    public Person getOwner() {
+        return owner;
     }
 }

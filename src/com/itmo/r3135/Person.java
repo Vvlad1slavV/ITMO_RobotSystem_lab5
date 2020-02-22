@@ -1,5 +1,6 @@
 package com.itmo.r3135;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Person {
@@ -7,6 +8,29 @@ public class Person {
         private java.time.LocalDateTime birthday; //Поле не может быть null
         private Color eyeColor; //Поле не может быть null
         private Color hairColor; //Поле не может быть null
+
+        public Person(String name, LocalDateTime birthday, Color eyeColor, Color hairColor) {
+                this.name = name;
+                this.birthday = birthday;
+                this.eyeColor = eyeColor;
+                this.hairColor = hairColor;
+        }
+
+        public String getName() {
+                return name;
+        }
+
+        public LocalDateTime getBirthday() {
+                return birthday;
+        }
+
+        public Color getEyeColor() {
+                return eyeColor;
+        }
+
+        public Color getHairColor() {
+                return hairColor;
+        }
 
         @Override
         public boolean equals(Object o) {

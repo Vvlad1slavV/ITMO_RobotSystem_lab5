@@ -1,9 +1,8 @@
 package com.itmo.r3135;
 
-import com.google.gson.Gson;
-
 import java.io.File;
 import java.io.IOException;
+
 import java.util.Scanner;
 
 public class Main {
