@@ -11,6 +11,7 @@ import java.lang.reflect.Type;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -96,6 +97,7 @@ public class Control {
 
     }
 
+    //генератор незанятого id
     private int uniqueoIdGeneration(HashSet<Product> products) {
         Random r = new Random();
         int newId;
@@ -116,8 +118,8 @@ public class Control {
 
     public void update_id(String id, String elem) {
         try {
-          //  System.out.println("ID:" +id);
-          //  System.out.println("Элемент" + elem);
+            //  System.out.println("ID:" +id);
+            //  System.out.println("Элемент" + elem);
             Product newProduct = gson.fromJson(elem, Product.class);
             int startSize = products.size();
             if (checkNull(newProduct)) {
@@ -137,26 +139,24 @@ public class Control {
     }
 
     public void remove_by_id(String s) {
-        try {
-            int startSize = products.size();
-            if (products.size() > 0) {
-                for (Product p : products) {
-                    if (p.getId() == Integer.parseInt(s)) {
-                        products.remove(p);
-                        System.out.println("Элемент коллекции успешно удалён.");
-                        break;
-                    }
+
+        int startSize = products.size();
+        if (products.size() > 0) {
+            for (Product p : products) {
+                if (p.getId() == Integer.parseInt(s)) {
+                    products.remove(p);
+                    System.out.println("Элемент коллекции успешно удалён.");
+                    break;
                 }
-                if (startSize == products.size()) {
-                    System.out.println("Элемент не был удалён. Элемент с id " + s + " не существует.");
-                }
-            } else System.out.println("Коллекция пуста.");
-        } catch (Exception ex) {
-            System.out.println("Ошибка ввода id.");
-        }
+            }
+            if (startSize == products.size()) {
+                System.out.println("Элемент с id " + s + " не существует.");
+            }
+        } else System.out.println("Коллекция пуста.");
     }
 
-    public void clear() throws IOException {
+
+    public void clear() {
         products.clear();
         System.out.print("Коллекция очищена.");
     }
@@ -179,12 +179,48 @@ public class Control {
     }
 
     public void add_if_min(String s) {
+        try {
+            if (products.size() != 0) {
+                Product addProduct = gson.fromJson(s, Product.class);
+                Product minElem = Collections.min(products);
+                if (addProduct.compareTo(minElem) < 0) {
+                    add(s);
+                } else System.out.println("Элемент не минимальный!");
+            } else System.out.println("Коллекция пуста, минимальный элемент отсутствует");
+        } catch (JsonSyntaxException ex) {
+            System.out.println("Возникла ошибка синтаксиса Json. Элемент не был добавлен");
+        }
     }
 
     public void remove_greater(String s) {
+        try {
+            if (products.size() != 0) {
+                Product maxProduct = gson.fromJson(s, Product.class);
+                for (Product product : products) {
+                    if (product.compareTo(maxProduct) > 0) {
+                        System.out.println("Элемент с id " + product.getId() + " удалён из коллекции.");
+                    }
+                }
+            } else System.out.println("Коллекция пуста.");
+        } catch (JsonSyntaxException ex) {
+            System.out.println("Возникла ошибка синтаксиса Json.");
+        }
     }
 
     public void remove_lower(String s) {
+        try {
+            if (products.size() != 0) {
+                Product maxProduct = gson.fromJson(s, Product.class);
+                for (Product product : products) {
+                    if (product.compareTo(maxProduct) < 0) {
+                        System.out.println("Элемент с id " + product.getId() + " удалён из коллекции");
+                    }
+                }
+            } else System.out.println("Коллекция пуста");
+        } catch (JsonSyntaxException ex) {
+            System.out.println("Возникла ошибка синтаксиса Json.");
+        }
+
     }
 
     public void group_counting_by_coordinates() {
