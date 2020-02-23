@@ -275,12 +275,13 @@ public class Control {
                     }
                     scriptCommand = scriptReader.readLine();
                 }
-                System.out.println("Скрипт выполнен");
-                scriptCounter = 0;
-
+                if (thisCount == 0) {
+                    scriptCounter = 0;
+                    System.out.println("Скрипт выполнен");
+                }
             }
         } else {
-            System.out.println("Количество вложенных скриптов превысило " + SCRIPT_LIMIT + ". Вызов вложенных скриптов остановлен.");
+            System.out.println("Не делай так. Количество вложенных скриптов превысило " + SCRIPT_LIMIT + ". Вызов вложенных скриптов остановлен.");
         }
     }
 
