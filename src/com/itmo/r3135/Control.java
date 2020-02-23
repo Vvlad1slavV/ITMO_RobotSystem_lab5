@@ -197,7 +197,7 @@ public class Control {
             int thisCount = scriptCounter;
             File script = new File(addres);
 
-            if (!script.exists() ||  !script.isFile()) {
+            if (!script.exists() || !script.isFile()) {
                 System.out.println(("Файл по указанному пути (" + script.getAbsolutePath() + ") не существует."));
                 return;
             }
@@ -343,31 +343,33 @@ public class Control {
     }
 
     public void group_counting_by_coordinates() {
-        for (int i = 1;i<=4; i++){
-            System.out.println("Элементы четверти " + i);
-            for (Product p : products) {
-                float x = p.getCoordinates().getX();
-                double y = p.getCoordinates().getY();
-                switch (i) {
-                    case 1:
-                        if (x>=0 & y>=0)
-                            System.out.println(p);
-                        break;
-                    case 2:
-                        if (x<0 & y>=0)
-                            System.out.println(p);
-                        break;
-                    case 3:
-                        if (x<0 & y<0)
-                            System.out.println(p);
-                        break;
-                    case 4:
-                        if (x>=0 & y<0)
-                            System.out.println(p);
-                        break;
+        if (!products.isEmpty()) {
+            for (int i = 1; i <= 4; i++) {
+                System.out.println("Элементы четверти " + i);
+                for (Product p : products) {
+                    float x = p.getCoordinates().getX();
+                    double y = p.getCoordinates().getY();
+                    switch (i) {
+                        case 1:
+                            if (x >= 0 & y >= 0)
+                                System.out.println(gson.toJson(p));
+                            break;
+                        case 2:
+                            if (x < 0 & y >= 0)
+                                System.out.println(gson.toJson(p));
+                            break;
+                        case 3:
+                            if (x < 0 & y < 0)
+                                System.out.println(gson.toJson(p));
+                            break;
+                        case 4:
+                            if (x >= 0 & y < 0)
+                                System.out.println(gson.toJson(p));
+                            break;
+                    }
                 }
             }
-        }
+        } else System.out.println("Коллекция пуста.");
     }
 
     public void filter_contains_name(String s) {
@@ -386,16 +388,17 @@ public class Control {
     }
 
     public void print_field_descending_price() {
-        ArrayList<Product> list = new ArrayList<>();
-        for (Product p: products) {
-            list.add(p);
-        }
-        list.sort((o1,o2)->(int) ((o1.getPrice() - o2.getPrice()) * 100));
-        System.out.println(list);
-        System.out.printf("%-12s%5s%n","ID","Price");
-        for (Product p: list) {
-            System.out.printf("%-12d%5.2f%n",p.getId(),p.getPrice());
-        }
+        if (!products.isEmpty()) {
+            ArrayList<Product> list = new ArrayList<>();
+            for (Product p : products) {
+                list.add(p);
+            }
+            list.sort((o1, o2) -> (int) ((o1.getPrice() - o2.getPrice()) * 100));
+            System.out.printf("%-12s%5s%n", "ID", "Price");
+            for (Product p : list) {
+                System.out.printf("%-12d%5.2f%n", p.getId(), p.getPrice());
+            }
+        } else System.out.println("Коллекция пуста.");
     }
 
     public void info() {
