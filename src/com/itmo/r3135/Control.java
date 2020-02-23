@@ -18,6 +18,9 @@ public class Control {
     private File jsonFile;
     private HashSet<Product> products;
     private Gson gson;
+    private Date DateInitialization;
+    private Date DateSave;
+    private Date DateChange;
 
     //control methods
     {
@@ -40,6 +43,8 @@ public class Control {
             System.exit(1);
         }
         load_collection();
+        DateInitialization = new Date();
+
     }
 
     public void help() {
@@ -76,6 +81,7 @@ public class Control {
         } catch (JsonSyntaxException ex) {
             System.out.println("Возникла ошибка синтаксиса Json. Элемент не был добавлен");
         }
+        DateChange = new Date();
     }
 
     //проверка на null-поля
@@ -136,6 +142,7 @@ public class Control {
         } catch (JsonSyntaxException ex) {
             System.out.println("Возникла ошибка при замене элемента");
         }
+        DateChange = new Date();
     }
 
     public void remove_by_id(String s) {
@@ -153,12 +160,14 @@ public class Control {
                 System.out.println("Элемент с id " + s + " не существует.");
             }
         } else System.out.println("Коллекция пуста.");
+        DateChange = new Date();
     }
 
 
     public void clear() {
         products.clear();
         System.out.println("Коллекция очищена.");
+        DateChange = new Date();
     }
 
     public void save() throws IOException {
@@ -173,6 +182,7 @@ public class Control {
         } finally {
             fileWriter.close();
         }
+        DateSave = new Date();
     }
 
     public void execute_script(String addres) throws IOException {
@@ -271,6 +281,7 @@ public class Control {
         } catch (JsonSyntaxException ex) {
             System.out.println("Возникла ошибка синтаксиса Json. Элемент не был добавлен");
         }
+        DateChange = new Date();
     }
 
     public void remove_greater(String s) {
@@ -290,6 +301,7 @@ public class Control {
         } catch (JsonSyntaxException ex) {
             System.out.println("Возникла ошибка синтаксиса Json.");
         }
+        DateChange = new Date();
     }
 
     public void remove_lower(String s) {
@@ -309,7 +321,7 @@ public class Control {
         } catch (JsonSyntaxException ex) {
             System.out.println("Возникла ошибка синтаксиса Json.");
         }
-
+        DateChange = new Date();
     }
 
     public void group_counting_by_coordinates() {
@@ -334,6 +346,12 @@ public class Control {
     }
 
     public void info() {
+        System.out.println("Дата загрузки: " + DateInitialization +
+                            "\nДата сохранения :" + DateSave +
+                            "\nДата изменения :" + DateChange +
+                            "\nДата сохранения :" + DateSave +
+                            "\nТип коллекции :" + products.getClass() +
+                            "\nКоличество элементов" + products.size());
     }
 
     public void load_collection() throws IOException {
