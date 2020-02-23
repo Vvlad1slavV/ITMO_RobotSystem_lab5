@@ -226,7 +226,8 @@ public class Control {
                             this.execute_script(finalScriptCommand[1]);
                             break;
                         case "exit":
-                            scriptCommand = null;
+                            System.exit(0);
+                          //  scriptCommand = null;
                             return;
                         case "add_if_min ":
                             this.add_if_min(finalScriptCommand[1]);
