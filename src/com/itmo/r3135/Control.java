@@ -196,7 +196,7 @@ public class Control {
         if (scriptCounter < SCRIPT_LIMIT) {
             int thisCount = scriptCounter;
             File script = new File(addres);
-            if (!script.exists()) {
+            if (!script.exists() || script.isFile()) {
                 System.out.println(("Файл по указанному пути (" + script.getAbsolutePath() + ") не существует."));
                 return;
             }
