@@ -43,7 +43,7 @@ public class Control {
             System.exit(1);
         }
         load_collection();
-        DateInitialization = new Date();
+        DateInitialization = DateSave = DateChange = new Date();
 
     }
 
@@ -347,11 +347,10 @@ public class Control {
 
     public void info() {
         System.out.println("Дата загрузки: " + DateInitialization +
-                            "\nДата сохранения :" + DateSave +
-                            "\nДата изменения :" + DateChange +
-                            "\nДата сохранения :" + DateSave +
-                            "\nТип коллекции :" + products.getClass() +
-                            "\nКоличество элементов" + products.size());
+                            "\nДата сохранения: " + DateSave +
+                            "\nДата изменения: " + DateChange +
+                            "\nТип коллекции: " + products.getClass() +
+                            "\nКоличество элементов: " + products.size());
     }
 
     public void load_collection() throws IOException {
