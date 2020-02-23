@@ -177,15 +177,15 @@ public class Control {
 
     public void execute_script(String addres) throws IOException {
         File script = new File(addres);
-        if (!script.exists()){
+        if (!script.exists()) {
             System.out.println(("Файл по указанному пути (" + script.getAbsolutePath() + ") не существует."));
             return;
         }
-        if (!script.canRead()){
+        if (!script.canRead()) {
             System.out.println("Файл защищён от чтения.");
             return;
         }
-        if (script.length() == 0){
+        if (script.length() == 0) {
             System.out.println("Скрипт не содержит команд.");
             return;
         }
@@ -199,7 +199,6 @@ public class Control {
 
         }
     }
-
 
 
     public void add_if_min(String s) {
@@ -218,13 +217,17 @@ public class Control {
 
     public void remove_greater(String s) {
         try {
-            if (products.size() != 0) {
+            int startSize = products.size();
+            if (startSize != 0) {
                 Product maxProduct = gson.fromJson(s, Product.class);
-                for (Product product : products) {
-                    if (product.compareTo(maxProduct) > 0) {
-                        System.out.println("Элемент с id " + product.getId() + " удалён из коллекции.");
-                    }
-                }
+                //    for (Product product : products) {
+                //  if (product.compareTo(maxProduct) > 0) {
+                //  System.out.println("Элемент с id " + product.getId() + " удалён из коллекции");
+                //         products.remove(product);
+                products.removeIf(p -> (p != null && p.compareTo(maxProduct) > 0));
+                System.out.println("Удалено " + (startSize - products.size()) + " элементов");
+                // }
+                //   }
             } else System.out.println("Коллекция пуста.");
         } catch (JsonSyntaxException ex) {
             System.out.println("Возникла ошибка синтаксиса Json.");
@@ -233,13 +236,17 @@ public class Control {
 
     public void remove_lower(String s) {
         try {
-            if (products.size() != 0) {
+            int startSize = products.size();
+            if (startSize != 0) {
                 Product maxProduct = gson.fromJson(s, Product.class);
-                for (Product product : products) {
-                    if (product.compareTo(maxProduct) < 0) {
-                        System.out.println("Элемент с id " + product.getId() + " удалён из коллекции");
-                    }
-                }
+                // for (Product product : products) {
+                //     if (product.compareTo(maxProduct) < 0) {
+                //         System.out.println("Элемент с id " + product.getId() + " удалён из коллекции");
+                //         products.remove(product);
+                //     }
+                //  }
+                products.removeIf(p -> (p != null && p.compareTo(maxProduct) < 0));
+                System.out.println("Удалено " + (startSize - products.size()) + " элементов");
             } else System.out.println("Коллекция пуста");
         } catch (JsonSyntaxException ex) {
             System.out.println("Возникла ошибка синтаксиса Json.");
@@ -251,6 +258,18 @@ public class Control {
     }
 
     public void filter_contains_name(String s) {
+        int findProdukts = 0;
+        if (products.size() > 0) {
+            if (!s.isEmpty() && s != null) {
+                for (Product p : products) {
+                    if (p.getName().contains(s)) {
+                        System.out.println(gson.toJson(p));
+                        findProdukts++;
+                    }
+                }
+                System.out.println("Всего найдено " + findProdukts + " элементов.");
+            } else System.out.println("Ошибка ввода имени.");
+        } else System.out.println("Коллекция пуста.");
     }
 
     public void print_field_descending_price(String s) {
@@ -265,11 +284,11 @@ public class Control {
             System.out.println(("Файл по указанному пути (" + jsonFile.getAbsolutePath() + ") не существует."));
             return;
         }
-        if (!jsonFile.canRead() || !jsonFile.canWrite()){
+        if (!jsonFile.canRead() || !jsonFile.canWrite()) {
             System.out.println("Файл защищён от чтения и(или) записи. Для работы коректной программы нужны оба разрешения.");
             return;
         }
-        if (jsonFile.length() == 0){
+        if (jsonFile.length() == 0) {
             System.out.println("Файл пуст. Возможно только добавление элементов в коллекцию.");
             return;
         }
