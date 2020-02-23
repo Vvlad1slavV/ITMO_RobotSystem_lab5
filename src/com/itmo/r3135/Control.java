@@ -15,14 +15,21 @@ import java.io.IOException;
 import java.util.*;
 
 public class Control {
+    private static final int SCRIPT_LIMIT = 20;
+
     private File jsonFile;
     private HashSet<Product> products;
     private Gson gson;
     private Date DateInitialization;
     private Date DateSave;
     private Date DateChange;
-
+    private static int scriptCounter;
     //control methods
+
+    static {
+        scriptCounter = 0;
+    }
+
     {
         gson = new Gson();
         products = new HashSet();
@@ -186,85 +193,94 @@ public class Control {
     }
 
     public void execute_script(String addres) throws IOException {
-        File script = new File(addres);
-        if (!script.exists()) {
-            System.out.println(("Файл по указанному пути (" + script.getAbsolutePath() + ") не существует."));
-            return;
-        }
-        if (!script.canRead()) {
-            System.out.println("Файл защищён от чтения.");
-            return;
-        }
-        if (script.length() == 0) {
-            System.out.println("Скрипт не содержит команд.");
-            return;
-        }
-        try (BufferedReader scriptReader = new BufferedReader(new FileReader(script))) {
-            String scriptCommand = scriptReader.readLine();
-            String[] finalScriptCommand;
-            while (scriptCommand != null) {
-                finalScriptCommand = scriptCommand.trim().split(" ", 2);
-                try {
-                    switch (finalScriptCommand[0]) {
-                        case "":
-                            break;
-                        case "help":
-                            this.help();
-                            break;
-                        case "info":
-                            this.info();
-                            break;
-                        case "show":
-                            this.show();
-                            break;
-                        case "add":
-                            this.add(finalScriptCommand[1]);
-                            break;
-                        case "update_id":
-                            this.update_id(finalScriptCommand[1]);
-                            break;
-                        case "remove_by_id":
-                            this.remove_by_id(finalScriptCommand[1]);
-                            break;
-                        case "clear":
-                            this.clear();
-                            break;
-                        case "save":
-                            this.save();
-                            break;
-                        case "execute_script":
-                            this.execute_script(finalScriptCommand[1]);
-                            break;
-                        case "exit":
-                            scriptCommand = null;
-                            return;
-                        case "add_if_min ":
-                            this.add_if_min(finalScriptCommand[1]);
-                            break;
-                        case "remove_greater":
-                            this.remove_greater(finalScriptCommand[1]);
-                            break;
-                        case "remove_lower":
-                            this.remove_lower(finalScriptCommand[1]);
-                            break;
-                        case "group_counting_by_coordinates":
-                            this.group_counting_by_coordinates();
-                            break;
-                        case "filter_contains_name":
-                            this.filter_contains_name(finalScriptCommand[1]);
-                            break;
-                        case "print_field_descending_price":
-                            this.print_field_descending_price(finalScriptCommand[1]);
-                            break;
-                        default:
-                            System.out.println("Неопознанная команда.");
-                    }
-                } catch (ArrayIndexOutOfBoundsException ex) {
-                    System.out.println("Отсутствует аргумент." + finalScriptCommand[0]);
-                }
-                scriptCommand = scriptReader.readLine();
+        if (scriptCounter < SCRIPT_LIMIT) {
+            int thisCount = scriptCounter;
+            File script = new File(addres);
+            if (!script.exists()) {
+                System.out.println(("Файл по указанному пути (" + script.getAbsolutePath() + ") не существует."));
+                return;
             }
-            System.out.println("Скрипт выполнен");
+            if (!script.canRead()) {
+                System.out.println("Файл защищён от чтения.");
+                return;
+            }
+            if (script.length() == 0) {
+                System.out.println("Скрипт не содержит команд.");
+                return;
+            }
+            try (BufferedReader scriptReader = new BufferedReader(new FileReader(script))) {
+                scriptCounter++;
+                String scriptCommand = scriptReader.readLine();
+                String[] finalScriptCommand;
+                while (scriptCommand != null) {
+                    finalScriptCommand = scriptCommand.trim().split(" ", 2);
+                    try {
+                        switch (finalScriptCommand[0]) {
+                            case "":
+                                break;
+                            case "help":
+                                this.help();
+                                break;
+                            case "info":
+                                this.info();
+                                break;
+                            case "show":
+                                this.show();
+                                break;
+                            case "add":
+                                this.add(finalScriptCommand[1]);
+                                break;
+                            case "update_id":
+                                this.update_id(finalScriptCommand[1]);
+                                break;
+                            case "remove_by_id":
+                                this.remove_by_id(finalScriptCommand[1]);
+                                break;
+                            case "clear":
+                                this.clear();
+                                break;
+                            case "save":
+                                this.save();
+                                break;
+                            case "execute_script":
+                                this.execute_script(finalScriptCommand[1]);
+                                break;
+                            case "exit":
+                                System.exit(0);
+                                //  scriptCommand = null;
+                                return;
+                            case "add_if_min ":
+                                this.add_if_min(finalScriptCommand[1]);
+                                break;
+                            case "remove_greater":
+                                this.remove_greater(finalScriptCommand[1]);
+                                break;
+                            case "remove_lower":
+                                this.remove_lower(finalScriptCommand[1]);
+                                break;
+                            case "group_counting_by_coordinates":
+                                this.group_counting_by_coordinates();
+                                break;
+                            case "filter_contains_name":
+                                this.filter_contains_name(finalScriptCommand[1]);
+                                break;
+                            case "print_field_descending_price":
+                                this.print_field_descending_price(finalScriptCommand[1]);
+                                break;
+                            default:
+                                System.out.println("Неопознанная команда.");
+                        }
+                    } catch (ArrayIndexOutOfBoundsException ex) {
+                        System.out.println("Отсутствует аргумент." + finalScriptCommand[0]);
+                    }
+                    scriptCommand = scriptReader.readLine();
+                }
+                System.out.println("Скрипт выполнен");
+                scriptCounter = 0;
+
+            }
+        } else {
+            System.out.println("Количество вложенных скриптов превысило " + SCRIPT_LIMIT + ". Вызов вложенных скриптов остановлен.");
         }
     }
 
@@ -347,10 +363,10 @@ public class Control {
 
     public void info() {
         System.out.println("Дата загрузки: " + DateInitialization +
-                            "\nДата сохранения: " + DateSave +
-                            "\nДата изменения: " + DateChange +
-                            "\nТип коллекции: " + products.getClass() +
-                            "\nКоличество элементов: " + products.size());
+                "\nДата сохранения: " + DateSave +
+                "\nДата изменения: " + DateChange +
+                "\nТип коллекции: " + products.getClass() +
+                "\nКоличество элементов: " + products.size());
     }
 
     public void load_collection() throws IOException {
