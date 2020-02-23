@@ -3,7 +3,7 @@ package com.itmo.r3135;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Person {
+public class Person  {
         private String name; //Поле не может быть null, Строка не может быть пустой
         private java.time.LocalDateTime birthday; //Поле не может быть null
         private Color eyeColor; //Поле не может быть null
@@ -12,6 +12,7 @@ public class Person {
         public Person(String name, LocalDateTime birthday, Color eyeColor, Color hairColor) {
                 this.name = name;
                 this.birthday = birthday;
+
                 this.eyeColor = eyeColor;
                 this.hairColor = hairColor;
         }
@@ -31,6 +32,7 @@ public class Person {
         public Color getHairColor() {
                 return hairColor;
         }
+
 
         @Override
         public boolean equals(Object o) {
