@@ -1,6 +1,6 @@
 package com.itmo.r3135;
 
-public class picture {
+public class Picture {
     public static void bender(){
         System.out.println("░░░░░░░░░░░░░░░░░░░░░░░ ░░░                                                                                                                 \n" +
                 "                                                        ░░░░░░░▒▓▓▓█▓▓▒░░░░░░░░ ░░░                                                                                                                 \n" +

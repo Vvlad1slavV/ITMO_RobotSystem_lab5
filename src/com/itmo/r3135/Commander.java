@@ -38,7 +38,7 @@ public class Commander {
                         case "add":
                             control.add(finalUserCommand[1]);
                             break;
-                        case "update id":
+                        case "update_id":
                             control.update_id(finalUserCommand[1]);
                             break;
                         case "remove_by_id":

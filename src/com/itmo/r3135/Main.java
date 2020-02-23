@@ -8,7 +8,8 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        picture.gamepad();
+        Picture.gamepad();
+        System.out.println(Generator.nextGsonProduct());
         Scanner input = new Scanner(System.in);
         while (true) {
             System.out.println("Для начала работы с коллекцией ведите путь до файла коллекции (в формате .json) или 'exit' для завершенеия программы");

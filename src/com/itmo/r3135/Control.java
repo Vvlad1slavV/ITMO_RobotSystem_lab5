@@ -3,6 +3,7 @@ package com.itmo.r3135;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import javafx.scene.shape.Path;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -33,7 +34,6 @@ public class Control {
         if (jsonPath.exists()) {
             this.jsonFile = jsonPath;
             System.out.println("Файл " + this.jsonFile.toString() + " успешно обнаружен");
-
         } else {
             System.out.println("Файл по указанному пути не существует.");
             System.exit(1);
@@ -43,7 +43,7 @@ public class Control {
 
     public void help() {
         System.out.printf("%-25s%5s%n", "add {element}", "Добавить новый элемент в коллекцию");
-        System.out.printf("%-25s%5s%n", "update id {element}", "Обновить значение элемента коллекции, id которого равен заданному");
+        System.out.printf("%-25s%5s%n", "update_id id", "Обновить значение элемента коллекции, id которого равен заданному");
         System.out.printf("%-25s%5s%n", "remove_greater {element}", "Удалить из коллекции все элементы, превышающие заданный");
         System.out.printf("%-25s%5s%n", "add_if_min {element}", "Добавить новый элемент в коллекцию, если его значение меньше, чем у наименьшего элемента этой коллекции");
         System.out.printf("%-25s%5s%n", "remove_by_id id", "Удалить элемент из коллекции по его id");
@@ -63,9 +63,7 @@ public class Control {
     }
 
     public void add(String s) {
-
         try {
-
             Product addProduct = gson.fromJson(s, Product.class);
             addProduct.setCreationDate(java.time.LocalDateTime.now());
             addProduct.setId(uniqueoIdGeneration(products));
@@ -115,6 +113,7 @@ public class Control {
     }
 
     public void update_id(String s) {
+
     }
 
     public void remove_by_id(String s) {
@@ -157,8 +156,32 @@ public class Control {
         }
     }
 
-    public void execute_script(String s) {
+    public void execute_script(String addres) throws IOException {
+        File script = new File(addres);
+        if (!script.exists()){
+            System.out.println(("Файл по указанному пути (" + script.getAbsolutePath() + ") не существует."));
+            return;
+        }
+        if (!script.canRead()){
+            System.out.println("Файл защищён от чтения.");
+            return;
+        }
+        if (script.length() == 0){
+            System.out.println("Скрипт не содержит команд.");
+            return;
+        }
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(script))) {
+            System.out.println("Идет чтение скрипта " + script.getAbsolutePath());
+            StringBuilder stringBuilder = new StringBuilder();
+            String nextString;
+            while ((nextString = bufferedReader.readLine()) != null) {
+                stringBuilder.append(nextString);
+            }
+
+        }
     }
+
+
 
     public void add_if_min(String s) {
     }
@@ -183,22 +206,15 @@ public class Control {
 
     public void load_collection() throws IOException {
         int startSize = products.size();
-        try {
-            if (!jsonFile.exists())
-                throw new FileNotFoundException(); //Очень маловероятно, но возможно файл успеют стереть во время работы программы.
-        } catch (FileNotFoundException e) {
+        if (!jsonFile.exists()) {
             System.out.println(("Файл по указанному пути (" + jsonFile.getAbsolutePath() + ") не существует."));
             return;
         }
-        try {
-            if (!jsonFile.canRead() || !jsonFile.canWrite()) throw new SecurityException();
-        } catch (SecurityException e) {
+        if (!jsonFile.canRead() || !jsonFile.canWrite()){
             System.out.println("Файл защищён от чтения и(или) записи. Для работы коректной программы нужны оба разрешения.");
             return;
         }
-        try {
-            if (jsonFile.length() == 0) throw new JsonSyntaxException("");
-        } catch (JsonSyntaxException e) {
+        if (jsonFile.length() == 0){
             System.out.println("Файл пуст. Возможно только добавление элементов в коллекцию.");
             return;
         }
@@ -214,6 +230,9 @@ public class Control {
             try {
                 HashSet<Product> addedProduct = gson.fromJson(stringBuilder.toString(), typeOfCollectoin);
                 for (Product p : addedProduct) {
+                    if (checkNull(p)) {
+                        throw new JsonSyntaxException("");
+                    }
                     products.add(p);
                 }
             } catch (JsonSyntaxException e) {
