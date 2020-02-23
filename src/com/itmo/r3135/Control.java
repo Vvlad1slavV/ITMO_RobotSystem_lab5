@@ -12,10 +12,7 @@ import java.lang.reflect.Type;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Control {
     private File jsonFile;
@@ -117,8 +114,10 @@ public class Control {
         }
     }
 
-    public void update_id(String id, String elem) {
+    public void update_id(String s) {
         try {
+            String id = s.split(" ", 2)[0];
+            String elem = s.split(" ", 2)[1];
             //  System.out.println("ID:" +id);
             //  System.out.println("Элемент" + elem);
             Product newProduct = gson.fromJson(elem, Product.class);

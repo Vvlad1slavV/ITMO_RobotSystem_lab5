@@ -41,7 +41,7 @@ public class Commander {
                                 control.add(finalUserCommand[1]);
                                 break;
                             case "update":
-                                control.update_id(finalUserCommand[1].split(" ", 2)[0], finalUserCommand[1].split(" ", 2)[1]);
+                                control.update_id(finalUserCommand[1]);
                                 break;
                             case "remove_by_id":
                                 control.remove_by_id(finalUserCommand[1]);
