@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Control {
     private File jsonFile;
@@ -158,7 +159,7 @@ public class Control {
 
     public void clear() {
         products.clear();
-        System.out.print("Коллекция очищена.");
+        System.out.println("Коллекция очищена.");
     }
 
     public void save() throws IOException {
@@ -189,14 +190,72 @@ public class Control {
             System.out.println("Скрипт не содержит команд.");
             return;
         }
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(script))) {
-            System.out.println("Идет чтение скрипта " + script.getAbsolutePath());
-            StringBuilder stringBuilder = new StringBuilder();
-            String nextString;
-            while ((nextString = bufferedReader.readLine()) != null) {
-                stringBuilder.append(nextString);
+        try (BufferedReader scriptReader = new BufferedReader(new FileReader(script))) {
+            String scriptCommand = scriptReader.readLine();
+            String[] finalScriptCommand;
+            while (scriptCommand != null) {
+                finalScriptCommand = scriptCommand.trim().split(" ", 2);
+                try {
+                    switch (finalScriptCommand[0]) {
+                        case "":
+                            break;
+                        case "help":
+                            this.help();
+                            break;
+                        case "info":
+                            this.info();
+                            break;
+                        case "show":
+                            this.show();
+                            break;
+                        case "add":
+                            this.add(finalScriptCommand[1]);
+                            break;
+                        case "update_id":
+                            this.update_id(finalScriptCommand[1]);
+                            break;
+                        case "remove_by_id":
+                            this.remove_by_id(finalScriptCommand[1]);
+                            break;
+                        case "clear":
+                            this.clear();
+                            break;
+                        case "save":
+                            this.save();
+                            break;
+                        case "execute_script":
+                            this.execute_script(finalScriptCommand[1]);
+                            break;
+                        case "exit":
+                            scriptCommand = null;
+                            return;
+                        case "add_if_min ":
+                            this.add_if_min(finalScriptCommand[1]);
+                            break;
+                        case "remove_greater":
+                            this.remove_greater(finalScriptCommand[1]);
+                            break;
+                        case "remove_lower":
+                            this.remove_lower(finalScriptCommand[1]);
+                            break;
+                        case "group_counting_by_coordinates":
+                            this.group_counting_by_coordinates();
+                            break;
+                        case "filter_contains_name":
+                            this.filter_contains_name(finalScriptCommand[1]);
+                            break;
+                        case "print_field_descending_price":
+                            this.print_field_descending_price(finalScriptCommand[1]);
+                            break;
+                        default:
+                            System.out.println("Неопознанная команда.");
+                    }
+                } catch (ArrayIndexOutOfBoundsException ex) {
+                    System.out.println("Отсутствует аргумент." + finalScriptCommand[0]);
+                }
+                scriptCommand = scriptReader.readLine();
             }
-
+            System.out.println("Скрипт выполнен");
         }
     }
 
