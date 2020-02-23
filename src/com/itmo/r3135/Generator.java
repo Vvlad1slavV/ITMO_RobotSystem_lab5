@@ -8,7 +8,7 @@ import java.util.Random;
 public class Generator {
     static String[] personNames =
             {
-                    "Аркадий", "Петрович", "Партия", "Ленин", "Сталин"
+                    "Аркадий", "Петрович", "Партия", "Ленин", "Сталин","Колхоз","МЕГА(ИТМО)","Царь","Красные","Буржуй"
             };
     static UnitOfMeasure[] units = {UnitOfMeasure.PCS,
             UnitOfMeasure.LITERS,
@@ -70,6 +70,6 @@ public class Generator {
     }
 
     private static Coordinates nextCoordinates() {
-        return new Coordinates(random.nextFloat(), random.nextDouble());
+        return new Coordinates(random.nextFloat()*500-250, random.nextDouble()*500-250);
     }
 }

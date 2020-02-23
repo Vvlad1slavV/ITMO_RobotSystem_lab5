@@ -196,7 +196,7 @@ public class Control {
         if (scriptCounter < SCRIPT_LIMIT) {
             int thisCount = scriptCounter;
             File script = new File(addres);
-            if (!script.exists() || script.isFile()) {
+            if (!script.exists() || !script.isFile()) {
                 System.out.println(("Файл по указанному пути (" + script.getAbsolutePath() + ") не существует."));
                 return;
             }
@@ -265,7 +265,7 @@ public class Control {
                                 this.filter_contains_name(finalScriptCommand[1]);
                                 break;
                             case "print_field_descending_price":
-                                this.print_field_descending_price(finalScriptCommand[1]);
+                                this.print_field_descending_price();
                                 break;
                             default:
                                 System.out.println("Неопознанная команда.");
@@ -342,6 +342,7 @@ public class Control {
     }
 
     public void group_counting_by_coordinates() {
+
     }
 
     public void filter_contains_name(String s) {
@@ -359,7 +360,17 @@ public class Control {
         } else System.out.println("Коллекция пуста.");
     }
 
-    public void print_field_descending_price(String s) {
+    public void print_field_descending_price() {
+        ArrayList<Product> list = new ArrayList<>();
+        for (Product p: products) {
+            list.add(p);
+        }
+        list.sort((o1,o2)->(int) ((o1.getPrice() - o2.getPrice()) * 100));
+        System.out.println(list);
+        System.out.printf("%-12s%5s%n","ID","Price");
+        for (Product p: list) {
+            System.out.printf("%-12d%5.2f%n",p.getId(),p.getPrice());
+        }
     }
 
     public void info() {

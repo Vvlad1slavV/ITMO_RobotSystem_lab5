@@ -73,7 +73,7 @@ public class Commander {
                                 control.filter_contains_name(finalUserCommand[1]);
                                 break;
                             case "print_field_descending_price":
-                                control.print_field_descending_price(finalUserCommand[1]);
+                                control.print_field_descending_price();
                                 break;
                             default:
                                 System.out.println("Неопознанная команда. Наберите 'help' для получения доступных команд.");
