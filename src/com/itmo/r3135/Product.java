@@ -24,6 +24,16 @@ public class Product implements Comparable<Product> {
         creationDate = java.time.LocalDateTime.now();
     }
 
+    /**
+     * Конструктор для класса Product
+     * @param name - имя
+     * @param coordinates - класса координат
+     * @param price - цена
+     * @param partNumber -
+     * @param manufactureCost - цена производства
+     * @param unitOfMeasure -
+     * @param owner -
+     */
     public Product(String name, Coordinates coordinates, Double price, String partNumber, Float manufactureCost, UnitOfMeasure unitOfMeasure, Person owner) {
         this.id = idCounter;
         this.name = name;
@@ -36,50 +46,98 @@ public class Product implements Comparable<Product> {
         idCounter++;
     }
 
+    /**
+     * Устанавливает id орпеделенному элементу коллекции.
+     * @param id - id предмета
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * Возвращает уровень вложенности, если при выполнении скриптов они ссылаются на другие скрипты внутри себя.
+     * @return число соответсвуещее вложенности выполения.
+     */
     public static int getIdCounter() {
         return idCounter;
     }
 
+    /**
+     * Возвращает id элемента.
+     * @return id элемента коллекции.
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Воозвращает поле name элемента коллекции.
+     * @return - имя
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Устанавливает дату создания.
+     * @param creationDate - дата создания.
+     */
     public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 
+    /**
+     * Возвращает координаты в формате класса Coordinates.
+     * @return - класс Coordinates
+     */
     public Coordinates getCoordinates() {
         return coordinates;
     }
 
+    /**
+     * Возвращает дату создания
+     * @return - дата создания.
+     */
     public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
+    /**
+     * Возвращает поле price элемента коллекции.
+     * @return - цена.
+     */
     public Double getPrice() {
         return price;
     }
 
+    /**
+     * Возращает
+     * @return -
+     */
     public String getPartNumber() {
         return partNumber;
     }
 
+    /**
+     * Возвращает поле manufactureCost элемента коллекции.
+     * @return - цена производства
+     */
     public Float getManufactureCost() {
         return manufactureCost;
     }
 
+    /**
+     * Возвращает поле unitOfMeasure элемента коллекции.
+     * @return -
+     */
     public UnitOfMeasure getUnitOfMeasure() {
         return unitOfMeasure;
     }
 
+    /**
+     * Возвращает поле owner элемента коллекции.
+     * @return
+     */
     public Person getOwner() {
         return owner;
     }

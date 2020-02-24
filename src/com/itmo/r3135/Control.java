@@ -2,10 +2,7 @@ package com.itmo.r3135;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.google.gson.reflect.TypeToken;
-import javafx.scene.shape.Path;
-import org.w3c.dom.ls.LSOutput;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -54,6 +51,9 @@ public class Control {
 
     }
 
+    /**
+     * Выводит список доступных команд.
+     */
     public void help() {
         System.out.printf("%-25s%5s%n", "add {element}", "Добавить новый элемент в коллекцию");
         System.out.printf("%-25s%5s%n", "update_id id", "Обновить значение элемента коллекции, id которого равен заданному");
@@ -69,12 +69,19 @@ public class Control {
         System.out.printf("%-25s%5s%n", "exit", "Завершить программу (без сохранения в файл)");
     }
 
+    /**
+     * Функция выводит на экран все элементы коллекции.
+     */
     public void show() {
         if (products.size() != 0)
             for (Product p : products) System.out.println(gson.toJson(p));
         else System.out.println("Коллекция пуста.");
     }
 
+    /**
+     * Добавляет элемент в коллекцию.
+     * @param s - строка в элемента в формате json.
+     */
     public void add(String s) {
         try {
             Product addProduct = gson.fromJson(s, Product.class);
@@ -127,6 +134,10 @@ public class Control {
         }
     }
 
+    /**
+     * Заменяет в колеекции элемент с определенным id.
+     * @param s - строка, содержащая id заменяемого элемента коллекции и новый элементт в формате json. id и документ json разделены пробелом.
+     */
     public void update_id(String s) {
         try {
             String id = s.split(" ", 2)[0];
@@ -152,8 +163,11 @@ public class Control {
         DateChange = new Date();
     }
 
+    /**
+     * Удаляет элемент по его id.
+     * @param s - id удаляемого элемента.
+     */
     public void remove_by_id(String s) {
-
         int startSize = products.size();
         if (products.size() > 0) {
             for (Product p : products) {
@@ -170,13 +184,19 @@ public class Control {
         DateChange = new Date();
     }
 
-
+    /**
+     * Очищает коллекцию.
+     */
     public void clear() {
         products.clear();
         System.out.println("Коллекция очищена.");
         DateChange = new Date();
     }
 
+    /**
+     * Сохраняет все изменения коллекции в открытый файл.
+     * @throws IOException
+     */
     public void save() throws IOException {
         FileWriter fileWriter = new FileWriter(jsonFile);
         try {
@@ -192,6 +212,12 @@ public class Control {
         DateSave = new Date();
     }
 
+    /**
+     * Выполняет скрипт записанный в файле.
+     * В программе стоит ограничение на выполнение рекурсивных итераций в цикле - 20 вложенных циклов. Мы не рекомендуем вызывать скрипты в самом скрипте.
+     * @param addres - адрес скрипта в системе.
+     * @throws IOException
+     */
     public void execute_script(String addres) throws IOException {
         if (scriptCounter < SCRIPT_LIMIT) {
             int thisCount = scriptCounter;
@@ -286,7 +312,10 @@ public class Control {
         }
     }
 
-
+    /**
+     * Добавляет новый элемент в коллекцию, если его значение меньше, чем у наименьшего элемента этой коллекции.
+     * @param s - сторка элемента в формате json.
+     */
     public void add_if_min(String s) {
         try {
             if (products.size() != 0) {
@@ -302,6 +331,10 @@ public class Control {
         DateChange = new Date();
     }
 
+    /**
+     * Удаляет из коллекции все элементы, превышающие заданный.
+     * @param s - сторка элемента в формате json.
+     */
     public void remove_greater(String s) {
         try {
             int startSize = products.size();
@@ -322,6 +355,10 @@ public class Control {
         DateChange = new Date();
     }
 
+    /**
+     * Удаляет из коллекции все элементы, меньшие, чем заданный.
+     * @param s - сторка элемента в формате json.
+     */
     public void remove_lower(String s) {
         try {
             int startSize = products.size();
@@ -342,6 +379,9 @@ public class Control {
         DateChange = new Date();
     }
 
+    /**
+     * Группирует элементы коллекции по кординатам на 4 четверти.
+     */
     public void group_counting_by_coordinates() {
         if (!products.isEmpty()) {
             for (int i = 1; i <= 4; i++) {
@@ -372,6 +412,10 @@ public class Control {
         } else System.out.println("Коллекция пуста.");
     }
 
+    /**
+     * Выводит элементы, значение поля name которых содержит заданную подстроку.
+     * @param s - значение name для поиска.
+     */
     public void filter_contains_name(String s) {
         int findProdukts = 0;
         if (products.size() > 0) {
@@ -387,6 +431,9 @@ public class Control {
         } else System.out.println("Коллекция пуста.");
     }
 
+    /**
+     * Выводит коллекцию, отсортированную по цене в порядке убывания.
+     */
     public void print_field_descending_price() {
         if (!products.isEmpty()) {
             ArrayList<Product> list = new ArrayList<>();
@@ -401,6 +448,9 @@ public class Control {
         } else System.out.println("Коллекция пуста.");
     }
 
+    /**
+     * Выводит информацию о загруженной коллекции.
+     */
     public void info() {
         System.out.println("Дата загрузки: " + DateInitialization +
                 "\nДата сохранения: " + DateSave +
@@ -446,6 +496,13 @@ public class Control {
             }
             System.out.println("Коллекций успешно загружена. Добавлено " + (products.size() - startSize) + " элементов.");
         }
+    }
+
+    /**
+     * Закрывает программу без сохранения.
+     */
+    public void exit(){
+
     }
 
 

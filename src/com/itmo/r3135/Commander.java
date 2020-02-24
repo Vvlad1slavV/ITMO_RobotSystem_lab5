@@ -18,6 +18,11 @@ public class Commander {
         this.control = control;
     }
 
+    /**
+     * Промежуточный метод для использования команд управления коллекцией.
+     * Для выхода используйте команду exit
+     * @throws IOException
+     */
     public void interactiveMod() throws IOException {
         try (Scanner commandReader = new Scanner(System.in)) {
             while (!userCommand.equals("exit")) {
