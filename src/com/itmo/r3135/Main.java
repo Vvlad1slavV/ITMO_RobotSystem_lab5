@@ -14,7 +14,7 @@ public class Main {
         }
         Scanner input = new Scanner(System.in);
         while (true) {
-            System.out.println("Для начала работы с коллекцией ведите путь до файла коллекции (в формате .json) или 'exit' для завершенеия программы");
+            System.out.println("Для начала работы с коллекцией ведите путь до файла коллекции (в формате .json) или 'exit' для завершенеия программы.");
             String inputString = input.nextLine();
             if (inputString.equals("exit")) break;
             else {
