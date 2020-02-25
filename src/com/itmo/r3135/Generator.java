@@ -27,7 +27,9 @@ public class Generator {
     static char[] chs = "ZXCVBNMASDFGHJKLQWERTYUIOP1234567890zxcvbnmasdfghjklqwertyuiop".toCharArray();
     static Gson gson = new Gson();
     static Random random = new Random();
-
+    /**
+     * Метод возвращает объект класса Product в формате json
+     */
     public static String nextGsonProduct() {
         return gson.toJson(nextProduct());
     }

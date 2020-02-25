@@ -1,7 +1,6 @@
 package com.itmo.r3135;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Scanner;
 
 /**
@@ -10,11 +9,11 @@ import java.util.Scanner;
 public class Commander {
 
     private Control control;
-    private String userCommand;
-    private String[] finalUserCommand;
+    private String command;
+    private String[] trimCommand;
 
     {
-        userCommand = "";
+        command = "";
     }
 
     public Commander(Control control) {
@@ -28,12 +27,12 @@ public class Commander {
      */
     public void interactiveMod() throws IOException {
         try (Scanner commandReader = new Scanner(System.in)) {
-            while (!userCommand.equals("exit")) {
-                userCommand = commandReader.nextLine();
-                finalUserCommand = userCommand.trim().split(" ", 2);
+            while (!command.equals("exit")) {
+                command = commandReader.nextLine();
+                trimCommand = command.trim().split(" ", 2);
                 try {
                     try {
-                        switch (finalUserCommand[0]) {
+                        switch (trimCommand[0]) {
                             case "":
                                 break;
                             case "help":
@@ -46,13 +45,13 @@ public class Commander {
                                 control.show();
                                 break;
                             case "add":
-                                control.add(finalUserCommand[1]);
+                                control.add(trimCommand[1]);
                                 break;
                             case "update":
-                                control.update_id(finalUserCommand[1]);
+                                control.update_id(trimCommand[1]);
                                 break;
                             case "remove_by_id":
-                                control.remove_by_id(finalUserCommand[1]);
+                                control.remove_by_id(trimCommand[1]);
                                 break;
                             case "clear":
                                 control.clear();
@@ -61,24 +60,24 @@ public class Commander {
                                 control.save();
                                 break;
                             case "execute_script":
-                                control.execute_script(finalUserCommand[1]);
+                                control.execute_script(trimCommand[1]);
                                 break;
                             case "exit":
                                 break;
                             case "add_if_min":
-                                control.add_if_min(finalUserCommand[1]);
+                                control.add_if_min(trimCommand[1]);
                                 break;
                             case "remove_greater":
-                                control.remove_greater(finalUserCommand[1]);
+                                control.remove_greater(trimCommand[1]);
                                 break;
                             case "remove_lower":
-                                control.remove_lower(finalUserCommand[1]);
+                                control.remove_lower(trimCommand[1]);
                                 break;
                             case "group_counting_by_coordinates":
                                 control.group_counting_by_coordinates();
                                 break;
                             case "filter_contains_name":
-                                control.filter_contains_name(finalUserCommand[1]);
+                                control.filter_contains_name(trimCommand[1]);
                                 break;
                             case "print_field_descending_price":
                                 control.print_field_descending_price();
