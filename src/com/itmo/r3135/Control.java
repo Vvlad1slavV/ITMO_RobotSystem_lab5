@@ -94,11 +94,11 @@ public class Control {
 
     /**
      * Добавляет элемент в коллекцию.
-     * @param s строка в элемента в формате json.
+     * @param jsonString строка в элемента в формате json.
      */
-    public void add(String s) {
+    public void add(String jsonString) {
         try {
-            Product addProduct = gson.fromJson(s, Product.class);
+            Product addProduct = gson.fromJson(jsonString, Product.class);
             addProduct.setCreationDate(java.time.LocalDateTime.now());
             addProduct.setId(uniqueoIdGeneration(products));
             if (checkNull(addProduct)) {
@@ -179,20 +179,20 @@ public class Control {
 
     /**
      * Удаляет элемент по его id.
-     * @param s id удаляемого элемента.
+     * @param id id удаляемого элемента.
      */
-    public void remove_by_id(String s) {
+    public void remove_by_id(String id) {
         int startSize = products.size();
         if (products.size() > 0) {
             for (Product p : products) {
-                if (p.getId() == Integer.parseInt(s)) {
+                if (p.getId() == Integer.parseInt(id)) {
                     products.remove(p);
                     System.out.println("Элемент коллекции успешно удалён.");
                     break;
                 }
             }
             if (startSize == products.size()) {
-                System.out.println("Элемент с id " + s + " не существует.");
+                System.out.println("Элемент с id " + id + " не существует.");
             }
         } else System.out.println("Коллекция пуста.");
         DateChange = new Date();
@@ -253,11 +253,11 @@ public class Control {
             try (BufferedReader scriptReader = new BufferedReader(new FileReader(script))) {
                 scriptCounter++;
                 String scriptCommand = scriptReader.readLine();
-                String[] finalScriptCommand;
+                String[] trimScriptCommand;
                 while (scriptCommand != null) {
-                    finalScriptCommand = scriptCommand.trim().split(" ", 2);
+                    trimScriptCommand = scriptCommand.trim().split(" ", 2);
                     try {
-                        switch (finalScriptCommand[0]) {
+                        switch (trimScriptCommand[0]) {
                             case "":
                                 break;
                             case "help":
@@ -270,13 +270,13 @@ public class Control {
                                 this.show();
                                 break;
                             case "add":
-                                this.add(finalScriptCommand[1]);
+                                this.add(trimScriptCommand[1]);
                                 break;
                             case "update_id":
-                                this.update_id(finalScriptCommand[1]);
+                                this.update_id(trimScriptCommand[1]);
                                 break;
                             case "remove_by_id":
-                                this.remove_by_id(finalScriptCommand[1]);
+                                this.remove_by_id(trimScriptCommand[1]);
                                 break;
                             case "clear":
                                 this.clear();
@@ -285,26 +285,26 @@ public class Control {
                                 this.save();
                                 break;
                             case "execute_script":
-                                this.execute_script(finalScriptCommand[1]);
+                                this.execute_script(trimScriptCommand[1]);
                                 break;
                             case "exit":
                                 System.exit(0);
                                 //  scriptCommand = null;
                                 return;
                             case "add_if_min ":
-                                this.add_if_min(finalScriptCommand[1]);
+                                this.add_if_min(trimScriptCommand[1]);
                                 break;
                             case "remove_greater":
-                                this.remove_greater(finalScriptCommand[1]);
+                                this.remove_greater(trimScriptCommand[1]);
                                 break;
                             case "remove_lower":
-                                this.remove_lower(finalScriptCommand[1]);
+                                this.remove_lower(trimScriptCommand[1]);
                                 break;
                             case "group_counting_by_coordinates":
                                 this.group_counting_by_coordinates();
                                 break;
                             case "filter_contains_name":
-                                this.filter_contains_name(finalScriptCommand[1]);
+                                this.filter_contains_name(trimScriptCommand[1]);
                                 break;
                             case "print_field_descending_price":
                                 this.print_field_descending_price();
@@ -313,7 +313,7 @@ public class Control {
                                 System.out.println("Неопознанная команда.");
                         }
                     } catch (ArrayIndexOutOfBoundsException ex) {
-                        System.out.println("Отсутствует аргумент." + finalScriptCommand[0]);
+                        System.out.println("Отсутствует аргумент." + trimScriptCommand[0]);
                     }
                     scriptCommand = scriptReader.readLine();
                 }
@@ -348,13 +348,13 @@ public class Control {
 
     /**
      * Удаляет из коллекции все элементы, превышающие заданный.
-     * @param s сторка элемента в формате json.
+     * @param jsonString сторка элемента в формате json.
      */
-    public void remove_greater(String s) {
+    public void remove_greater(String jsonString) {
         try {
             int startSize = products.size();
             if (startSize != 0) {
-                Product maxProduct = gson.fromJson(s, Product.class);
+                Product maxProduct = gson.fromJson(jsonString, Product.class);
                 //    for (Product product : products) {
                 //  if (product.compareTo(maxProduct) > 0) {
                 //  System.out.println("Элемент с id " + product.getId() + " удалён из коллекции");
@@ -372,13 +372,13 @@ public class Control {
 
     /**
      * Удаляет из коллекции все элементы, меньшие, чем заданный.
-     * @param s сторка элемента в формате json.
+     * @param jsonString сторка элемента в формате json.
      */
-    public void remove_lower(String s) {
+    public void remove_lower(String jsonString) {
         try {
             int startSize = products.size();
             if (startSize != 0) {
-                Product maxProduct = gson.fromJson(s, Product.class);
+                Product maxProduct = gson.fromJson(jsonString, Product.class);
                 // for (Product product : products) {
                 //     if (product.compareTo(maxProduct) < 0) {
                 //         System.out.println("Элемент с id " + product.getId() + " удалён из коллекции");
@@ -429,14 +429,14 @@ public class Control {
 
     /**
      * Выводит элементы, значение поля name которых содержит заданную подстроку.
-     * @param s значение name для поиска.
+     * @param name значение name для поиска.
      */
-    public void filter_contains_name(String s) {
+    public void filter_contains_name(String name) {
         int findProdukts = 0;
         if (products.size() > 0) {
-            if (!s.isEmpty() && s != null) {
+            if (!name.isEmpty() && name != null) {
                 for (Product p : products) {
-                    if (p.getName().contains(s)) {
+                    if (p.getName().contains(name)) {
                         System.out.println(gson.toJson(p));
                         findProdukts++;
                     }
