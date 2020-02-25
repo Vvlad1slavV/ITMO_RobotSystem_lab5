@@ -5,6 +5,9 @@ import com.google.gson.Gson;
 import java.time.LocalDateTime;
 import java.util.Random;
 
+/**
+ * Класс генератор элемента в формате JSON
+ */
 public class Generator {
     static String[] personNames =
             {

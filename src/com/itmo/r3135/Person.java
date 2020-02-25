@@ -3,6 +3,9 @@ package com.itmo.r3135;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * Класс Person.
+ */
 public class Person  {
         private String name; //Поле не может быть null, Строка не может быть пустой
         private java.time.LocalDateTime birthday; //Поле не может быть null
