@@ -11,6 +11,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Класс хранящий в себе команды.
+ */
 public class Control {
     private static final int SCRIPT_LIMIT = 20;
 
@@ -91,8 +94,7 @@ public class Control {
 
     /**
      * Добавляет элемент в коллекцию.
-     *
-     * @param s - строка в элемента в формате json.
+     * @param s строка в элемента в формате json.
      */
     public void add(String s) {
         try {
@@ -148,8 +150,7 @@ public class Control {
 
     /**
      * Заменяет в колеекции элемент с определенным id.
-     *
-     * @param s - строка, содержащая id заменяемого элемента коллекции и новый элементт в формате json. id и документ json разделены пробелом.
+     * @param s строка, содержащая id заменяемого элемента коллекции и новый элементт в формате json. id и документ json разделены пробелом.
      */
     public void update_id(String s) {
         try {
@@ -178,8 +179,7 @@ public class Control {
 
     /**
      * Удаляет элемент по его id.
-     *
-     * @param s - id удаляемого элемента.
+     * @param s id удаляемого элемента.
      */
     public void remove_by_id(String s) {
         int startSize = products.size();
@@ -230,8 +230,7 @@ public class Control {
     /**
      * Выполняет скрипт записанный в файле.
      * В программе стоит ограничение на выполнение рекурсивных итераций в цикле - 20 вложенных циклов. Мы не рекомендуем вызывать скрипты в самом скрипте.
-     *
-     * @param addres - адрес скрипта в системе.
+     * @param addres адрес скрипта в системе.
      * @throws IOException
      */
     public void execute_script(String addres) throws IOException {
@@ -330,8 +329,7 @@ public class Control {
 
     /**
      * Добавляет новый элемент в коллекцию, если его значение меньше, чем у наименьшего элемента этой коллекции.
-     *
-     * @param s - сторка элемента в формате json.
+     * @param s сторка элемента в формате json.
      */
     public void add_if_min(String s) {
         try {
@@ -350,8 +348,7 @@ public class Control {
 
     /**
      * Удаляет из коллекции все элементы, превышающие заданный.
-     *
-     * @param s - сторка элемента в формате json.
+     * @param s сторка элемента в формате json.
      */
     public void remove_greater(String s) {
         try {
@@ -375,8 +372,7 @@ public class Control {
 
     /**
      * Удаляет из коллекции все элементы, меньшие, чем заданный.
-     *
-     * @param s - сторка элемента в формате json.
+     * @param s сторка элемента в формате json.
      */
     public void remove_lower(String s) {
         try {
@@ -433,8 +429,7 @@ public class Control {
 
     /**
      * Выводит элементы, значение поля name которых содержит заданную подстроку.
-     *
-     * @param s - значение name для поиска.
+     * @param s значение name для поиска.
      */
     public void filter_contains_name(String s) {
         int findProdukts = 0;

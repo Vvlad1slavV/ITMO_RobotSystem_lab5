@@ -1,5 +1,8 @@
 package com.itmo.r3135;
 
+/**
+ * Класс координат.
+ */
 public class Coordinates {
     private Float x; //Значение поля должно быть больше -50, Поле не может быть null
     private double y;
@@ -31,7 +34,7 @@ public class Coordinates {
     }
     /**
      * Устанавливает значение координаты Y.
-     * @param y - double.
+     * @param y double.
      */
     public void setY(double y) {
         this.y = y;

@@ -3,6 +3,9 @@ package com.itmo.r3135;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 
+/**
+ * Класс Product.
+ */
 public class Product implements Comparable<Product> {
     private int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
@@ -136,7 +139,7 @@ public class Product implements Comparable<Product> {
 
     /**
      * Возвращает поле owner элемента коллекции.
-     * @return
+     * @return - владелец предмета.
      */
     public Person getOwner() {
         return owner;

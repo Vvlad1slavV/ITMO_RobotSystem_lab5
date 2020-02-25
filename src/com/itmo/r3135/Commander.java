@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Scanner;
 
+/**
+ * Класс для управления командами.
+ */
 public class Commander {
 
     private Control control;
