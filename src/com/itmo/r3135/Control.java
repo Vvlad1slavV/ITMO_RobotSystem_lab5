@@ -40,13 +40,24 @@ public class Control {
             System.out.println("Путь к файлу json не обнаружен.");
             System.exit(1);
         }
+
         File jsonPath = new File(filePath);
 
         if (jsonPath.exists()) {
             this.jsonFile = jsonPath;
-            System.out.println("Файл " + this.jsonFile.toString() + " успешно обнаружен");
+            System.out.println("Адрес " + this.jsonFile.toString() + " успешно обнаружен");
         } else {
-            System.out.println("Файл по указанному пути не существует.");
+            System.out.println("Указанного пути не существует.");
+            System.exit(1);
+        }
+        if (!jsonPath.isFile()) {
+            System.out.println("Путь " + jsonPath.toString() + " не содержит имени файла");
+            System.exit(1);
+        } else {
+            System.out.println("Файл " + jsonPath.toString() + " успещно обнаружен.");
+        }
+        if(!(filePath.lastIndexOf(".json")==filePath.length()-5)){
+            System.out.println("Заданный файл не в формате .json");
             System.exit(1);
         }
         load_collection();
@@ -198,6 +209,7 @@ public class Control {
 
     /**
      * Сохраняет все изменения коллекции в открытый файл.
+     *
      * @throws IOException
      */
     public void save() throws IOException {
@@ -504,7 +516,7 @@ public class Control {
     /**
      * Закрывает программу без сохранения.
      */
-    public void exit(){
+    public void exit() {
 
     }
 
