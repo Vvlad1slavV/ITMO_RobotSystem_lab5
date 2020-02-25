@@ -29,10 +29,10 @@ public class Product implements Comparable<Product> {
      * @param name - имя
      * @param coordinates - класса координат
      * @param price - цена
-     * @param partNumber -
+     * @param partNumber - номер партии
      * @param manufactureCost - цена производства
-     * @param unitOfMeasure -
-     * @param owner -
+     * @param unitOfMeasure - единицы измерения продукта
+     * @param owner - владелец
      */
     public Product(String name, Coordinates coordinates, Double price, String partNumber, Float manufactureCost, UnitOfMeasure unitOfMeasure, Person owner) {
         this.id = idCounter;

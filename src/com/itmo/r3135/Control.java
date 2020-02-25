@@ -37,13 +37,24 @@ public class Control {
             System.out.println("Путь к файлу json не обнаружен.");
             System.exit(1);
         }
+
         File jsonPath = new File(filePath);
 
         if (jsonPath.exists()) {
             this.jsonFile = jsonPath;
-            System.out.println("Файл " + this.jsonFile.toString() + " успешно обнаружен");
+            System.out.println("Адрес " + this.jsonFile.toString() + " успешно обнаружен");
         } else {
-            System.out.println("Файл по указанному пути не существует.");
+            System.out.println("Указанного пути не существует.");
+            System.exit(1);
+        }
+        if (!jsonPath.isFile()) {
+            System.out.println("Путь " + jsonPath.toString() + " не содержит имени файла");
+            System.exit(1);
+        } else {
+            System.out.println("Файл " + jsonPath.toString() + " успещно обнаружен.");
+        }
+        if(!(filePath.lastIndexOf(".json")==filePath.length()-5)){
+            System.out.println("Заданный файл не в формате .json");
             System.exit(1);
         }
         load_collection();
@@ -80,6 +91,7 @@ public class Control {
 
     /**
      * Добавляет элемент в коллекцию.
+     *
      * @param s - строка в элемента в формате json.
      */
     public void add(String s) {
@@ -136,6 +148,7 @@ public class Control {
 
     /**
      * Заменяет в колеекции элемент с определенным id.
+     *
      * @param s - строка, содержащая id заменяемого элемента коллекции и новый элементт в формате json. id и документ json разделены пробелом.
      */
     public void update_id(String s) {
@@ -165,6 +178,7 @@ public class Control {
 
     /**
      * Удаляет элемент по его id.
+     *
      * @param s - id удаляемого элемента.
      */
     public void remove_by_id(String s) {
@@ -195,6 +209,7 @@ public class Control {
 
     /**
      * Сохраняет все изменения коллекции в открытый файл.
+     *
      * @throws IOException
      */
     public void save() throws IOException {
@@ -215,6 +230,7 @@ public class Control {
     /**
      * Выполняет скрипт записанный в файле.
      * В программе стоит ограничение на выполнение рекурсивных итераций в цикле - 20 вложенных циклов. Мы не рекомендуем вызывать скрипты в самом скрипте.
+     *
      * @param addres - адрес скрипта в системе.
      * @throws IOException
      */
@@ -314,6 +330,7 @@ public class Control {
 
     /**
      * Добавляет новый элемент в коллекцию, если его значение меньше, чем у наименьшего элемента этой коллекции.
+     *
      * @param s - сторка элемента в формате json.
      */
     public void add_if_min(String s) {
@@ -333,6 +350,7 @@ public class Control {
 
     /**
      * Удаляет из коллекции все элементы, превышающие заданный.
+     *
      * @param s - сторка элемента в формате json.
      */
     public void remove_greater(String s) {
@@ -357,6 +375,7 @@ public class Control {
 
     /**
      * Удаляет из коллекции все элементы, меньшие, чем заданный.
+     *
      * @param s - сторка элемента в формате json.
      */
     public void remove_lower(String s) {
@@ -414,6 +433,7 @@ public class Control {
 
     /**
      * Выводит элементы, значение поля name которых содержит заданную подстроку.
+     *
      * @param s - значение name для поиска.
      */
     public void filter_contains_name(String s) {
@@ -501,7 +521,7 @@ public class Control {
     /**
      * Закрывает программу без сохранения.
      */
-    public void exit(){
+    public void exit() {
 
     }
 
