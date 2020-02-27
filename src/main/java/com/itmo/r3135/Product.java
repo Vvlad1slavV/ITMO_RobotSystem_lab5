@@ -149,4 +149,17 @@ public class Product implements Comparable<Product> {
     public int compareTo(Product o) {
         return (int) ((this.getPrice() - o.getPrice()) * 100);
     }
+
+    @Override
+    public String toString() {
+        return  "id=" + id +
+                ", name='" + name + '\'' +
+                ", coordinates=" + coordinates +
+                ", creationDate=" + creationDate +
+                ", price=" + price +
+                ", partNumber='" + partNumber + '\'' +
+                ", manufactureCost=" + manufactureCost +
+                ", unitOfMeasure=" + unitOfMeasure +
+                ", owner=" + owner;
+    }
 }

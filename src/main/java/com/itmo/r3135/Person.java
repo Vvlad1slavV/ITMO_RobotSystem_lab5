@@ -52,4 +52,14 @@ public class Person  {
         public int hashCode() {
                 return Objects.hash(name, birthday, eyeColor, hairColor);
         }
+
+        @Override
+        public String toString() {
+                return "Person{" +
+                        "name='" + name + '\'' +
+                        ", birthday=" + birthday +
+                        ", eyeColor=" + eyeColor +
+                        ", hairColor=" + hairColor +
+                        '}';
+        }
 }
