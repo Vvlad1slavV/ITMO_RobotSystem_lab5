@@ -11,9 +11,9 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-   //     for (int i = 0; i < 10; i++) {
-   //         System.out.println("add " + Generator.nextGsonProduct());
-   //     }
+        for (int i = 0; i < 10; i++) {
+            System.out.println("add " + Generator.nextGsonProduct());
+        }
 
         Picture.gamepad();
         if(args.length!=0){
