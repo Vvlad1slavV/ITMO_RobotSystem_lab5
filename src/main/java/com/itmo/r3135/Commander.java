@@ -48,10 +48,10 @@ public class Commander {
                                 control.add(trimCommand[1]);
                                 break;
                             case "update":
-                                control.update_id(trimCommand[1]);
+                                control.updateId(trimCommand[1]);
                                 break;
                             case "remove_by_id":
-                                control.remove_by_id(trimCommand[1]);
+                                control.removeById(trimCommand[1]);
                                 break;
                             case "clear":
                                 control.clear();
@@ -60,27 +60,27 @@ public class Commander {
                                 control.save();
                                 break;
                             case "execute_script":
-                                control.execute_script(trimCommand[1]);
+                                control.executeScript(trimCommand[1]);
                                 break;
                             case "exit":
                                 break;
                             case "add_if_min":
-                                control.add_if_min(trimCommand[1]);
+                                control.addIfMin(trimCommand[1]);
                                 break;
                             case "remove_greater":
-                                control.remove_greater(trimCommand[1]);
+                                control.removeGreater(trimCommand[1]);
                                 break;
                             case "remove_lower":
-                                control.remove_lower(trimCommand[1]);
+                                control.removeLower(trimCommand[1]);
                                 break;
                             case "group_counting_by_coordinates":
-                                control.group_counting_by_coordinates();
+                                control.groupCountingByCoordinates();
                                 break;
                             case "filter_contains_name":
-                                control.filter_contains_name(trimCommand[1]);
+                                control.filterContainsName(trimCommand[1]);
                                 break;
                             case "print_field_descending_price":
-                                control.print_field_descending_price();
+                                control.printFieldDescendingPrice();
                                 break;
                             default:
                                 System.out.println("Неопознанная команда. Наберите 'help' для получения доступных команд.");
