@@ -517,7 +517,7 @@ public class Control {
      * Закрывает программу без сохранения.
      */
     public void exit() {
-
+        System.exit(666);
     }
 
 

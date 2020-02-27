@@ -28,7 +28,10 @@ public class Commander {
     public void interactiveMod() throws IOException {
         try (Scanner commandReader = new Scanner(System.in)) {
             while (!command.equals("exit")) {
-                command = commandReader.nextLine();
+                if(commandReader.hasNext() )
+                    command = commandReader.nextLine();
+                else
+                    command = "";
                 trimCommand = command.trim().split(" ", 2);
                 try {
                     try {
