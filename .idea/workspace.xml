@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8719ad7b-f757-47a2-b518-27efb246a14b" name="Default Changelist" comment="НЕ ПУШИТЬ">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="8719ad7b-f757-47a2-b518-27efb246a14b" name="Default Changelist" comment="ctrl+d = close">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/itmo/r3135/Commander.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itmo/r3135/Commander.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/itmo/r3135/Coordinates.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itmo/r3135/Coordinates.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/itmo/r3135/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itmo/r3135/Person.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/itmo/r3135/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itmo/r3135/Product.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -62,6 +65,7 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="MIXED" />
   </component>
   <component name="IgnoredFileRootStore">
     <option name="generatedRoots">
@@ -134,7 +138,7 @@
       <workItem from="1582633866002" duration="1297000" />
       <workItem from="1582739226503" duration="789000" />
       <workItem from="1582806648814" duration="1417000" />
-      <workItem from="1582819738132" duration="3790000" />
+      <workItem from="1582819738132" duration="11474000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1582057827934</created>
@@ -339,7 +343,28 @@
       <option name="project" value="LOCAL" />
       <updated>1582830445891</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="XD">
+      <created>1582831416325</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1582831416325</updated>
+    </task>
+    <task id="LOCAL-00031" summary="XD">
+      <created>1582831435924</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1582831435924</updated>
+    </task>
+    <task id="LOCAL-00032" summary="ctrl+d = close">
+      <created>1582837817292</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1582837817292</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -359,8 +384,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="ITMO" />
-    <MESSAGE value="ITMO_1" />
     <MESSAGE value="ITMO_2" />
     <MESSAGE value="Main" />
     <MESSAGE value="Vlad_2" />
@@ -384,6 +407,8 @@
     <MESSAGE value="deBUG1" />
     <MESSAGE value="camelcase1" />
     <MESSAGE value="FIX ctrl+d" />
-    <option name="LAST_COMMIT_MESSAGE" value="FIX ctrl+d" />
+    <MESSAGE value="XD" />
+    <MESSAGE value="ctrl+d = close" />
+    <option name="LAST_COMMIT_MESSAGE" value="ctrl+d = close" />
   </component>
 </project>
