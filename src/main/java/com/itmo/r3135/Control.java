@@ -60,7 +60,7 @@ public class Control {
             System.out.println("Заданный файл не в формате .json");
             System.exit(1);
         }
-        load_collection();
+        loadCollection();
         DateInitialization = DateSave = DateChange = new Date();
 
     }
@@ -152,7 +152,7 @@ public class Control {
      * Заменяет в колеекции элемент с определенным id.
      * @param s строка, содержащая id заменяемого элемента коллекции и новый элементт в формате json. id и документ json разделены пробелом.
      */
-    public void update_id(String s) {
+    public void updateId(String s) {
         try {
             String id = s.split(" ", 2)[0];
             String elem = s.split(" ", 2)[1];
@@ -163,7 +163,7 @@ public class Control {
             if (checkNull(newProduct)) {
                 System.out.println("Элемент не удовлетворяет требованиям коллекции");
             } else {
-                remove_by_id(id);
+                removeById(id);
                 newProduct.setCreationDate(java.time.LocalDateTime.now());
                 newProduct.setId(Integer.parseInt(id));
                 if (startSize - products.size() == 1)
@@ -181,7 +181,7 @@ public class Control {
      * Удаляет элемент по его id.
      * @param id id удаляемого элемента.
      */
-    public void remove_by_id(String id) {
+    public void removeById(String id) {
         int startSize = products.size();
         if (products.size() > 0) {
             for (Product p : products) {
@@ -233,7 +233,7 @@ public class Control {
      * @param addres адрес скрипта в системе.
      * @throws IOException
      */
-    public void execute_script(String addres) throws IOException {
+    public void executeScript(String addres) throws IOException {
         if (scriptCounter < SCRIPT_LIMIT) {
             int thisCount = scriptCounter;
             File script = new File(addres);
@@ -273,10 +273,10 @@ public class Control {
                                 this.add(trimScriptCommand[1]);
                                 break;
                             case "update_id":
-                                this.update_id(trimScriptCommand[1]);
+                                this.updateId(trimScriptCommand[1]);
                                 break;
                             case "remove_by_id":
-                                this.remove_by_id(trimScriptCommand[1]);
+                                this.removeById(trimScriptCommand[1]);
                                 break;
                             case "clear":
                                 this.clear();
@@ -285,29 +285,29 @@ public class Control {
                                 this.save();
                                 break;
                             case "execute_script":
-                                this.execute_script(trimScriptCommand[1]);
+                                this.executeScript(trimScriptCommand[1]);
                                 break;
                             case "exit":
                                 System.exit(0);
                                 //  scriptCommand = null;
                                 return;
                             case "add_if_min ":
-                                this.add_if_min(trimScriptCommand[1]);
+                                this.addIfMin(trimScriptCommand[1]);
                                 break;
                             case "remove_greater":
-                                this.remove_greater(trimScriptCommand[1]);
+                                this.removeGreater(trimScriptCommand[1]);
                                 break;
                             case "remove_lower":
-                                this.remove_lower(trimScriptCommand[1]);
+                                this.removeLower(trimScriptCommand[1]);
                                 break;
                             case "group_counting_by_coordinates":
-                                this.group_counting_by_coordinates();
+                                this.groupCountingByCoordinates();
                                 break;
                             case "filter_contains_name":
-                                this.filter_contains_name(trimScriptCommand[1]);
+                                this.filterContainsName(trimScriptCommand[1]);
                                 break;
                             case "print_field_descending_price":
-                                this.print_field_descending_price();
+                                this.printFieldDescendingPrice();
                                 break;
                             default:
                                 System.out.println("Неопознанная команда.");
@@ -331,7 +331,7 @@ public class Control {
      * Добавляет новый элемент в коллекцию, если его значение меньше, чем у наименьшего элемента этой коллекции.
      * @param s сторка элемента в формате json.
      */
-    public void add_if_min(String s) {
+    public void addIfMin(String s) {
         try {
             if (products.size() != 0) {
                 Product addProduct = gson.fromJson(s, Product.class);
@@ -350,7 +350,7 @@ public class Control {
      * Удаляет из коллекции все элементы, превышающие заданный.
      * @param jsonString сторка элемента в формате json.
      */
-    public void remove_greater(String jsonString) {
+    public void removeGreater(String jsonString) {
         try {
             int startSize = products.size();
             if (startSize != 0) {
@@ -374,7 +374,7 @@ public class Control {
      * Удаляет из коллекции все элементы, меньшие, чем заданный.
      * @param jsonString сторка элемента в формате json.
      */
-    public void remove_lower(String jsonString) {
+    public void removeLower(String jsonString) {
         try {
             int startSize = products.size();
             if (startSize != 0) {
@@ -397,7 +397,7 @@ public class Control {
     /**
      * Группирует элементы коллекции по кординатам на 4 четверти.
      */
-    public void group_counting_by_coordinates() {
+    public void groupCountingByCoordinates() {
         if (!products.isEmpty()) {
             for (int i = 1; i <= 4; i++) {
                 System.out.println("Элементы четверти " + i);
@@ -431,7 +431,7 @@ public class Control {
      * Выводит элементы, значение поля name которых содержит заданную подстроку.
      * @param name значение name для поиска.
      */
-    public void filter_contains_name(String name) {
+    public void filterContainsName(String name) {
         int findProdukts = 0;
         if (products.size() > 0) {
             if (!name.isEmpty() && name != null) {
@@ -449,7 +449,7 @@ public class Control {
     /**
      * Выводит коллекцию, отсортированную по цене в порядке убывания.
      */
-    public void print_field_descending_price() {
+    public void printFieldDescendingPrice() {
         if (!products.isEmpty()) {
             ArrayList<Product> list = new ArrayList<>();
             for (Product p : products) {
@@ -474,7 +474,7 @@ public class Control {
                 "\nКоличество элементов: " + products.size());
     }
 
-    public void load_collection() throws IOException {
+    public void loadCollection() throws IOException {
         int startSize = products.size();
         if (!jsonFile.exists()) {
             System.out.println(("Файл по указанному пути (" + jsonFile.getAbsolutePath() + ") не существует."));
@@ -517,7 +517,7 @@ public class Control {
      * Закрывает программу без сохранения.
      */
     public void exit() {
-
+        System.exit(666);
     }
 
 
