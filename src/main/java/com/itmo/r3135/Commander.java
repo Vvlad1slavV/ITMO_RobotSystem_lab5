@@ -23,16 +23,21 @@ public class Commander {
     /**
      * Промежуточный метод для использования команд управления коллекцией.
      * Для выхода используйте команду exit
+     *
      * @throws IOException
      */
     public void interactiveMod() throws IOException {
         try (Scanner commandReader = new Scanner(System.in)) {
             System.out.print("// ");
             while (!command.equals("exit")) {
+<<<<<<< HEAD
                 if (!commandReader.hasNextLine()) {
                     break;
                 }
                 else {
+=======
+                if (commandReader.hasNext())
+>>>>>>> cbb6ea05eaeb157b9493f37e6c26bae441c53a86
                     command = commandReader.nextLine();
                 }
                 trimCommand = command.trim().split(" ", 2);
@@ -91,7 +96,7 @@ public class Commander {
                             default:
                                 System.out.println("Неопознанная команда. Наберите 'help' для получения доступных команд.");
                         }
-                    } catch ( NumberFormatException ex) {
+                    } catch (NumberFormatException ex) {
                         System.out.println("Где-то проблема с форматом записи числа.");
                     }
                 } catch (ArrayIndexOutOfBoundsException ex) {
