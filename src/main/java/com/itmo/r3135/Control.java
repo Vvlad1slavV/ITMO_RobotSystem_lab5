@@ -56,7 +56,7 @@ public class Control {
         } else {
             System.out.println("Файл " + jsonPath.toString() + " успещно обнаружен.");
         }
-        if(!(filePath.lastIndexOf(".json")==filePath.length()-5)){
+        if (!(filePath.lastIndexOf(".json") == filePath.length() - 5)) {
             System.out.println("Заданный файл не в формате .json");
             System.exit(1);
         }
@@ -94,6 +94,7 @@ public class Control {
 
     /**
      * Добавляет элемент в коллекцию.
+     *
      * @param jsonString строка в элемента в формате json.
      */
     public void add(String jsonString) {
@@ -115,12 +116,12 @@ public class Control {
     //проверка на null-поля
     private boolean checkNull(Product product) {
         try {
-            return product.getName() == null || (product.getName() != null && product.getName().isEmpty()) || product.getCoordinates() == null ||
-                    (product.getCoordinates() != null && (product.getCoordinates().getX() == null || (product.getCoordinates().getX() != null && product.getCoordinates().getY() <= -50))) ||
-                    product.getCreationDate() == null || (product.getPrice() != null && product.getPrice() <= 0) ||
-                    product.getPartNumber() == null || (product.getPartNumber() != null && product.getPartNumber().length() < 21) ||
+            return product.getName() == null || product.getName().isEmpty() || product.getCoordinates() == null ||
+                    product.getCoordinates().getX() == null ||product.getCoordinates().getY() <= -50 ||
+                    product.getCreationDate() == null ||  product.getPrice() <= 0 ||
+                    product.getPartNumber() == null ||  product.getPartNumber().length() < 21 ||
                     product.getManufactureCost() == null || product.getUnitOfMeasure() == null || product.getOwner() == null ||
-                    product.getOwner().getName() == null || (product.getOwner().getName() != null && product.getOwner().getName().isEmpty()) ||
+                    product.getOwner().getName() == null || product.getOwner().getName().isEmpty() ||
                     product.getOwner().getBirthday() == null || product.getOwner().getEyeColor() == null || product.getOwner().getHairColor() == null;
         } catch (Exception ex) {
             System.out.println("В процессе проверки объекта произошла ошибка");
@@ -150,6 +151,7 @@ public class Control {
 
     /**
      * Заменяет в колеекции элемент с определенным id.
+     *
      * @param s строка, содержащая id заменяемого элемента коллекции и новый элементт в формате json. id и документ json разделены пробелом.
      */
     public void updateId(String s) {
@@ -179,6 +181,7 @@ public class Control {
 
     /**
      * Удаляет элемент по его id.
+     *
      * @param id id удаляемого элемента.
      */
     public void removeById(String id) {
@@ -216,7 +219,6 @@ public class Control {
         FileWriter fileWriter = new FileWriter(jsonFile);
         try {
             fileWriter.write(gson.toJson(products));
-            //System.out.println(gson.toJson(products));
             fileWriter.flush();
             System.out.println("Файл успешно сохранён.");
         } catch (Exception ex) {
@@ -230,6 +232,7 @@ public class Control {
     /**
      * Выполняет скрипт записанный в файле.
      * В программе стоит ограничение на выполнение рекурсивных итераций в цикле - 20 вложенных циклов. Мы не рекомендуем вызывать скрипты в самом скрипте.
+     *
      * @param addres адрес скрипта в системе.
      * @throws IOException
      */
@@ -329,6 +332,7 @@ public class Control {
 
     /**
      * Добавляет новый элемент в коллекцию, если его значение меньше, чем у наименьшего элемента этой коллекции.
+     *
      * @param s сторка элемента в формате json.
      */
     public void addIfMin(String s) {
@@ -348,6 +352,7 @@ public class Control {
 
     /**
      * Удаляет из коллекции все элементы, превышающие заданный.
+     *
      * @param jsonString сторка элемента в формате json.
      */
     public void removeGreater(String jsonString) {
@@ -355,14 +360,9 @@ public class Control {
             int startSize = products.size();
             if (startSize != 0) {
                 Product maxProduct = gson.fromJson(jsonString, Product.class);
-                //    for (Product product : products) {
-                //  if (product.compareTo(maxProduct) > 0) {
-                //  System.out.println("Элемент с id " + product.getId() + " удалён из коллекции");
-                //         products.remove(product);
                 products.removeIf(p -> (p != null && p.compareTo(maxProduct) > 0));
                 System.out.println("Удалено " + (startSize - products.size()) + " элементов");
-                // }
-                //   }
+
             } else System.out.println("Коллекция пуста.");
         } catch (JsonSyntaxException ex) {
             System.out.println("Возникла ошибка синтаксиса Json.");
@@ -372,6 +372,7 @@ public class Control {
 
     /**
      * Удаляет из коллекции все элементы, меньшие, чем заданный.
+     *
      * @param jsonString сторка элемента в формате json.
      */
     public void removeLower(String jsonString) {
@@ -379,12 +380,6 @@ public class Control {
             int startSize = products.size();
             if (startSize != 0) {
                 Product maxProduct = gson.fromJson(jsonString, Product.class);
-                // for (Product product : products) {
-                //     if (product.compareTo(maxProduct) < 0) {
-                //         System.out.println("Элемент с id " + product.getId() + " удалён из коллекции");
-                //         products.remove(product);
-                //     }
-                //  }
                 products.removeIf(p -> (p != null && p.compareTo(maxProduct) < 0));
                 System.out.println("Удалено " + (startSize - products.size()) + " элементов");
             } else System.out.println("Коллекция пуста");
@@ -429,6 +424,7 @@ public class Control {
 
     /**
      * Выводит элементы, значение поля name которых содержит заданную подстроку.
+     *
      * @param name значение name для поиска.
      */
     public void filterContainsName(String name) {
@@ -488,29 +484,30 @@ public class Control {
             System.out.println("Файл пуст. Возможно только добавление элементов в коллекцию.");
             return;
         }
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(jsonFile))) {
-            System.out.println("Идет загрузка коллекции из файла " + jsonFile.getAbsolutePath());
-            StringBuilder stringBuilder = new StringBuilder();
-            String nextString;
-            while ((nextString = bufferedReader.readLine()) != null) {
-                stringBuilder.append(nextString);
-            }
-            Type typeOfCollectoin = new TypeToken<HashSet<Product>>() {
-            }.getType();
-            try {
-                HashSet<Product> addedProduct = gson.fromJson(stringBuilder.toString(), typeOfCollectoin);
-                for (Product p : addedProduct) {
-                    if (checkNull(p)) {
-                        throw new JsonSyntaxException("");
-                    }
-                    products.add(p);
+
+            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(jsonFile))) {
+                System.out.println("Идет загрузка коллекции из файла " + jsonFile.getAbsolutePath());
+                StringBuilder stringBuilder = new StringBuilder();
+                String nextString;
+                while ((nextString = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(nextString);
                 }
-            } catch (JsonSyntaxException e) {
-                System.out.println("Ошибка синтаксиса Json. Файл не может быть загружен.");
-                System.exit(666);
+                Type typeOfCollectoin = new TypeToken<HashSet<Product>>() {
+                }.getType();
+                try {
+                    HashSet<Product> addedProduct = gson.fromJson(stringBuilder.toString(), typeOfCollectoin);
+                    for (Product p : addedProduct) {
+                        if (checkNull(p)) {
+                            throw new JsonSyntaxException("");
+                        }
+                        products.add(p);
+                    }
+                } catch (JsonSyntaxException e) {
+                    System.out.println("Ошибка синтаксиса Json. Файл не может быть загружен.");
+                    System.exit(666);
+                }
+                System.out.println("Коллекций успешно загружена. Добавлено " + (products.size() - startSize) + " элементов.");
             }
-            System.out.println("Коллекций успешно загружена. Добавлено " + (products.size() - startSize) + " элементов.");
-        }
     }
 
     /**
