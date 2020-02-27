@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8719ad7b-f757-47a2-b518-27efb246a14b" name="Default Changelist" comment="DDDD">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="8719ad7b-f757-47a2-b518-27efb246a14b" name="Default Changelist" comment="НЕ ПУШИТЬ">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -134,7 +133,8 @@
       <workItem from="1582565597950" duration="613000" />
       <workItem from="1582633866002" duration="1297000" />
       <workItem from="1582739226503" duration="789000" />
-      <workItem from="1582806648814" duration="740000" />
+      <workItem from="1582806648814" duration="1417000" />
+      <workItem from="1582819738132" duration="3790000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1582057827934</created>
@@ -304,7 +304,42 @@
       <option name="project" value="LOCAL" />
       <updated>1582635336973</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="///123">
+      <created>1582807438716</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1582807438717</updated>
+    </task>
+    <task id="LOCAL-00026" summary="НЕ ПУШИТЬ">
+      <created>1582807560339</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1582807560339</updated>
+    </task>
+    <task id="LOCAL-00027" summary="deBUG1">
+      <created>1582819945121</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1582819945121</updated>
+    </task>
+    <task id="LOCAL-00028" summary="camelcase1">
+      <created>1582820462689</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1582820462689</updated>
+    </task>
+    <task id="LOCAL-00029" summary="FIX ctrl+d">
+      <created>1582830445891</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1582830445891</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -324,8 +359,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="test" />
-    <MESSAGE value="test_picture" />
     <MESSAGE value="ITMO" />
     <MESSAGE value="ITMO_1" />
     <MESSAGE value="ITMO_2" />
@@ -346,6 +379,11 @@
     <MESSAGE value="Группировка по координатам" />
     <MESSAGE value="Java doc" />
     <MESSAGE value="javaDoc" />
-    <option name="LAST_COMMIT_MESSAGE" value="javaDoc" />
+    <MESSAGE value="///123" />
+    <MESSAGE value="НЕ ПУШИТЬ" />
+    <MESSAGE value="deBUG1" />
+    <MESSAGE value="camelcase1" />
+    <MESSAGE value="FIX ctrl+d" />
+    <option name="LAST_COMMIT_MESSAGE" value="FIX ctrl+d" />
   </component>
 </project>
