@@ -482,7 +482,9 @@ public class Control {
         }
         if (jsonFile.length() == 0) {
             System.out.println("Файл пуст. Возможно только добавление элементов в коллекцию.");
-        } else
+            return;
+        }
+
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(jsonFile))) {
                 System.out.println("Идет загрузка коллекции из файла " + jsonFile.getAbsolutePath());
                 StringBuilder stringBuilder = new StringBuilder();
