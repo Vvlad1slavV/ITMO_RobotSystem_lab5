@@ -478,15 +478,15 @@ public class Control {
         int startSize = products.size();
         if (!jsonFile.exists()) {
             System.out.println(("Файл по указанному пути (" + jsonFile.getAbsolutePath() + ") не существует."));
-            return;
+            System.exit(666);
         }
         if (!jsonFile.canRead() || !jsonFile.canWrite()) {
             System.out.println("Файл защищён от чтения и(или) записи. Для работы коректной программы нужны оба разрешения.");
-            return;
+            System.exit(666);
         }
         if (jsonFile.length() == 0) {
             System.out.println("Файл пуст. Возможно только добавление элементов в коллекцию.");
-            return;
+            System.exit(666);
         }
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(jsonFile))) {
             System.out.println("Идет загрузка коллекции из файла " + jsonFile.getAbsolutePath());
