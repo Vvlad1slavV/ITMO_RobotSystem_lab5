@@ -1,14 +1,10 @@
 package com.itmo.r3135;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
 import java.lang.reflect.Type;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -117,9 +113,9 @@ public class Control {
     private boolean checkNull(Product product) {
         try {
             return product.getName() == null || product.getName().isEmpty() || product.getCoordinates() == null ||
-                    product.getCoordinates().getX() == null ||product.getCoordinates().getY() <= -50 ||
-                    product.getCreationDate() == null ||  product.getPrice() <= 0 ||
-                    product.getPartNumber() == null ||  product.getPartNumber().length() < 21 ||
+                    product.getCoordinates().getX() == null || product.getCoordinates().getY() <= -50 ||
+                    product.getCreationDate() == null || product.getPrice() <= 0 ||
+                    product.getPartNumber() == null || product.getPartNumber().length() < 21 ||
                     product.getManufactureCost() == null || product.getUnitOfMeasure() == null || product.getOwner() == null ||
                     product.getOwner().getName() == null || product.getOwner().getName().isEmpty() ||
                     product.getOwner().getBirthday() == null || product.getOwner().getEyeColor() == null || product.getOwner().getHairColor() == null;
@@ -216,17 +212,24 @@ public class Control {
      * @throws IOException
      */
     public void save() throws IOException {
-        FileWriter fileWriter = new FileWriter(jsonFile);
-        try {
-            fileWriter.write(gson.toJson(products));
-            fileWriter.flush();
-            System.out.println("Файл успешно сохранён.");
-        } catch (Exception ex) {
-            System.out.println("При записи файла что-то пошло не так.");
-        } finally {
-            fileWriter.close();
+        if (!jsonFile.exists()) {
+            System.out.println(("Невозможно сохранить файл. Файл по указанному пути (" + jsonFile.getAbsolutePath() + ") не существует."));
         }
-        DateSave = new Date();
+        if (!jsonFile.canRead() || !jsonFile.canWrite()) {
+            System.out.println("Невозможно сохранить файл. Файл защищён от чтения и(или) записи.");
+        } else {
+            FileWriter fileWriter = new FileWriter(jsonFile);
+            try {
+                fileWriter.write(gson.toJson(products));
+                fileWriter.flush();
+                System.out.println("Файл успешно сохранён.");
+            } catch (Exception ex) {
+                System.out.println("При записи файла что-то пошло не так.");
+            } finally {
+                fileWriter.close();
+            }
+            DateSave = new Date();
+        }
     }
 
     /**
@@ -485,29 +488,29 @@ public class Control {
             return;
         }
 
-            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(jsonFile))) {
-                System.out.println("Идет загрузка коллекции из файла " + jsonFile.getAbsolutePath());
-                StringBuilder stringBuilder = new StringBuilder();
-                String nextString;
-                while ((nextString = bufferedReader.readLine()) != null) {
-                    stringBuilder.append(nextString);
-                }
-                Type typeOfCollectoin = new TypeToken<HashSet<Product>>() {
-                }.getType();
-                try {
-                    HashSet<Product> addedProduct = gson.fromJson(stringBuilder.toString(), typeOfCollectoin);
-                    for (Product p : addedProduct) {
-                        if (checkNull(p)) {
-                            throw new JsonSyntaxException("");
-                        }
-                        products.add(p);
-                    }
-                } catch (JsonSyntaxException e) {
-                    System.out.println("Ошибка синтаксиса Json. Файл не может быть загружен.");
-                    System.exit(666);
-                }
-                System.out.println("Коллекций успешно загружена. Добавлено " + (products.size() - startSize) + " элементов.");
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(jsonFile))) {
+            System.out.println("Идет загрузка коллекции из файла " + jsonFile.getAbsolutePath());
+            StringBuilder stringBuilder = new StringBuilder();
+            String nextString;
+            while ((nextString = bufferedReader.readLine()) != null) {
+                stringBuilder.append(nextString);
             }
+            Type typeOfCollectoin = new TypeToken<HashSet<Product>>() {
+            }.getType();
+            try {
+                HashSet<Product> addedProduct = gson.fromJson(stringBuilder.toString(), typeOfCollectoin);
+                for (Product p : addedProduct) {
+                    if (checkNull(p)) {
+                        throw new JsonSyntaxException("");
+                    }
+                    products.add(p);
+                }
+            } catch (JsonSyntaxException e) {
+                System.out.println("Ошибка синтаксиса Json. Файл не может быть загружен.");
+                System.exit(666);
+            }
+            System.out.println("Коллекций успешно загружена. Добавлено " + (products.size() - startSize) + " элементов.");
+        }
     }
 
     /**
