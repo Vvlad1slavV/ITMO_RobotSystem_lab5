@@ -4,8 +4,19 @@ package com.itmo.r3135;
  * Единицы измерения.
  */
 public enum UnitOfMeasure {
-    PCS,
-    LITERS,
-    GRAMS,
-    MILLIGRAMS;
+    PCS("Штуки"),
+    LITERS("Литры"),
+    GRAMS("Граммы"),
+    MILLIGRAMS("Милиграммы");
+
+    String name;
+
+     UnitOfMeasure(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

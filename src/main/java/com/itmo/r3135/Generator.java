@@ -9,24 +9,14 @@ import java.util.Random;
  * Класс генератор элемента в формате JSON
  */
 public class Generator {
-    static String[] personNames =
-            {
-                    "Аркадий", "Петрович", "Партия", "Ленин", "Сталин","Колхоз","МЕГА(ИТМО)","Царь","Красные","Буржуй"
-            };
-    static UnitOfMeasure[] units = {UnitOfMeasure.PCS,
-            UnitOfMeasure.LITERS,
-            UnitOfMeasure.GRAMS,
-            UnitOfMeasure.MILLIGRAMS
-    };
-    static Color[] colors = {Color.GREEN,
-            Color.RED,
-            Color.BLACK,
-            Color.BLUE,
-            Color.YELLOW};
+    static String[] personNames = {"Аркадий", "Петрович", "Партия", "Ленин", "Сталин", "Колхоз", "МЕГА(ИТМО)", "Царь", "Красные", "Буржуй"};
+    static UnitOfMeasure[] units = {UnitOfMeasure.PCS, UnitOfMeasure.LITERS, UnitOfMeasure.GRAMS, UnitOfMeasure.MILLIGRAMS};
+    static Color[] colors = {Color.GREEN, Color.RED, Color.BLACK, Color.BLUE, Color.YELLOW};
 
     static char[] chs = "ZXCVBNMASDFGHJKLQWERTYUIOP1234567890zxcvbnmasdfghjklqwertyuiop".toCharArray();
     static Gson gson = new Gson();
     static Random random = new Random();
+
     /**
      * Метод возвращает объект класса Product в формате json
      */
@@ -34,7 +24,7 @@ public class Generator {
         return gson.toJson(nextProduct());
     }
 
-    private static Product nextProduct() {
+    public static Product nextProduct() {
         return new Product(nextName(), nextCoordinates(), nextPrice(), nextPartNumber(), nextManufactureCost(), nextUnitOfMeasure(), nextPerson());
     }
 
@@ -75,6 +65,6 @@ public class Generator {
     }
 
     private static Coordinates nextCoordinates() {
-        return new Coordinates(random.nextFloat()*500-250, random.nextDouble()*500-250);
+        return new Coordinates(random.nextFloat() * 500 - 250, random.nextDouble() * 500 - 250);
     }
 }
