@@ -4,9 +4,20 @@ package com.itmo.r3135;
  * Цвета
  */
 public enum Color {
-    GREEN,
-    RED,
-    BLACK,
-    BLUE,
-    YELLOW;
+    GREEN("Зелёный"),
+    RED("Красный"),
+    BLACK("Чёрный"),
+    BLUE("Синий"),
+    YELLOW("Жёлтый");
+
+    String name;
+
+    Color(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

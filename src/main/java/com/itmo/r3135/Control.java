@@ -11,7 +11,6 @@ import java.util.*;
  * Класс хранящий в себе команды.
  */
 public class Control {
-    private static final int SCRIPT_LIMIT = 20;
     private LinkedList<File> activeScriptList;
 
     private File jsonFile;
@@ -20,13 +19,8 @@ public class Control {
     private Date dateInitialization;
     private Date dateSave;
     private Date dateChange;
-    private static int scriptCounter;
+
     //control methods
-
-    static {
-        scriptCounter = 0;
-    }
-
     {
         activeScriptList = new LinkedList<>();
         gson = new Gson();
@@ -216,8 +210,7 @@ public class Control {
     public void save() throws IOException {
         if (!jsonFile.exists()) {
             System.out.println(("Невозможно сохранить файл. Файл по указанному пути (" + jsonFile.getAbsolutePath() + ") не существует."));
-        }
-        if (!jsonFile.canRead() || !jsonFile.canWrite()) {
+        } else if (!jsonFile.canRead() || !jsonFile.canWrite()) {
             System.out.println("Невозможно сохранить файл. Файл защищён от чтения и(или) записи.");
         } else {
             FileWriter fileWriter = new FileWriter(jsonFile);
