@@ -4,6 +4,7 @@ package com.itmo.r3135;
  * Класс хранящий в себе изображения...
  */
 public class Picture {
+    public static void bruh(){    }
     public static void bender(){
         System.out.println("                                                        ░░░░░░░░░░░░░░░░░░░░░░░ ░░░                                                                                                                 \n" +
                 "                                                        ░░░░░░░▒▓▓▓█▓▓▒░░░░░░░░ ░░░                                                                                                                 \n" +

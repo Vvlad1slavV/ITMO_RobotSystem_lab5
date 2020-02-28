@@ -12,13 +12,14 @@ import java.util.*;
  */
 public class Control {
     private static final int SCRIPT_LIMIT = 20;
+    private LinkedList<File> activeScriptList;
 
     private File jsonFile;
     private HashSet<Product> products;
     private Gson gson;
-    private Date DateInitialization;
-    private Date DateSave;
-    private Date DateChange;
+    private Date dateInitialization;
+    private Date dateSave;
+    private Date dateChange;
     private static int scriptCounter;
     //control methods
 
@@ -27,6 +28,7 @@ public class Control {
     }
 
     {
+        activeScriptList = new LinkedList<>();
         gson = new Gson();
         products = new HashSet();
     }
@@ -57,7 +59,7 @@ public class Control {
             System.exit(1);
         }
         loadCollection();
-        DateInitialization = DateSave = DateChange = new Date();
+        dateInitialization = dateSave = dateChange = new Date();
 
     }
 
@@ -106,7 +108,7 @@ public class Control {
         } catch (JsonSyntaxException ex) {
             System.out.println("Возникла ошибка синтаксиса Json. Элемент не был добавлен");
         }
-        DateChange = new Date();
+        dateChange = new Date();
     }
 
     //проверка на null-поля
@@ -172,7 +174,7 @@ public class Control {
         } catch (JsonSyntaxException ex) {
             System.out.println("Возникла ошибка при замене элемента");
         }
-        DateChange = new Date();
+        dateChange = new Date();
     }
 
     /**
@@ -194,7 +196,7 @@ public class Control {
                 System.out.println("Элемент с id " + id + " не существует.");
             }
         } else System.out.println("Коллекция пуста.");
-        DateChange = new Date();
+        dateChange = new Date();
     }
 
     /**
@@ -203,7 +205,7 @@ public class Control {
     public void clear() {
         products.clear();
         System.out.println("Коллекция очищена.");
-        DateChange = new Date();
+        dateChange = new Date();
     }
 
     /**
@@ -228,9 +230,10 @@ public class Control {
             } finally {
                 fileWriter.close();
             }
-            DateSave = new Date();
+            dateSave = new Date();
         }
     }
+
 
     /**
      * Выполняет скрипт записанный в файле.
@@ -240,24 +243,22 @@ public class Control {
      * @throws IOException
      */
     public void executeScript(String addres) throws IOException {
-        if (scriptCounter < SCRIPT_LIMIT) {
-            int thisCount = scriptCounter;
-            File script = new File(addres);
-
-            if (!script.exists() || !script.isFile()) {
-                System.out.println(("Файл по указанному пути (" + script.getAbsolutePath() + ") не существует."));
-                return;
-            }
-            if (!script.canRead()) {
-                System.out.println("Файл защищён от чтения.");
-                return;
-            }
-            if (script.length() == 0) {
-                System.out.println("Скрипт не содержит команд.");
-                return;
-            }
+        File script = new File(addres);
+        if (!script.exists() || !script.isFile()) {
+            System.out.println(("Файл по указанному пути (" + script.getAbsolutePath() + ") не существует."));
+            return;
+        }
+        if (!script.canRead()) {
+            System.out.println("Файл защищён от чтения.");
+            return;
+        }
+        if (script.length() == 0) {
+            System.out.println("Скрипт не содержит команд.");
+            return;
+        }
+        if (activeScriptList.lastIndexOf(script) == -1) {
+            activeScriptList.add(script);
             try (BufferedReader scriptReader = new BufferedReader(new FileReader(script))) {
-                scriptCounter++;
                 String scriptCommand = scriptReader.readLine();
                 String[] trimScriptCommand;
                 while (scriptCommand != null) {
@@ -323,14 +324,10 @@ public class Control {
                     }
                     scriptCommand = scriptReader.readLine();
                 }
-                if (thisCount == 0) {
-                    scriptCounter = 0;
-                    System.out.println("Скрипт выполнен");
-                }
+                System.out.println("Выполнен скрипт " + script.toString());
+                activeScriptList.removeLast();
             }
-        } else {
-            System.out.println("Не делай так. Количество вложенных скриптов превысило " + SCRIPT_LIMIT + ". Вызов вложенных скриптов остановлен.");
-        }
+        } else System.out.println("Обнаружен цикл в исполнии скриптов. Тело цикла выполнено один раз.");
     }
 
     /**
@@ -350,7 +347,7 @@ public class Control {
         } catch (JsonSyntaxException ex) {
             System.out.println("Возникла ошибка синтаксиса Json. Элемент не был добавлен");
         }
-        DateChange = new Date();
+        dateChange = new Date();
     }
 
     /**
@@ -370,7 +367,7 @@ public class Control {
         } catch (JsonSyntaxException ex) {
             System.out.println("Возникла ошибка синтаксиса Json.");
         }
-        DateChange = new Date();
+        dateChange = new Date();
     }
 
     /**
@@ -389,7 +386,7 @@ public class Control {
         } catch (JsonSyntaxException ex) {
             System.out.println("Возникла ошибка синтаксиса Json.");
         }
-        DateChange = new Date();
+        dateChange = new Date();
     }
 
     /**
@@ -466,9 +463,9 @@ public class Control {
      * Выводит информацию о загруженной коллекции.
      */
     public void info() {
-        System.out.println("Дата загрузки: " + DateInitialization +
-                "\nДата сохранения: " + DateSave +
-                "\nДата изменения: " + DateChange +
+        System.out.println("Дата загрузки: " + dateInitialization +
+                "\nДата сохранения: " + dateSave +
+                "\nДата изменения: " + dateChange +
                 "\nТип коллекции: " + products.getClass() +
                 "\nКоличество элементов: " + products.size());
     }
