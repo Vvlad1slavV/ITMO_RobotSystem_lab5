@@ -27,7 +27,7 @@ public class Commander {
      */
     public void interactiveMod() throws IOException {
         try (Scanner commandReader = new Scanner(System.in)) {
-            System.out.print("// ");
+            System.out.print("//: ");
             while (!command.equals("exit")) {
                 if (!commandReader.hasNextLine()) {
                     break;
@@ -97,7 +97,7 @@ public class Commander {
                 } catch (ArrayIndexOutOfBoundsException ex) {
                     System.out.println("Отсутствует аргумент.");
                 }
-                System.out.print("// ");
+                System.out.print("//: ");
             }
         }
     }
