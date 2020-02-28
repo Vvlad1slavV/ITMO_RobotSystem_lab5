@@ -1,14 +1,10 @@
 package com.itmo.r3135;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
 import java.lang.reflect.Type;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -218,17 +214,24 @@ public class Control {
      * @throws IOException
      */
     public void save() throws IOException {
-        FileWriter fileWriter = new FileWriter(jsonFile);
-        try {
-            fileWriter.write(gson.toJson(products));
-            fileWriter.flush();
-            System.out.println("Файл успешно сохранён.");
-        } catch (Exception ex) {
-            System.out.println("При записи файла что-то пошло не так.");
-        } finally {
-            fileWriter.close();
+        if (!jsonFile.exists()) {
+            System.out.println(("Невозможно сохранить файл. Файл по указанному пути (" + jsonFile.getAbsolutePath() + ") не существует."));
         }
-        dateSave = new Date();
+        if (!jsonFile.canRead() || !jsonFile.canWrite()) {
+            System.out.println("Невозможно сохранить файл. Файл защищён от чтения и(или) записи.");
+        } else {
+            FileWriter fileWriter = new FileWriter(jsonFile);
+            try {
+                fileWriter.write(gson.toJson(products));
+                fileWriter.flush();
+                System.out.println("Файл успешно сохранён.");
+            } catch (Exception ex) {
+                System.out.println("При записи файла что-то пошло не так.");
+            } finally {
+                fileWriter.close();
+            }
+            dateSave = new Date();
+        }
     }
 
 
