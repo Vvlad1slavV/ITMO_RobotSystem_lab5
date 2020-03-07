@@ -29,13 +29,14 @@ public class Product implements Comparable<Product> {
 
     /**
      * Конструктор для класса Product
-     * @param name - имя
-     * @param coordinates - класса координат
-     * @param price - цена
-     * @param partNumber - номер партии
+     *
+     * @param name            - имя
+     * @param coordinates     - класса координат
+     * @param price           - цена
+     * @param partNumber      - номер партии
      * @param manufactureCost - цена производства
-     * @param unitOfMeasure - единицы измерения продукта
-     * @param owner - владелец
+     * @param unitOfMeasure   - единицы измерения продукта
+     * @param owner           - владелец
      */
     public Product(String name, Coordinates coordinates, Double price, String partNumber, Float manufactureCost, UnitOfMeasure unitOfMeasure, Person owner) {
         this.id = idCounter;
@@ -51,6 +52,7 @@ public class Product implements Comparable<Product> {
 
     /**
      * Устанавливает id орпеделенному элементу коллекции.
+     *
      * @param id - id предмета
      */
     public void setId(int id) {
@@ -59,6 +61,7 @@ public class Product implements Comparable<Product> {
 
     /**
      * Возвращает уровень вложенности, если при выполнении скриптов они ссылаются на другие скрипты внутри себя.
+     *
      * @return число соответсвуещее вложенности выполения.
      */
     public static int getIdCounter() {
@@ -67,6 +70,7 @@ public class Product implements Comparable<Product> {
 
     /**
      * Возвращает id элемента.
+     *
      * @return id элемента коллекции.
      */
     public int getId() {
@@ -75,6 +79,7 @@ public class Product implements Comparable<Product> {
 
     /**
      * Воозвращает поле name элемента коллекции.
+     *
      * @return - имя
      */
     public String getName() {
@@ -83,6 +88,7 @@ public class Product implements Comparable<Product> {
 
     /**
      * Устанавливает дату создания.
+     *
      * @param creationDate - дата создания.
      */
     public void setCreationDate(LocalDateTime creationDate) {
@@ -91,6 +97,7 @@ public class Product implements Comparable<Product> {
 
     /**
      * Возвращает координаты в формате класса Coordinates.
+     *
      * @return - класс Coordinates
      */
     public Coordinates getCoordinates() {
@@ -99,6 +106,7 @@ public class Product implements Comparable<Product> {
 
     /**
      * Возвращает дату создания
+     *
      * @return - дата создания.
      */
     public LocalDateTime getCreationDate() {
@@ -107,6 +115,7 @@ public class Product implements Comparable<Product> {
 
     /**
      * Возвращает поле price элемента коллекции.
+     *
      * @return - цена.
      */
     public Double getPrice() {
@@ -115,6 +124,7 @@ public class Product implements Comparable<Product> {
 
     /**
      * Возращает
+     *
      * @return -
      */
     public String getPartNumber() {
@@ -123,6 +133,7 @@ public class Product implements Comparable<Product> {
 
     /**
      * Возвращает поле manufactureCost элемента коллекции.
+     *
      * @return - цена производства
      */
     public Float getManufactureCost() {
@@ -131,6 +142,7 @@ public class Product implements Comparable<Product> {
 
     /**
      * Возвращает поле unitOfMeasure элемента коллекции.
+     *
      * @return -
      */
     public UnitOfMeasure getUnitOfMeasure() {
@@ -139,6 +151,7 @@ public class Product implements Comparable<Product> {
 
     /**
      * Возвращает поле owner элемента коллекции.
+     *
      * @return - владелец предмета.
      */
     public Person getOwner() {
@@ -152,14 +165,17 @@ public class Product implements Comparable<Product> {
 
     @Override
     public String toString() {
-        return  "id=" + id +
-                ", name='" + name + '\'' +
-                ", coordinates=" + coordinates +
-                ", creationDate=" + creationDate +
-                ", price=" + price +
-                ", partNumber='" + partNumber + '\'' +
-                ", manufactureCost=" + manufactureCost +
-                ", unitOfMeasure=" + unitOfMeasure +
-                ", owner=" + owner;
+        return "------------------------------------------------------------------------\n" +
+                "ID: " + id + "\n" +
+                "Название: " + name + "\n" +
+                "Координаты: " + "\n" +
+                coordinates + "\n" +
+                "Дата создания: " + creationDate + "\n" +
+                "Цена: " + price + "\n" +
+                "Номер партии: " + partNumber + "\n" +
+                "Стоимость изготовления: " + manufactureCost + "\n" +
+                "Единицы измерения: " + unitOfMeasure + "\n" +
+                "Владелец: " + owner + "\n" +
+                "------------------------------------------------------------------------\n";
     }
 }

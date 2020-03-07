@@ -32,9 +32,7 @@ public class Control {
             System.out.println("Путь к файлу json не обнаружен.");
             System.exit(1);
         }
-
         File jsonPath = new File(filePath);
-
         if (jsonPath.exists()) {
             this.jsonFile = jsonPath;
             System.out.println("Адрес " + this.jsonFile.toString() + " успешно обнаружен");
@@ -80,7 +78,7 @@ public class Control {
      */
     public void show() {
         if (products.size() != 0)
-            for (Product p : products) System.out.println(gson.toJson(p));
+            for (Product product : products) System.out.println(product);
         else System.out.println("Коллекция пуста.");
     }
 
@@ -119,7 +117,6 @@ public class Control {
             System.out.println("В процессе проверки объекта произошла ошибка");
             return true;
         }
-
     }
 
     //генератор незанятого id
@@ -150,8 +147,6 @@ public class Control {
         try {
             String id = s.split(" ", 2)[0];
             String elem = s.split(" ", 2)[1];
-            //  System.out.println("ID:" +id);
-            //  System.out.println("Элемент" + elem);
             Product newProduct = gson.fromJson(elem, Product.class);
             int startSize = products.size();
             if (checkNull(newProduct)) {
@@ -227,7 +222,6 @@ public class Control {
         }
     }
 
-
     /**
      * Выполняет скрипт записанный в файле.
      * В программе стоит ограничение на выполнение рекурсивных итераций в цикле - 20 вложенных циклов. Мы не рекомендуем вызывать скрипты в самом скрипте.
@@ -288,9 +282,8 @@ public class Control {
                                 this.executeScript(trimScriptCommand[1]);
                                 break;
                             case "exit":
-                                System.exit(0);
-                                //  scriptCommand = null;
-                                return;
+                                this.exit();
+                                break;
                             case "add_if_min ":
                                 this.addIfMin(trimScriptCommand[1]);
                                 break;
@@ -336,7 +329,7 @@ public class Control {
                 if (addProduct.compareTo(minElem) < 0) {
                     add(s);
                 } else System.out.println("Элемент не минимальный!");
-            } else System.out.println("Коллекция пуста, минимальный элемент отсутствует");
+            } else System.out.println("Коллекция пуста, минимальный элемент отсутствует.");
         } catch (JsonSyntaxException ex) {
             System.out.println("Возникла ошибка синтаксиса Json. Элемент не был добавлен");
         }
@@ -388,26 +381,26 @@ public class Control {
     public void groupCountingByCoordinates() {
         if (!products.isEmpty()) {
             for (int i = 1; i <= 4; i++) {
-                System.out.println("Элементы четверти " + i);
+                System.out.println("Элементы " + i + " координатной четверти:");
                 for (Product p : products) {
                     float x = p.getCoordinates().getX();
                     double y = p.getCoordinates().getY();
                     switch (i) {
                         case 1:
                             if (x >= 0 & y >= 0)
-                                System.out.println(gson.toJson(p));
+                                System.out.println(p);
                             break;
                         case 2:
                             if (x < 0 & y >= 0)
-                                System.out.println(gson.toJson(p));
+                                System.out.println(p);
                             break;
                         case 3:
                             if (x < 0 & y < 0)
-                                System.out.println(gson.toJson(p));
+                                System.out.println(p);
                             break;
                         case 4:
                             if (x >= 0 & y < 0)
-                                System.out.println(gson.toJson(p));
+                                System.out.println(p);
                             break;
                     }
                 }
@@ -426,7 +419,7 @@ public class Control {
             if (!name.isEmpty() && name != null) {
                 for (Product p : products) {
                     if (p.getName().contains(name)) {
-                        System.out.println(gson.toJson(p));
+                        System.out.println(p);
                         findProdukts++;
                     }
                 }
@@ -507,7 +500,7 @@ public class Control {
      * Закрывает программу без сохранения.
      */
     public void exit() {
-        System.exit(666);
+        System.exit(0);
     }
 
 
