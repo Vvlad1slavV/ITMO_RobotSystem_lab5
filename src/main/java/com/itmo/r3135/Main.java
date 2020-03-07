@@ -16,6 +16,9 @@ public class Main {
             Commander commander = new Commander(new Control(args[0]));
             commander.interactiveMod();
         } else System.out.println("Адрес файла не был обнаружен");
+    }
+}
+
 //   Версия для ввода адреса файла из консоли.
 //
 //        Scanner input = new Scanner(System.in);
@@ -39,7 +42,5 @@ public class Main {
 //                }
 //            }
 //        }
-    }
-}
 
 
