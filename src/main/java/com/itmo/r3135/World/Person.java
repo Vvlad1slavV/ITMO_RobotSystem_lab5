@@ -1,4 +1,4 @@
-package com.itmo.r3135;
+package com.itmo.r3135.World;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

@@ -1,7 +1,8 @@
-package com.itmo.r3135;
+package com.itmo.r3135.World;
+
+import com.itmo.r3135.Coordinates;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
 
 /**
  * Класс Product.
@@ -49,7 +50,23 @@ public class Product implements Comparable<Product> {
         this.owner = owner;
         idCounter++;
     }
-
+    /**
+     * Проверяет элемент на сообтетвтвовение требованиям коллекции
+     */
+    public boolean checkNull() {
+        try {
+            return name == null || name.isEmpty() || coordinates == null ||
+                    coordinates.getX() == null || coordinates.getY() <= -50 ||
+                    creationDate == null || price <= 0 ||
+                    partNumber == null || partNumber.length() < 21 ||
+                    manufactureCost == null || unitOfMeasure == null || owner == null ||
+                    owner.getName() == null || owner.getName().isEmpty() ||
+                    owner.getBirthday() == null || owner.getEyeColor() == null || owner.getHairColor() == null;
+        } catch (Exception ex) {
+            System.out.println("В процессе проверки объекта произошла ошибка");
+            return true;
+        }
+    }
     /**
      * Устанавливает id орпеделенному элементу коллекции.
      *
@@ -105,57 +122,12 @@ public class Product implements Comparable<Product> {
     }
 
     /**
-     * Возвращает дату создания
-     *
-     * @return - дата создания.
-     */
-    public LocalDateTime getCreationDate() {
-        return creationDate;
-    }
-
-    /**
      * Возвращает поле price элемента коллекции.
      *
      * @return - цена.
      */
     public Double getPrice() {
         return price;
-    }
-
-    /**
-     * Возращает
-     *
-     * @return -
-     */
-    public String getPartNumber() {
-        return partNumber;
-    }
-
-    /**
-     * Возвращает поле manufactureCost элемента коллекции.
-     *
-     * @return - цена производства
-     */
-    public Float getManufactureCost() {
-        return manufactureCost;
-    }
-
-    /**
-     * Возвращает поле unitOfMeasure элемента коллекции.
-     *
-     * @return -
-     */
-    public UnitOfMeasure getUnitOfMeasure() {
-        return unitOfMeasure;
-    }
-
-    /**
-     * Возвращает поле owner элемента коллекции.
-     *
-     * @return - владелец предмета.
-     */
-    public Person getOwner() {
-        return owner;
     }
 
     @Override

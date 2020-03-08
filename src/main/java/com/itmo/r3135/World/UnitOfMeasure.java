@@ -1,4 +1,4 @@
-package com.itmo.r3135;
+package com.itmo.r3135.World;
 
 /**
  * Единицы измерения.

@@ -2,6 +2,7 @@ package com.itmo.r3135;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import com.itmo.r3135.World.Product;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -92,7 +93,7 @@ public class Control {
             Product addProduct = gson.fromJson(jsonString, Product.class);
             addProduct.setCreationDate(java.time.LocalDateTime.now());
             addProduct.setId(uniqueoIdGeneration(products));
-            if (checkNull(addProduct)) {
+            if (addProduct.checkNull()) {
                 System.out.println("Элемент не удовлетворяет требованиям коллекции");
             } else if (products.add(addProduct)) {
                 System.out.println("Элемент успешно добавлен.");
@@ -101,22 +102,6 @@ public class Control {
             System.out.println("Возникла ошибка синтаксиса Json. Элемент не был добавлен");
         }
         dateChange = new Date();
-    }
-
-    //проверка на null-поля
-    private boolean checkNull(Product product) {
-        try {
-            return product.getName() == null || product.getName().isEmpty() || product.getCoordinates() == null ||
-                    product.getCoordinates().getX() == null || product.getCoordinates().getY() <= -50 ||
-                    product.getCreationDate() == null || product.getPrice() <= 0 ||
-                    product.getPartNumber() == null || product.getPartNumber().length() < 21 ||
-                    product.getManufactureCost() == null || product.getUnitOfMeasure() == null || product.getOwner() == null ||
-                    product.getOwner().getName() == null || product.getOwner().getName().isEmpty() ||
-                    product.getOwner().getBirthday() == null || product.getOwner().getEyeColor() == null || product.getOwner().getHairColor() == null;
-        } catch (Exception ex) {
-            System.out.println("В процессе проверки объекта произошла ошибка");
-            return true;
-        }
     }
 
     //генератор незанятого id
@@ -149,7 +134,7 @@ public class Control {
             String elem = s.split(" ", 2)[1];
             Product newProduct = gson.fromJson(elem, Product.class);
             int startSize = products.size();
-            if (checkNull(newProduct)) {
+            if (newProduct.checkNull()) {
                 System.out.println("Элемент не удовлетворяет требованиям коллекции");
             } else {
                 removeById(id);
@@ -483,7 +468,7 @@ public class Control {
             try {
                 HashSet<Product> addedProduct = gson.fromJson(stringBuilder.toString(), typeOfCollectoin);
                 for (Product p : addedProduct) {
-                    if (checkNull(p)) {
+                    if (p.checkNull()) {
                         throw new JsonSyntaxException("");
                     }
                     products.add(p);
