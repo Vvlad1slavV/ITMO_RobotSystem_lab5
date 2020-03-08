@@ -1,7 +1,8 @@
-package com.itmo.r3135;
+package com.itmo.r3135.World;
+
+import com.itmo.r3135.Coordinates;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
 
 /**
  * Класс Product.

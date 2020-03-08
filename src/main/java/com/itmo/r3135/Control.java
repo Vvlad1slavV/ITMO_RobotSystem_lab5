@@ -2,6 +2,7 @@ package com.itmo.r3135;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import com.itmo.r3135.World.Product;
 
 import java.io.*;
 import java.lang.reflect.Type;
