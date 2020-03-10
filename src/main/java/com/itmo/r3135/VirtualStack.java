@@ -15,7 +15,7 @@ import java.util.Stack;
 
 public class VirtualStack {
     private LinkedList<File> activeScriptList;
-    private ArrayList<String> virtualstack;
+    public ArrayList<String> virtualstack;
 
     {
         activeScriptList = new LinkedList<>();
@@ -25,7 +25,7 @@ public class VirtualStack {
     public void stackgenerate(String scriptAddress) throws IOException {
         Integer i = 0;
         if (checkFile(scriptAddress)==null){
-            System.exit(666);
+            return;
         };
         virtualstack.addAll(i, readfile(checkFile(scriptAddress)));
         Integer w = virtualstack.size();
@@ -34,6 +34,10 @@ public class VirtualStack {
                 if (commandCheck(virtualstack.get(i))) {
                     scriptAddress = getAddressScript(virtualstack.get(i));
                     virtualstack.remove(virtualstack.get(i));
+                    if (checkFile(scriptAddress)==null){
+                        System.out.println("Битая ссылка на скрипт " + scriptAddress);
+                        break;
+                    };
                     insertScript(readfile(checkFile(scriptAddress)), i);
                     w = virtualstack.size();
                 } else i++;
@@ -63,20 +67,20 @@ public class VirtualStack {
 
 
     private File checkFile(String addres) {
-        File script = new File(addres);
-        if (!script.exists() || !script.isFile()) {
-            System.out.println(("Файл по указанному пути (" + script.getAbsolutePath() + ") не существует."));
-            return null;
-        }
-        if (!script.canRead()) {
-            System.out.println("Файл защищён от чтения.");
-            return null;
-        }
-        if (script.length() == 0) {
-            System.out.println("Скрипт не содержит команд.");
-            return null;
-        }
-        return script;
+            File script = new File(addres);
+            if (!script.exists() || !script.isFile()) {
+                System.out.println(("Файл по указанному пути (" + script.getAbsolutePath() + ") не существует."));
+                return null;
+            }
+            if (!script.canRead()) {
+                System.out.println("Файл защищён от чтения.");
+                return null;
+            }
+            if (script.length() == 0) {
+                System.out.println("Скрипт не содержит команд.");
+                return null;
+            }
+            return script;
     }
 
     private String getAddressScript(String command) {
