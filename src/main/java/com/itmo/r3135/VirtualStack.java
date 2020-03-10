@@ -12,21 +12,25 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Stack;
-
+//123
 public class VirtualStack {
-    private LinkedList<File> activeScriptList;
-    private ArrayList<String> virtualstack;
+    private ArrayList<File> activeScriptList;
+    public ArrayList<String> virtualstack;
+
 
     {
-        activeScriptList = new LinkedList<>();
+        activeScriptList = new ArrayList<>();
         virtualstack = new ArrayList<>(1000);
     }
 
     public ArrayList stackgenerate(String scriptAddress) throws IOException {
         Integer i = 0;
-        if (checkFile(scriptAddress)==null){
-            return null;
-        };
+
+        if (checkFile(scriptAddress) == null) {
+            return virtualstack;
+        }
+        ;
+
         virtualstack.addAll(i, readfile(checkFile(scriptAddress)));
         Integer w = virtualstack.size();
         try {
@@ -34,15 +38,16 @@ public class VirtualStack {
                 if (commandCheck(virtualstack.get(i))) {
                     scriptAddress = getAddressScript(virtualstack.get(i));
                     virtualstack.remove(virtualstack.get(i));
-                    if (checkFile(scriptAddress)==null){
+                    if (checkFile(scriptAddress) == null) {
                         System.out.println("Битая ссылка на скрипт " + scriptAddress);
                         break;
-                    };
+                    }
+                    ;
                     insertScript(readfile(checkFile(scriptAddress)), i);
                     w = virtualstack.size();
                 } else i++;
             }
-        } catch (RecursionCycleException e){
+        } catch (RecursionCycleException e) {
             System.out.println(e);
             return null;
         }
@@ -51,37 +56,39 @@ public class VirtualStack {
 
     private LinkedList readfile(File script) throws IOException, RecursionCycleException {
         LinkedList<String> CommandList = new LinkedList<>();
-        if (activeScriptList.lastIndexOf(script) == -1) {
+        if (activeScriptList.indexOf(script) == -1) {
             activeScriptList.add(script);
             try (BufferedReader scriptReader = new BufferedReader(new FileReader(script))) {
-                String scriptCommand = scriptReader.readLine();;
+                String scriptCommand = scriptReader.readLine();
                 while (scriptCommand != null) {
                     CommandList.addLast(scriptCommand);
                     scriptCommand = scriptReader.readLine();
                 }
             }
         } else {
-            throw new RecursionCycleException();
+            System.out.println("Обнаружен цикл!");
+            while (activeScriptList.size() - activeScriptList.indexOf(script) > 2)
+                activeScriptList.remove(activeScriptList.size() - 1);
         }
         return CommandList;
     }
 
 
     private File checkFile(String addres) {
-            File script = new File(addres);
-            if (!script.exists() || !script.isFile()) {
-                System.out.println(("Файл по указанному пути (" + script.getAbsolutePath() + ") не существует."));
-                return null;
-            }
-            if (!script.canRead()) {
-                System.out.println("Файл защищён от чтения.");
-                return null;
-            }
-            if (script.length() == 0) {
-                System.out.println("Скрипт не содержит команд.");
-                return null;
-            }
-            return script;
+        File script = new File(addres);
+        if (!script.exists() || !script.isFile()) {
+            System.out.println(("Файл по указанному пути (" + script.getAbsolutePath() + ") не существует."));
+            return null;
+        }
+        if (!script.canRead()) {
+            System.out.println("Файл защищён от чтения.");
+            return null;
+        }
+        if (script.length() == 0) {
+            System.out.println("Скрипт не содержит команд.");
+            return null;
+        }
+        return script;
     }
 
     private String getAddressScript(String command) {
@@ -91,7 +98,7 @@ public class VirtualStack {
     }
 
     private Boolean commandCheck(String command) {
-        if (command==null) return false;
+        if (command == null) return false;
         String[] trimScriptCommand;
         trimScriptCommand = command.trim().split(" ", 2);
         if (trimScriptCommand[0].equals("execute_script")) {
