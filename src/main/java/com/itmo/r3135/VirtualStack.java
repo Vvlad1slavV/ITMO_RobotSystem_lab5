@@ -15,7 +15,7 @@ import java.util.Stack;
 
 public class VirtualStack {
     private LinkedList<File> activeScriptList;
-    public ArrayList<String> virtualstack;
+    private ArrayList<String> virtualstack;
 
     {
         activeScriptList = new LinkedList<>();
