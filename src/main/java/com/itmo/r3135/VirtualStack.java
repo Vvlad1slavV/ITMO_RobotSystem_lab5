@@ -24,6 +24,9 @@ public class VirtualStack {
 
     public void stackgenerate(String scriptAddress) throws IOException {
         Integer i = 0;
+        if (checkFile(scriptAddress)==null){
+            System.exit(666);
+        };
         virtualstack.addAll(i, readfile(checkFile(scriptAddress)));
         Integer w = virtualstack.size();
         try {
