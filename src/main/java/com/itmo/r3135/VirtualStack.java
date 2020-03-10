@@ -27,7 +27,7 @@ public class VirtualStack {
         virtualstack.addAll(i, readfile(checkFile(scriptAddress)));
         Integer w = virtualstack.size();
         try {
-            while (i <= w) {
+            while (i < w) {
                 if (commandCheck(virtualstack.get(i))) {
                     scriptAddress = getAddressScript(virtualstack.get(i));
                     virtualstack.remove(virtualstack.get(i));
