@@ -1,6 +1,7 @@
 package com.itmo.r3135.Commands;
 
 import com.itmo.r3135.Control;
+import com.itmo.r3135.VirtualStack;
 
 import java.io.File;
 import java.io.IOException;
