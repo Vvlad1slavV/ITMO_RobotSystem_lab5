@@ -12,6 +12,9 @@ public class Main {
             System.out.println("add " + Generator.nextGsonProduct());
         }
         Picture.gamepad();
+
+        VirtualStack vr = new  VirtualStack();
+        vr.stackgenerate("D:\\java\\ITMO_RobotSystem_lab5\\script\\1.txt");
         if (args.length != 0) {
             Commander commander = new Commander(new Control(args[0]));
             commander.interactiveMod();

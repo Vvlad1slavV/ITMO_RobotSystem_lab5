@@ -1,6 +1,7 @@
 package com.itmo.r3135;
 
 import com.google.gson.Gson;
+import com.itmo.r3135.Exception.RecursionCycleException;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,38 +19,31 @@ public class VirtualStack {
 
     {
         activeScriptList = new LinkedList<>();
-        virtualstack = new ArrayList<>();
+        virtualstack = new ArrayList<>(1000);
     }
 
-    public String stackgenerate(String scriptAddress) throws IOException {
-        File script = new File(scriptAddress);
-        if (!script.exists() || !script.isFile()) {
-            System.out.println(("Файл по указанному пути (" + script.getAbsolutePath() + ") не существует."));
-            return "";
-        }
-        if (!script.canRead()) {
-            System.out.println("Файл защищён от чтения.");
-            return "";
+    public void stackgenerate(String scriptAddress) throws IOException {
+        Integer i = 0;
+        virtualstack.addAll(i, readfile(checkFile(scriptAddress)));
+        Integer w = virtualstack.size();
+        try {
+            while (i <= w) {
+                if (commandCheck(virtualstack.get(i))) {
+                    scriptAddress = getAddressScript(virtualstack.get(i));
+                    virtualstack.remove(virtualstack.get(i));
+                    insertScript(readfile(checkFile(scriptAddress)), i);
+                    w = virtualstack.size();
+                } else i++;
+            }
+        } catch (RecursionCycleException e){
+            System.out.println(e);
         }
 
-        if (activeScriptList.lastIndexOf(script) == -1) {
-            activeScriptList.add(script);
-            try (BufferedReader scriptReader = new BufferedReader(new FileReader(script))) {
-                String scriptCommand = scriptReader.readLine();
-                while (scriptCommand != null) {
-                    virtualstack.add(scriptCommand);
-                    }
-                    scriptCommand = scriptReader.readLine();
-                }
-                System.out.println("Выполнен скрипт " + script.toString());
-                activeScriptList.removeLast();
-            } else System.out.println("Обнаружен цикл в исполнии скриптов.");
-        return "";
-        }
-}
 
-    private LinkedList readfile(File script) throws IOException{
-    LinkedList<String> CommandList = new LinkedList<>();
+    }
+
+    private LinkedList readfile(File script) throws IOException, RecursionCycleException {
+        LinkedList<String> CommandList = new LinkedList<>();
         if (activeScriptList.lastIndexOf(script) == -1) {
             activeScriptList.add(script);
             try (BufferedReader scriptReader = new BufferedReader(new FileReader(script))) {
@@ -58,10 +52,10 @@ public class VirtualStack {
                     scriptCommand = scriptReader.readLine();
                     CommandList.addLast(scriptCommand);
                 }
-                System.out.println("Выполнен скрипт " + script.toString());
-                activeScriptList.removeLast();
             }
-        } else System.out.println("Обнаружен цикл в исполнии скриптов.");
+        } else {
+            throw new RecursionCycleException();
+        }
         return CommandList;
     }
 
@@ -83,7 +77,26 @@ public class VirtualStack {
         return script;
     }
 
+    private String getAddressScript(String command) {
+        String[] trimScriptCommand;
+        trimScriptCommand = command.trim().split(" ", 2);
+        return trimScriptCommand[1];
+    }
 
+    private Boolean commandCheck(String command) {
+        if (command==null) return false;
+        String[] trimScriptCommand;
+        trimScriptCommand = command.trim().split(" ", 2);
+        if (trimScriptCommand[0].equals("execute_script")) {
+            return true;
+        } else
+            return false;
+    }
+
+    private void insertScript(LinkedList commandList, Integer index) {
+        virtualstack.ensureCapacity(virtualstack.size() + commandList.size());
+        virtualstack.addAll(index, commandList);
+    }
 
 
 }
