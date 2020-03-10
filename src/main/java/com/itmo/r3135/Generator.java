@@ -1,10 +1,7 @@
 package com.itmo.r3135;
 
 import com.google.gson.Gson;
-import com.itmo.r3135.World.Color;
-import com.itmo.r3135.World.Person;
-import com.itmo.r3135.World.Product;
-import com.itmo.r3135.World.UnitOfMeasure;
+import com.itmo.r3135.World.*;
 
 import java.time.LocalDateTime;
 import java.util.Random;

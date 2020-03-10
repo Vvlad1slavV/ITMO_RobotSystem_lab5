@@ -39,7 +39,6 @@ public class VirtualStack {
             System.out.println(e);
         }
 
-
     }
 
     private LinkedList readfile(File script) throws IOException, RecursionCycleException {
