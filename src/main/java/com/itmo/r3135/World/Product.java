@@ -1,7 +1,5 @@
 package com.itmo.r3135.World;
 
-import com.itmo.r3135.Coordinates;
-
 import java.time.LocalDateTime;
 
 /**
@@ -74,15 +72,6 @@ public class Product implements Comparable<Product> {
      */
     public void setId(int id) {
         this.id = id;
-    }
-
-    /**
-     * Возвращает уровень вложенности, если при выполнении скриптов они ссылаются на другие скрипты внутри себя.
-     *
-     * @return число соответсвуещее вложенности выполения.
-     */
-    public static int getIdCounter() {
-        return idCounter;
     }
 
     /**
