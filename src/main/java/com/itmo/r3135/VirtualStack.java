@@ -22,10 +22,10 @@ public class VirtualStack {
         virtualstack = new ArrayList<>(1000);
     }
 
-    public void stackgenerate(String scriptAddress) throws IOException {
+    public ArrayList stackgenerate(String scriptAddress) throws IOException {
         Integer i = 0;
         if (checkFile(scriptAddress)==null){
-            return;
+            return virtualstack;
         };
         virtualstack.addAll(i, readfile(checkFile(scriptAddress)));
         Integer w = virtualstack.size();
@@ -45,7 +45,7 @@ public class VirtualStack {
         } catch (RecursionCycleException e){
             System.out.println(e);
         }
-
+        return virtualstack;
     }
 
     private LinkedList readfile(File script) throws IOException, RecursionCycleException {
@@ -53,10 +53,10 @@ public class VirtualStack {
         if (activeScriptList.lastIndexOf(script) == -1) {
             activeScriptList.add(script);
             try (BufferedReader scriptReader = new BufferedReader(new FileReader(script))) {
-                String scriptCommand = "";
+                String scriptCommand = scriptReader.readLine();;
                 while (scriptCommand != null) {
-                    scriptCommand = scriptReader.readLine();
                     CommandList.addLast(scriptCommand);
+                    scriptCommand = scriptReader.readLine();
                 }
             }
         } else {
@@ -100,7 +100,6 @@ public class VirtualStack {
     }
 
     private void insertScript(LinkedList commandList, Integer index) {
-        virtualstack.ensureCapacity(virtualstack.size() + commandList.size());
         virtualstack.addAll(index, commandList);
     }
 
