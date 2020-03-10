@@ -25,7 +25,7 @@ public class VirtualStack {
     public ArrayList stackgenerate(String scriptAddress) throws IOException {
         Integer i = 0;
         if (checkFile(scriptAddress)==null){
-            return virtualstack;
+            return null;
         };
         virtualstack.addAll(i, readfile(checkFile(scriptAddress)));
         Integer w = virtualstack.size();
@@ -44,6 +44,7 @@ public class VirtualStack {
             }
         } catch (RecursionCycleException e){
             System.out.println(e);
+            return null;
         }
         return virtualstack;
     }
