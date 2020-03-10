@@ -14,7 +14,8 @@ public class Main {
         Picture.gamepad();
 
         VirtualStack vr = new  VirtualStack();
-        vr.stackgenerate("D:\\java\\ITMO_RobotSystem_lab5\\script\\1.txt");
+        vr.stackgenerate("D:\\java\\ITMO_RobotSystem_lab5\\PS\\script0.txt");
+        System.out.println(vr.virtualstack.size());
         if (args.length != 0) {
             Commander commander = new Commander(new Control(args[0]));
             commander.interactiveMod();
