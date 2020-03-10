@@ -1,4 +1,6 @@
-package com.itmo.r3135.ControlPackage;
+package com.itmo.r3135.Commands;
+
+import com.itmo.r3135.Control;
 
 public class ExecuteScriptCommand extends AbstractCommand {
     public ExecuteScriptCommand(Control control) {

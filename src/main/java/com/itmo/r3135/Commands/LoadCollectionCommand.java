@@ -1,8 +1,9 @@
-package com.itmo.r3135.ControlPackage;
+package com.itmo.r3135.Commands;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import com.itmo.r3135.Control;
 import com.itmo.r3135.World.Product;
 
 import java.io.BufferedReader;

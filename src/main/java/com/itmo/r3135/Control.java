@@ -1,6 +1,7 @@
-package com.itmo.r3135.ControlPackage;
+package com.itmo.r3135;
 
 import com.google.gson.*;
+import com.itmo.r3135.Commands.*;
 import com.itmo.r3135.World.Product;
 
 import java.io.*;
@@ -15,7 +16,7 @@ public class Control implements Mediator {
     private File jsonFile;
     private HashSet<Product> products;
     private Date dateInitialization;
-    protected Date dateSave;
+    public Date dateSave;
     private Date dateChange;
 
     private LoadCollectionCommand loadCollectionCommand;
@@ -104,7 +105,7 @@ public class Control implements Mediator {
             try {
                 switch (trimCommand[0]) {
                     case "":
-                        System.out.printf("Команда отсутствует");
+                        System.out.println("Команда отсутствует");
                         break;
                     case "help":
                         helpCommand.activate();
@@ -159,7 +160,7 @@ public class Control implements Mediator {
                         filterContainsNameCommand.activate(trimCommand[1]);
                         break;
                     case "print_field_descending_price":
-                        printFieldDescendingPriceCommand.activate(trimCommand[1]);
+                        printFieldDescendingPriceCommand.activate();
                         break;
                     default:
                         System.out.println("Неопознанная команда. Наберите 'help' для получения доступных команд.");

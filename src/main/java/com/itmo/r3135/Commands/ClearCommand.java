@@ -1,5 +1,6 @@
-package com.itmo.r3135.ControlPackage;
+package com.itmo.r3135.Commands;
 
+import com.itmo.r3135.Control;
 import com.itmo.r3135.World.Product;
 
 import java.util.HashSet;
