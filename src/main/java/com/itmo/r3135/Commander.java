@@ -30,7 +30,9 @@ public class Commander {
             System.out.print("//: ");
             while (!command.equals("exit")) {
                 if (!commandReader.hasNextLine()) {
-                } else {
+                    break;
+                }
+                else {
                     command = commandReader.nextLine();
                 }
                 control.notify(command);
