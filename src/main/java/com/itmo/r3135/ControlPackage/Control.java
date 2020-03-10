@@ -1,4 +1,4 @@
-package com.itmo.r3135.Cantrol;
+package com.itmo.r3135.ControlPackage;
 
 import com.google.gson.*;
 import com.itmo.r3135.World.Product;

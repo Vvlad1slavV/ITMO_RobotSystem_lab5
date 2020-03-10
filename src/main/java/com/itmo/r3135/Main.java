@@ -1,6 +1,6 @@
 package com.itmo.r3135;
 
-import com.itmo.r3135.Cantrol.Control;
+import com.itmo.r3135.ControlPackage.Control;
 
 import java.io.IOException;
 
