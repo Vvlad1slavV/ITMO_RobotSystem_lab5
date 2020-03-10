@@ -17,6 +17,7 @@ public class VirtualStack {
     private ArrayList<File> activeScriptList;
     public ArrayList<String> virtualstack;
 
+
     {
         activeScriptList = new ArrayList<>();
         virtualstack = new ArrayList<>(1000);
@@ -24,10 +25,12 @@ public class VirtualStack {
 
     public ArrayList stackgenerate(String scriptAddress) throws IOException {
         Integer i = 0;
+
         if (checkFile(scriptAddress) == null) {
             return virtualstack;
         }
         ;
+
         virtualstack.addAll(i, readfile(checkFile(scriptAddress)));
         Integer w = virtualstack.size();
         try {
@@ -46,6 +49,7 @@ public class VirtualStack {
             }
         } catch (RecursionCycleException e) {
             System.out.println(e);
+            return null;
         }
         return virtualstack;
     }
