@@ -1,34 +1,66 @@
 package com.itmo.r3135;
 
 import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
+import com.itmo.r3135.Commands.*;
 import com.itmo.r3135.World.Product;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.util.*;
 
 /**
  * Класс хранящий в себе команды.
  */
-public class Control {
+public class Control implements Mediator {
     private LinkedList<File> activeScriptList;
-
+    private Gson gson;
     private File jsonFile;
     private HashSet<Product> products;
-    private Gson gson;
     private Date dateInitialization;
-    private Date dateSave;
+    public Date dateSave;
     private Date dateChange;
+
+    private LoadCollectionCommand loadCollectionCommand;
+    private AddCommand addCommand;
+    private ShowCommand showCommand;
+    private UpdeteIdCommand updeteIdCommand;
+    private HelpCommand helpCommand;
+    private RemoveByIdCommand removeByIdCommand;
+    private GroupCountingByCoordinatesCommand groupCountingByCoordinatesCommand;
+    private AddIfMinCommand addIfMinCommand;
+    private ClearCommand clearCommand;
+    private PrintFieldDescendingPriceCommand printFieldDescendingPriceCommand;
+    private FilterContainsNameCommand filterContainsNameCommand;
+    private RemoveLowerCommand removeLowerCommand;
+    private RemoveGreaterCommand removeGreaterCommand;
+    private ExitCommand exitCommand;
+    private ExecuteScriptCommand executeScriptCommand;
+    private SaveCommand saveCommand;
 
     //control methods
     {
         activeScriptList = new LinkedList<>();
         gson = new Gson();
         products = new HashSet();
+
+        addCommand = new AddCommand(this);
+        showCommand = new ShowCommand(this);
+        updeteIdCommand = new UpdeteIdCommand(this);
+        helpCommand = new HelpCommand(this);
+        removeByIdCommand = new RemoveByIdCommand(this);
+        groupCountingByCoordinatesCommand = new GroupCountingByCoordinatesCommand(this);
+        addIfMinCommand = new AddIfMinCommand(this);
+        loadCollectionCommand = new LoadCollectionCommand(this);
+        clearCommand = new ClearCommand(this);
+        printFieldDescendingPriceCommand = new PrintFieldDescendingPriceCommand(this);
+        filterContainsNameCommand = new FilterContainsNameCommand(this);
+        removeLowerCommand = new RemoveLowerCommand(this);
+        removeGreaterCommand = new RemoveGreaterCommand(this);
+        exitCommand = new ExitCommand(this);
+        executeScriptCommand = new ExecuteScriptCommand(this);
+        saveCommand = new SaveCommand(this);
     }
 
-    public Control(String filePath) throws IOException {
+    public Control(String filePath) {
         if (filePath == null) {
             System.out.println("Путь к файлу json не обнаружен.");
             System.exit(1);
@@ -51,384 +83,8 @@ public class Control {
             System.out.println("Заданный файл не в формате .json");
             System.exit(1);
         }
-        loadCollection();
+        loadCollectionCommand.activate();
         dateInitialization = dateSave = dateChange = new Date();
-
-    }
-
-    /**
-     * Выводит список доступных команд.
-     */
-    public void help() {
-        System.out.printf("%-30s%5s%n", "add {element}", "Добавить новый элемент в коллекцию");
-        System.out.printf("%-30s%5s%n", "update_id id", "Обновить значение элемента коллекции, id которого равен заданному");
-        System.out.printf("%-30s%5s%n", "remove_greater {element}", "Удалить из коллекции все элементы, превышающие заданный");
-        System.out.printf("%-30s%5s%n", "add_if_min {element}", "Добавить новый элемент в коллекцию, если его значение меньше, чем у наименьшего элемента этой коллекции");
-        System.out.printf("%-30s%5s%n", "remove_by_id id", "Удалить элемент из коллекции по его id");
-        System.out.printf("%-30s%5s%n", "execute_script file_name", "Считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.");
-        System.out.printf("%-30s%5s%n", "group_counting_by_coordinates", "Сгруппировать элементы коллекции по значению поля coordinates, вывести количество элементов в каждой группе");
-        System.out.printf("%-30s%5s%n", "filter_contains_name name", "Вывести элементы, значение поля name которых содержит заданную подстроку");
-        System.out.printf("%-30s%5s%n", "print_field_descending_price", "Вывести значения поля price в порядке убывания");
-        System.out.printf("%-30s%5s%n", "clear", "Очистить коллекцию");
-        System.out.printf("%-30s%5s%n", "save", "Сохранить коллекцию в файл");
-        System.out.printf("%-30s%5s%n", "exit", "Завершить программу (без сохранения в файл)");
-    }
-
-    /**
-     * Функция выводит на экран все элементы коллекции.
-     */
-    public void show() {
-        if (products.size() != 0)
-            for (Product product : products) System.out.println(product);
-        else System.out.println("Коллекция пуста.");
-    }
-
-    /**
-     * Добавляет элемент в коллекцию.
-     *
-     * @param jsonString строка в элемента в формате json.
-     */
-    public void add(String jsonString) {
-        try {
-            Product addProduct = gson.fromJson(jsonString, Product.class);
-            addProduct.setCreationDate(java.time.LocalDateTime.now());
-            addProduct.setId(uniqueoIdGeneration(products));
-            if (addProduct.checkNull()) {
-                System.out.println("Элемент не удовлетворяет требованиям коллекции");
-            } else if (products.add(addProduct)) {
-                System.out.println("Элемент успешно добавлен.");
-            }
-        } catch (JsonSyntaxException ex) {
-            System.out.println("Возникла ошибка синтаксиса Json. Элемент не был добавлен");
-        }
-        dateChange = new Date();
-    }
-
-    //генератор незанятого id
-    private int uniqueoIdGeneration(HashSet<Product> products) {
-        Random r = new Random();
-        int newId;
-        int counter;
-        while (true) {
-            counter = 0;
-            newId = Math.abs(r.nextInt());
-            for (Product product : products) {
-                if (product.getId() == newId) {
-                    break;
-                } else counter++;
-            }
-            if (counter == products.size()) {
-                return newId;
-            }
-        }
-    }
-
-    /**
-     * Заменяет в колеекции элемент с определенным id.
-     *
-     * @param s строка, содержащая id заменяемого элемента коллекции и новый элементт в формате json. id и документ json разделены пробелом.
-     */
-    public void updateId(String s) {
-        try {
-            String id = s.split(" ", 2)[0];
-            String elem = s.split(" ", 2)[1];
-            Product newProduct = gson.fromJson(elem, Product.class);
-            int startSize = products.size();
-            if (newProduct.checkNull()) {
-                System.out.println("Элемент не удовлетворяет требованиям коллекции");
-            } else {
-                removeById(id);
-                newProduct.setCreationDate(java.time.LocalDateTime.now());
-                newProduct.setId(Integer.parseInt(id));
-                if (startSize - products.size() == 1)
-                    if (products.add(newProduct)) {
-                        System.out.println("Элемент успешно обновлён.");
-                    } else System.out.println("При замене элементов что-то пошло не так");
-            }
-        } catch (JsonSyntaxException ex) {
-            System.out.println("Возникла ошибка при замене элемента");
-        }
-        dateChange = new Date();
-    }
-
-    /**
-     * Удаляет элемент по его id.
-     *
-     * @param id id удаляемого элемента.
-     */
-    public void removeById(String id) {
-        int startSize = products.size();
-        if (products.size() > 0) {
-            for (Product p : products) {
-                if (p.getId() == Integer.parseInt(id)) {
-                    products.remove(p);
-                    System.out.println("Элемент коллекции успешно удалён.");
-                    break;
-                }
-            }
-            if (startSize == products.size()) {
-                System.out.println("Элемент с id " + id + " не существует.");
-            }
-        } else System.out.println("Коллекция пуста.");
-        dateChange = new Date();
-    }
-
-    /**
-     * Очищает коллекцию.
-     */
-    public void clear() {
-        products.clear();
-        System.out.println("Коллекция очищена.");
-        dateChange = new Date();
-    }
-
-    /**
-     * Сохраняет все изменения коллекции в открытый файл.
-     *
-     * @throws IOException
-     */
-    public void save() throws IOException {
-        if (!jsonFile.exists()) {
-            System.out.println(("Невозможно сохранить файл. Файл по указанному пути (" + jsonFile.getAbsolutePath() + ") не существует."));
-        } else if (!jsonFile.canRead() || !jsonFile.canWrite()) {
-            System.out.println("Невозможно сохранить файл. Файл защищён от чтения и(или) записи.");
-        } else {
-            FileWriter fileWriter = new FileWriter(jsonFile);
-            try {
-                fileWriter.write(gson.toJson(products));
-                fileWriter.flush();
-                System.out.println("Файл успешно сохранён.");
-            } catch (Exception ex) {
-                System.out.println("При записи файла что-то пошло не так.");
-            } finally {
-                fileWriter.close();
-            }
-            dateSave = new Date();
-        }
-    }
-
-    /**
-     * Выполняет скрипт записанный в файле.
-     * В программе стоит ограничение на выполнение рекурсивных итераций в цикле - 20 вложенных циклов. Мы не рекомендуем вызывать скрипты в самом скрипте.
-     *
-     * @param addres адрес скрипта в системе.
-     * @throws IOException
-     */
-    public void executeScript(String addres) throws IOException {
-        File script = new File(addres);
-        if (!script.exists() || !script.isFile()) {
-            System.out.println(("Файл по указанному пути (" + script.getAbsolutePath() + ") не существует."));
-            return;
-        }
-        if (!script.canRead()) {
-            System.out.println("Файл защищён от чтения.");
-            return;
-        }
-        if (script.length() == 0) {
-            System.out.println("Скрипт не содержит команд.");
-            return;
-        }
-        if (activeScriptList.lastIndexOf(script) == -1) {
-            activeScriptList.add(script);
-            try (BufferedReader scriptReader = new BufferedReader(new FileReader(script))) {
-                String scriptCommand = scriptReader.readLine();
-                String[] trimScriptCommand;
-                while (scriptCommand != null) {
-                    trimScriptCommand = scriptCommand.trim().split(" ", 2);
-                    try {
-                        switch (trimScriptCommand[0]) {
-                            case "":
-                                break;
-                            case "help":
-                                this.help();
-                                break;
-                            case "info":
-                                this.info();
-                                break;
-                            case "show":
-                                this.show();
-                                break;
-                            case "add":
-                                this.add(trimScriptCommand[1]);
-                                break;
-                            case "update_id":
-                                this.updateId(trimScriptCommand[1]);
-                                break;
-                            case "remove_by_id":
-                                this.removeById(trimScriptCommand[1]);
-                                break;
-                            case "clear":
-                                this.clear();
-                                break;
-                            case "save":
-                                this.save();
-                                break;
-                            case "execute_script":
-                                this.executeScript(trimScriptCommand[1]);
-                                break;
-                            case "exit":
-                                this.exit();
-                                break;
-                            case "add_if_min ":
-                                this.addIfMin(trimScriptCommand[1]);
-                                break;
-                            case "remove_greater":
-                                this.removeGreater(trimScriptCommand[1]);
-                                break;
-                            case "remove_lower":
-                                this.removeLower(trimScriptCommand[1]);
-                                break;
-                            case "group_counting_by_coordinates":
-                                this.groupCountingByCoordinates();
-                                break;
-                            case "filter_contains_name":
-                                this.filterContainsName(trimScriptCommand[1]);
-                                break;
-                            case "print_field_descending_price":
-                                this.printFieldDescendingPrice();
-                                break;
-                            default:
-                                System.out.println("Неопознанная команда.");
-                        }
-                    } catch (ArrayIndexOutOfBoundsException ex) {
-                        System.out.println("Отсутствует аргумент." + trimScriptCommand[0]);
-                    }
-                    scriptCommand = scriptReader.readLine();
-                }
-                System.out.println("Выполнен скрипт " + script.toString());
-                activeScriptList.removeLast();
-            }
-        } else System.out.println("Обнаружен цикл в исполнии скриптов. Тело цикла выполнено один раз.");
-    }
-
-
-    /**
-     * Добавляет новый элемент в коллекцию, если его значение меньше, чем у наименьшего элемента этой коллекции.
-     *
-     * @param s сторка элемента в формате json.
-     */
-    public void addIfMin(String s) {
-        try {
-            if (products.size() != 0) {
-                Product addProduct = gson.fromJson(s, Product.class);
-                Product minElem = Collections.min(products);
-                if (addProduct.compareTo(minElem) < 0) {
-                    add(s);
-                } else System.out.println("Элемент не минимальный!");
-            } else System.out.println("Коллекция пуста, минимальный элемент отсутствует.");
-        } catch (JsonSyntaxException ex) {
-            System.out.println("Возникла ошибка синтаксиса Json. Элемент не был добавлен");
-        }
-        dateChange = new Date();
-    }
-
-    /**
-     * Удаляет из коллекции все элементы, превышающие заданный.
-     *
-     * @param jsonString сторка элемента в формате json.
-     */
-    public void removeGreater(String jsonString) {
-        try {
-            int startSize = products.size();
-            if (startSize != 0) {
-                Product maxProduct = gson.fromJson(jsonString, Product.class);
-                products.removeIf(p -> (p != null && p.compareTo(maxProduct) > 0));
-                System.out.println("Удалено " + (startSize - products.size()) + " элементов");
-
-            } else System.out.println("Коллекция пуста.");
-        } catch (JsonSyntaxException ex) {
-            System.out.println("Возникла ошибка синтаксиса Json.");
-        }
-        dateChange = new Date();
-    }
-
-    /**
-     * Удаляет из коллекции все элементы, меньшие, чем заданный.
-     *
-     * @param jsonString сторка элемента в формате json.
-     */
-    public void removeLower(String jsonString) {
-        try {
-            int startSize = products.size();
-            if (startSize != 0) {
-                Product maxProduct = gson.fromJson(jsonString, Product.class);
-                products.removeIf(p -> (p != null && p.compareTo(maxProduct) < 0));
-                System.out.println("Удалено " + (startSize - products.size()) + " элементов");
-            } else System.out.println("Коллекция пуста");
-        } catch (JsonSyntaxException ex) {
-            System.out.println("Возникла ошибка синтаксиса Json.");
-        }
-        dateChange = new Date();
-    }
-
-    /**
-     * Группирует элементы коллекции по кординатам на 4 четверти.
-     */
-    public void groupCountingByCoordinates() {
-        if (!products.isEmpty()) {
-            for (int i = 1; i <= 4; i++) {
-                System.out.println("Элементы " + i + " координатной четверти:");
-                for (Product p : products) {
-                    float x = p.getCoordinates().getX();
-                    double y = p.getCoordinates().getY();
-                    switch (i) {
-                        case 1:
-                            if (x >= 0 & y >= 0)
-                                System.out.println(p);
-                            break;
-                        case 2:
-                            if (x < 0 & y >= 0)
-                                System.out.println(p);
-                            break;
-                        case 3:
-                            if (x < 0 & y < 0)
-                                System.out.println(p);
-                            break;
-                        case 4:
-                            if (x >= 0 & y < 0)
-                                System.out.println(p);
-                            break;
-                    }
-                }
-            }
-        } else System.out.println("Коллекция пуста.");
-    }
-
-    /**
-     * Выводит элементы, значение поля name которых содержит заданную подстроку.
-     *
-     * @param name значение name для поиска.
-     */
-    public void filterContainsName(String name) {
-        int findProdukts = 0;
-        if (products.size() > 0) {
-            if (!name.isEmpty() && name != null) {
-                for (Product p : products) {
-                    if (p.getName().contains(name)) {
-                        System.out.println(p);
-                        findProdukts++;
-                    }
-                }
-                System.out.println("Всего найдено " + findProdukts + " элементов.");
-            } else System.out.println("Ошибка ввода имени.");
-        } else System.out.println("Коллекция пуста.");
-    }
-
-    /**
-     * Выводит коллекцию, отсортированную по цене в порядке убывания.
-     */
-    public void printFieldDescendingPrice() {
-        if (!products.isEmpty()) {
-            ArrayList<Product> list = new ArrayList<>();
-            for (Product p : products) {
-                list.add(p);
-            }
-            list.sort((o1, o2) -> (int) ((o1.getPrice() - o2.getPrice()) * 100));
-            System.out.printf("%-12s%5s%n", "ID", "Price");
-            for (Product p : list) {
-                System.out.printf("%-12d%5.2f%n", p.getId(), p.getPrice());
-            }
-        } else System.out.println("Коллекция пуста.");
     }
 
     /**
@@ -442,52 +98,87 @@ public class Control {
                 "\nКоличество элементов: " + products.size());
     }
 
-    public void loadCollection() throws IOException {
-        int startSize = products.size();
-        if (!jsonFile.exists()) {
-            System.out.println(("Файл по указанному пути (" + jsonFile.getAbsolutePath() + ") не существует."));
-            System.exit(666);
-        }
-        if (!jsonFile.canRead() || !jsonFile.canWrite()) {
-            System.out.println("Файл защищён от чтения и(или) записи. Для работы коректной программы нужны оба разрешения.");
-            System.exit(666);
-        }
-        if (jsonFile.length() == 0) {
-            System.out.println("Файл пуст. Возможно только добавление элементов в коллекцию.");
-            return;
-        }
-
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(jsonFile))) {
-            System.out.println("Идет загрузка коллекции из файла " + jsonFile.getAbsolutePath());
-            StringBuilder stringBuilder = new StringBuilder();
-            String nextString;
-            while ((nextString = bufferedReader.readLine()) != null) {
-                stringBuilder.append(nextString);
-            }
-            Type typeOfCollectoin = new TypeToken<HashSet<Product>>() {
-            }.getType();
+    @Override
+    public void notify(String textCommand) {
+        String[] trimCommand = textCommand.trim().split(" ", 2);
+        try {
             try {
-                HashSet<Product> addedProduct = gson.fromJson(stringBuilder.toString(), typeOfCollectoin);
-                for (Product p : addedProduct) {
-                    if (p.checkNull()) {
-                        throw new JsonSyntaxException("");
-                    }
-                    products.add(p);
+                switch (trimCommand[0]) {
+                    case "":
+                        System.out.println("Команда отсутствует");
+                        break;
+                    case "help":
+                        helpCommand.activate();
+                        break;
+                    case "info":
+                        info();
+                        break;
+                    case "show":
+                        showCommand.activate();
+                        break;
+                    case "add":
+                        addCommand.activate(trimCommand[1]);
+                        dateChange = new Date();
+                        break;
+                    case "update":
+                        updeteIdCommand.activate(trimCommand[1]);
+                        dateChange = new Date();
+                        break;
+                    case "remove_by_id":
+                        removeByIdCommand.activate(trimCommand[1]);
+                        dateChange = new Date();
+                        break;
+                    case "clear":
+                        clearCommand.activate();
+                        dateChange = new Date();
+                        break;
+                    case "save":
+                        saveCommand.activate();
+                        break;
+                    case "execute_script":
+                        executeScriptCommand.activate(trimCommand[1]);
+                        break;
+                    case "exit":
+                        exitCommand.activate();
+                        break;
+                    case "add_if_min":
+                        addIfMinCommand.activate(trimCommand[1]);
+                        dateChange = new Date();
+                        break;
+                    case "remove_greater":
+                        removeGreaterCommand.activate(trimCommand[1]);
+                        dateChange = new Date();
+                        break;
+                    case "remove_lower":
+                        removeLowerCommand.activate(trimCommand[1]);
+                        dateChange = new Date();
+                        break;
+                    case "group_counting_by_coordinates":
+                        groupCountingByCoordinatesCommand.activate();
+                        break;
+                    case "filter_contains_name":
+                        filterContainsNameCommand.activate(trimCommand[1]);
+                        break;
+                    case "print_field_descending_price":
+                        printFieldDescendingPriceCommand.activate();
+                        break;
+                    default:
+                        System.out.println("Неопознанная команда. Наберите 'help' для получения доступных команд.");
                 }
-            } catch (JsonSyntaxException e) {
-                System.out.println("Ошибка синтаксиса Json. Файл не может быть загружен.");
-                System.exit(666);
+            } catch (NumberFormatException ex) {
+                System.out.println("Где-то проблема с форматом записи числа.Команда не выполнена");
             }
-            System.out.println("Коллекций успешно загружена. Добавлено " + (products.size() - startSize) + " элементов.");
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            System.out.println("Отсутствует аргумент.");
         }
     }
 
-    /**
-     * Закрывает программу без сохранения.
-     */
-    public void exit() {
-        System.exit(0);
+    public File getJsonFile() {
+        return jsonFile;
     }
 
+    public HashSet<Product> getProducts() {
+        return products;
+    }
 
 }

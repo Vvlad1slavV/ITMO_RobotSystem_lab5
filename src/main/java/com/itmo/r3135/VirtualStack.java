@@ -46,7 +46,7 @@ public class VirtualStack {
             } else System.out.println("Обнаружен цикл в исполнии скриптов.");
         return "";
         }
-}
+
 
     private LinkedList readfile(File script) throws IOException{
     LinkedList<String> CommandList = new LinkedList<>();
