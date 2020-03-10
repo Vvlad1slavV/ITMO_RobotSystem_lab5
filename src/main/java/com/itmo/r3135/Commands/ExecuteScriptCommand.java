@@ -2,10 +2,15 @@ package com.itmo.r3135.Commands;
 
 import com.itmo.r3135.Control;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class ExecuteScriptCommand extends AbstractCommand {
     public ExecuteScriptCommand(Control control) {
         super(control);
     }
+
     /**
      * Выполняет скрипт записанный в файле.
      * В программе стоит ограничение на выполнение рекурсивных итераций в цикле - 20 вложенных циклов. Мы не рекомендуем вызывать скрипты в самом скрипте.
@@ -15,6 +20,28 @@ public class ExecuteScriptCommand extends AbstractCommand {
     @Override
     public void activate(String addres) {
 
+        File script = new File(addres);
+        if (!script.exists() || !script.isFile()) {
+            System.out.println(("Файл по указанному пути (" + script.getAbsolutePath() + ") не существует."));
+            return;
+        }
+        if (!script.canRead()) {
+            System.out.println("Файл защищён от чтения.");
+            return;
+        }
+        if (script.length() == 0) {
+            System.out.println("Скрипт не содержит команд.");
+            return;
+        }
+        try {
+            VirtualStack virtualStack = new VirtualStack();
+            ArrayList<String> commands = virtualStack.stackgenerate(addres);
+            for (String command : commands) {
+                control.notify(command);
+            }
+        } catch (IOException e) {
+            System.out.println("Ошибка работы с файлами.");
+        }
     }
 
     /*
