@@ -12,7 +12,7 @@ public class ExitCommand extends AbstractCommand {
      */
     @Override
     public void activate(String input) {
-        System.out.println("Работа программы завершена");
+        System.out.println("Работа программы завершена командой 'exit'");
         System.exit(0);
     }
 }

@@ -1,5 +1,7 @@
 package com.itmo.r3135;
 
+import com.itmo.r3135.Commands.VirtualStack;
+
 import java.io.IOException;
 
 /**
@@ -13,13 +15,10 @@ public class Main {
         }
         Picture.gamepad();
 
-        VirtualStack vr = new  VirtualStack();
-        vr.stackgenerate("D:\\java\\ITMO_RobotSystem_lab5\\PS\\script0.txt");
-        System.out.println(vr.virtualstack.size());
         if (args.length != 0) {
             Commander commander = new Commander(new Control(args[0]));
             commander.interactiveMod();
-        } else System.out.println("Адрес файла не был обнаружен");
+        } else System.out.println("Адрес файла не был обнаружен. Для Корректной работы программы при запуске в аргументах укажите путь к файлу JSON");
     }
 }
 

@@ -1,9 +1,7 @@
 package com.itmo.r3135.Commands;
 
 import com.itmo.r3135.Control;
-import com.itmo.r3135.VirtualStack;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -20,25 +18,18 @@ public class ExecuteScriptCommand extends AbstractCommand {
      */
     @Override
     public void activate(String addres) {
-
-        File script = new File(addres);
-        if (!script.exists() || !script.isFile()) {
-            System.out.println(("Файл по указанному пути (" + script.getAbsolutePath() + ") не существует."));
-            return;
-        }
-        if (!script.canRead()) {
-            System.out.println("Файл защищён от чтения.");
-            return;
-        }
-        if (script.length() == 0) {
-            System.out.println("Скрипт не содержит команд.");
-            return;
-        }
         try {
+            System.out.println("Начинается анализ скрипта. Это может занять некоторое время");
             VirtualStack virtualStack = new VirtualStack();
-            ArrayList<String> commands = virtualStack.stackgenerate(addres);
-            for (String command : commands) {
-                control.notify(command);
+            ArrayList<String> commands = virtualStack.stackGenerate(addres);
+            if (!commands.isEmpty()) {
+                System.out.println("Запуск выполнения скрипта.");
+                for (String command : commands) {
+                    control.processing(command);
+                }
+                System.out.println("Скрипт выполнен.");
+            } else {
+                System.out.println("Невозможно прочитать скрипт или скрипт пуст.");
             }
         } catch (IOException e) {
             System.out.println("Ошибка работы с файлами.");

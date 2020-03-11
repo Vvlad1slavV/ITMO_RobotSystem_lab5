@@ -26,7 +26,7 @@ public class AddIfMinCommand extends AbstractCommand {
                 Product addProduct = gson.fromJson(jsonString, Product.class);
                 Product minElem = Collections.min(products);
                 if (addProduct.compareTo(minElem) < 0) {
-                    control.notify("add " + jsonString);
+                    control.processing("add " + jsonString);
                 } else System.out.println("Элемент не минимальный!");
             } else System.out.println("Коллекция пуста, минимальный элемент отсутствует.");
         } catch (JsonSyntaxException ex) {

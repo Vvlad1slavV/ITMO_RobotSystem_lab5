@@ -1,60 +1,47 @@
-package com.itmo.r3135;
-
-import com.google.gson.Gson;
-import com.itmo.r3135.Exception.RecursionCycleException;
+package com.itmo.r3135.Commands;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Stack;
-//123
+/**
+ * Класс для извлечения команд из скрипта.
+ */
 public class VirtualStack {
     private ArrayList<File> activeScriptList;
-    public ArrayList<String> virtualstack;
-
+    private ArrayList<String> commandStack;
 
     {
         activeScriptList = new ArrayList<>();
-        virtualstack = new ArrayList<>(1000);
+        commandStack = new ArrayList<>(1000);
     }
-
-    public ArrayList stackgenerate(String scriptAddress) throws IOException {
-        Integer i = 0;
-
+    /**
+     * Класс для извлечения команд из скрипта.
+     */
+    protected ArrayList stackGenerate(String scriptAddress) throws IOException {
+        int i = 0;
         if (checkFile(scriptAddress) == null) {
-            return virtualstack;
+            return commandStack;
         }
-        ;
-
-        virtualstack.addAll(i, readfile(checkFile(scriptAddress)));
-        Integer w = virtualstack.size();
-        try {
-            while (i < w) {
-                if (commandCheck(virtualstack.get(i))) {
-                    scriptAddress = getAddressScript(virtualstack.get(i));
-                    virtualstack.remove(virtualstack.get(i));
-                    if (checkFile(scriptAddress) == null) {
-                        System.out.println("Битая ссылка на скрипт " + scriptAddress);
-                        break;
-                    }
-                    ;
-                    insertScript(readfile(checkFile(scriptAddress)), i);
-                    w = virtualstack.size();
-                } else i++;
-            }
-        } catch (RecursionCycleException e) {
-            System.out.println(e);
-            return null;
+        commandStack.addAll(i, readFile(checkFile(scriptAddress)));
+        int w = commandStack.size();
+        while (i < w) {
+            if (commandCheck(commandStack.get(i))) {
+                scriptAddress = getAddressScript(commandStack.get(i));
+                commandStack.remove(commandStack.get(i));
+                if (checkFile(scriptAddress) == null) {
+                    break;
+                }
+                insertScript(readFile(checkFile(scriptAddress)), i);
+                w = commandStack.size();
+            } else i++;
         }
-        return virtualstack;
+        return commandStack;
     }
 
-    private LinkedList readfile(File script) throws IOException, RecursionCycleException {
+    private LinkedList readFile(File script) throws IOException {
         LinkedList<String> CommandList = new LinkedList<>();
         if (activeScriptList.indexOf(script) == -1) {
             activeScriptList.add(script);
@@ -73,7 +60,9 @@ public class VirtualStack {
         return CommandList;
     }
 
-
+    /**
+     * Метод проверки файла возвращает null, если есть проблемы
+     */
     private File checkFile(String addres) {
         File script = new File(addres);
         if (!script.exists() || !script.isFile()) {
@@ -98,17 +87,17 @@ public class VirtualStack {
     }
 
     private Boolean commandCheck(String command) {
-        if (command == null) return false;
-        String[] trimScriptCommand;
-        trimScriptCommand = command.trim().split(" ", 2);
-        if (trimScriptCommand[0].equals("execute_script")) {
-            return true;
-        } else
-            return false;
+        if (command != null) {
+            String[] trimScriptCommand;
+            trimScriptCommand = command.trim().split(" ", 2);
+            if (trimScriptCommand[0].equals("execute_script"))
+                return true;
+        }
+        return false;
     }
 
     private void insertScript(LinkedList commandList, Integer index) {
-        virtualstack.addAll(index, commandList);
+        commandStack.addAll(index, commandList);
     }
 
 

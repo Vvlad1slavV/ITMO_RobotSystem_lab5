@@ -29,7 +29,7 @@ public class UpdeteIdCommand extends AbstractCommand {
             if (newProduct.checkNull()) {
                 System.out.println("Элемент не удовлетворяет требованиям коллекции");
             } else {
-                control.notify("remove_by_id " + id);
+                control.processing("remove_by_id " + id);
                 newProduct.setCreationDate(java.time.LocalDateTime.now());
                 newProduct.setId(Integer.parseInt(id));
                 if (startSize - products.size() == 1)
