@@ -34,9 +34,7 @@ public class VirtualStack {
             if (commandCheck(commandStack.get(i))) {
                 scriptAddress = getAddressScript(commandStack.get(i));
                 commandStack.remove(commandStack.get(i));
-                if (checkFile(scriptAddress) == null) {
-                    commandStack.remove(i);
-                } else {
+                if (checkFile(scriptAddress) != null) {
                     insertScript(readFile(checkFile(scriptAddress)), i);
                 }
                 stackSize = commandStack.size();
