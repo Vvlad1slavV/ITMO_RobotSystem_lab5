@@ -17,7 +17,7 @@ public class VirtualStack {
 
     {
         activeScriptList = new ArrayList<>();
-        commandStack = new ArrayList<>(1000);
+        commandStack = new ArrayList<>(100000);
     }
 
     /**
@@ -49,6 +49,7 @@ public class VirtualStack {
         if (activeScriptList.indexOf(script) == -1) {
             activeScriptList.add(script);
             try (BufferedReader scriptReader = new BufferedReader(new FileReader(script))) {
+                System.out.println("Анализ файла "+ script.getAbsolutePath());
                 String scriptCommand = scriptReader.readLine();
                 while (scriptCommand != null) {
                     if (commandCheck(scriptCommand)) {
