@@ -1,10 +1,9 @@
 package com.itmo.r3135;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * Класс для управления командами.
+ * Класс для читывания команд из командной строки.
  */
 public class Commander {
 
@@ -22,10 +21,8 @@ public class Commander {
     /**
      * Промежуточный метод для использования команд управления коллекцией.
      * Для выхода используйте команду exit
-     *
-     * @throws IOException
      */
-    public void interactiveMod() throws IOException {
+    public void interactiveMod(){
         try (Scanner commandReader = new Scanner(System.in)) {
             System.out.print("//: ");
             while (!command.equals("exit")) {
@@ -35,10 +32,9 @@ public class Commander {
                 else {
                     command = commandReader.nextLine();
                 }
-                control.notify(command);
+                control.processing(command);
                 System.out.print("//: ");
             }
         }
     }
 }
-//123

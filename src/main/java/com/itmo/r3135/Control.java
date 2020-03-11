@@ -8,9 +8,9 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Класс хранящий в себе команды.
+ * Класс основной, управляющий командами.
  */
-public class Control implements Mediator {
+public class Control {
     private LinkedList<File> activeScriptList;
     private Gson gson;
     private File jsonFile;
@@ -36,7 +36,7 @@ public class Control implements Mediator {
     private ExecuteScriptCommand executeScriptCommand;
     private SaveCommand saveCommand;
 
-    //control methods
+
     {
         activeScriptList = new LinkedList<>();
         gson = new Gson();
@@ -88,7 +88,7 @@ public class Control implements Mediator {
     }
 
     /**
-     * Выводит информацию о загруженной коллекции.
+     * Выводит информацию о текущей коллекции.
      */
     public void info() {
         System.out.println("Дата загрузки: " + dateInitialization +
@@ -98,8 +98,7 @@ public class Control implements Mediator {
                 "\nКоличество элементов: " + products.size());
     }
 
-    @Override
-    public void notify(String textCommand) {
+    public void processing(String textCommand) {
         String[] trimCommand = textCommand.trim().split(" ", 2);
         try {
             try {
