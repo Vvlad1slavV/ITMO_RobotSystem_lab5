@@ -18,7 +18,6 @@ public class Main {
             Commander commander = new Commander(new Control(args[0]));
             commander.interactiveMod();
         } else System.out.println("Адрес файла не был обнаружен. Для Корректной работы программы при запуске в аргументах укажите путь к файлу JSON");
-
     }
 }
 

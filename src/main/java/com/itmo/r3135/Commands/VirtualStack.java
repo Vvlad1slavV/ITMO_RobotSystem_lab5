@@ -1,5 +1,7 @@
 package com.itmo.r3135.Commands;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -14,10 +16,13 @@ public class VirtualStack {
     private ArrayList<File> activeScriptList;
     private ArrayList<String> commandStack;
     private File currentFile;
+    private ArrayList<String> lastRemove;
+
 
     {
         activeScriptList = new ArrayList<>();
         commandStack = new ArrayList<>(100000);
+        lastRemove = new ArrayList<>();
     }
 
     /**
@@ -34,6 +39,10 @@ public class VirtualStack {
             if (commandCheck(commandStack.get(i))) {
                 scriptAddress = getAddressScript(commandStack.get(i));
                 commandStack.remove(commandStack.get(i));
+                if (getExecuteFromLastFile(activeScriptList.get(activeScriptList.size()-1)).equals(lastRemove)){
+                    lastRemove.clear();
+                    activeScriptList.remove(activeScriptList.size()-1);
+                }
                 if (checkFile(scriptAddress) != null) {
                     insertScript(readFile(checkFile(scriptAddress)), i);
                 }
@@ -48,6 +57,7 @@ public class VirtualStack {
         LinkedList<String> CommandList = new LinkedList<>();
         if (activeScriptList.indexOf(script) == -1) {
             activeScriptList.add(script);
+            lastRemove.clear();
             try (BufferedReader scriptReader = new BufferedReader(new FileReader(script))) {
                 System.out.println("Анализ файла "+ script.getAbsolutePath());
                 String scriptCommand = scriptReader.readLine();
@@ -61,8 +71,24 @@ public class VirtualStack {
             }
         } else {
             System.out.println("Обнаружен цикл!");
-            while (activeScriptList.size() - activeScriptList.indexOf(script) > 2)
-                activeScriptList.remove(activeScriptList.size() - 1);
+            lastRemove.add(script.getAbsolutePath());
+            //activeScriptList.remove(activeScriptList.size() - 1);
+        }
+        return CommandList;
+    }
+
+    private ArrayList getExecuteFromLastFile(File script) throws IOException {
+        ArrayList<String> CommandList = new ArrayList<>();
+
+        try (BufferedReader scriptReader = new BufferedReader(new FileReader(script))) {
+            String scriptCommand = scriptReader.readLine();
+            while (scriptCommand != null) {
+                if (commandCheck(scriptCommand)) {
+                    scriptCommand = relativeToAbsolutePath(scriptCommand);
+                    CommandList.add(getAddressScript(scriptCommand));
+                }
+                scriptCommand = scriptReader.readLine();
+            }
         }
         return CommandList;
     }
