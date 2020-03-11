@@ -1,7 +1,6 @@
 package com.itmo.r3135;
 
-import com.itmo.r3135.Commands.VirtualStack;
-
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -9,7 +8,7 @@ import java.io.IOException;
  */
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         for (int i = 0; i < 10; i++) {
             System.out.println("add " + Generator.nextGsonProduct());
         }
@@ -19,6 +18,7 @@ public class Main {
             Commander commander = new Commander(new Control(args[0]));
             commander.interactiveMod();
         } else System.out.println("Адрес файла не был обнаружен. Для Корректной работы программы при запуске в аргументах укажите путь к файлу JSON");
+
     }
 }
 

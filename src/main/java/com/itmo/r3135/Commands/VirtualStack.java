@@ -6,17 +6,20 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+
 /**
  * Класс для извлечения команд из скрипта.
  */
 public class VirtualStack {
     private ArrayList<File> activeScriptList;
     private ArrayList<String> commandStack;
+    private File currentFile;
 
     {
         activeScriptList = new ArrayList<>();
         commandStack = new ArrayList<>(1000);
     }
+
     /**
      * Класс для извлечения команд из скрипта.
      */
@@ -26,28 +29,33 @@ public class VirtualStack {
             return commandStack;
         }
         commandStack.addAll(i, readFile(checkFile(scriptAddress)));
-        int w = commandStack.size();
-        while (i < w) {
+        int stackSize = commandStack.size();
+        while (i < stackSize) {
             if (commandCheck(commandStack.get(i))) {
                 scriptAddress = getAddressScript(commandStack.get(i));
                 commandStack.remove(commandStack.get(i));
                 if (checkFile(scriptAddress) == null) {
-                    break;
+                    commandStack.remove(i);
+                } else {
+                    insertScript(readFile(checkFile(scriptAddress)), i);
                 }
-                insertScript(readFile(checkFile(scriptAddress)), i);
-                w = commandStack.size();
+                stackSize = commandStack.size();
             } else i++;
         }
         return commandStack;
     }
 
     private LinkedList readFile(File script) throws IOException {
+        currentFile = script;
         LinkedList<String> CommandList = new LinkedList<>();
         if (activeScriptList.indexOf(script) == -1) {
             activeScriptList.add(script);
             try (BufferedReader scriptReader = new BufferedReader(new FileReader(script))) {
                 String scriptCommand = scriptReader.readLine();
                 while (scriptCommand != null) {
+                    if (commandCheck(scriptCommand)) {
+                        scriptCommand = relativeToAbsolutePath(scriptCommand);
+                    }
                     CommandList.addLast(scriptCommand);
                     scriptCommand = scriptReader.readLine();
                 }
@@ -61,10 +69,26 @@ public class VirtualStack {
     }
 
     /**
+     * Метод заменяет абсолютный путь на относителный
+     */
+    private String relativeToAbsolutePath(String nextExecute) {
+        String nextFilePath = nextExecute.trim().split(" ", 2)[1];
+        if (nextFilePath != null) {
+            File nextFile = new File(nextFilePath);
+            if (!nextFile.isAbsolute()) {
+                String newExecute = "execute_script " + currentFile.getAbsolutePath().replace(currentFile.getName(), nextFile.getPath());
+                return newExecute;
+            }
+        }
+        return nextExecute;
+    }
+
+    /**
      * Метод проверки файла возвращает null, если есть проблемы
      */
     private File checkFile(String addres) {
         File script = new File(addres);
+
         if (!script.exists() || !script.isFile()) {
             System.out.println(("Файл по указанному пути (" + script.getAbsolutePath() + ") не существует."));
             return null;
