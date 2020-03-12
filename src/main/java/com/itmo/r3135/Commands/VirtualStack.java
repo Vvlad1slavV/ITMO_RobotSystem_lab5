@@ -11,60 +11,99 @@ import java.util.LinkedList;
  * Класс для извлечения команд из скрипта.
  */
 public class VirtualStack {
-    private ArrayList<File> activeScriptList;
+    private LinkedList<File> activeScriptList;
     private ArrayList<String> commandStack;
     private File currentFile;
-
+    private String marker;
     {
-        activeScriptList = new ArrayList<>();
+        marker = " ..%!marker!.. ";
+        activeScriptList = new LinkedList<>();
         commandStack = new ArrayList<>(100000);
+
     }
 
     /**
-     * Класс для извлечения команд из скрипта.
+     * Омновной метод
      */
     protected ArrayList stackGenerate(String scriptAddress) throws IOException {
         int i = 0;
         if (checkFile(scriptAddress) == null) {
             return commandStack;
         }
+        currentFile = new File(scriptAddress);
+        activeScriptList.add(currentFile);
         commandStack.addAll(i, readFile(checkFile(scriptAddress)));
         int stackSize = commandStack.size();
         while (i < stackSize) {
             if (commandCheck(commandStack.get(i))) {
-                scriptAddress = getAddressScript(commandStack.get(i));
-                commandStack.remove(commandStack.get(i));
-                if (checkFile(scriptAddress) != null) {
-                    insertScript(readFile(checkFile(scriptAddress)), i);
+                String marker = getMarker(commandStack.get(i));
+                String execute = deMarker(commandStack.get(i));
+                File executeFile = new File(getAddressScript(execute));
+                if (currentFile.equals(new File(marker))) {
+                    if (activeScriptList.lastIndexOf(executeFile) == -1) {
+                        activeScriptList.add(executeFile);
+                        scriptAddress = getAddressScript(execute);
+                        commandStack.remove(commandStack.get(i));
+                        if (checkFile(scriptAddress) != null) {
+                            currentFile = executeFile;
+                            insertScript(readFile(checkFile(scriptAddress)), i);
+                        }
+                    } else {
+                        System.out.println("Обнаружен цикл!");
+
+                        commandStack.remove(i);
+                    }
+                } else {
+                    activeScriptList.removeLast();
+                    currentFile = activeScriptList.getLast();
                 }
                 stackSize = commandStack.size();
             } else i++;
         }
         return commandStack;
     }
-
+    /**
+     * Метод, формирующий список команд из файла
+     */
     private LinkedList readFile(File script) throws IOException {
-        currentFile = script;
+        // currentFile = script;
         LinkedList<String> CommandList = new LinkedList<>();
-        if (activeScriptList.indexOf(script) == -1) {
-            activeScriptList.add(script);
-            try (BufferedReader scriptReader = new BufferedReader(new FileReader(script))) {
-                System.out.println("Анализ файла "+ script.getAbsolutePath());
-                String scriptCommand = scriptReader.readLine();
-                while (scriptCommand != null) {
-                    if (commandCheck(scriptCommand)) {
-                        scriptCommand = relativeToAbsolutePath(scriptCommand);
-                    }
-                    CommandList.addLast(scriptCommand);
-                    scriptCommand = scriptReader.readLine();
+
+        try (BufferedReader scriptReader = new BufferedReader(new FileReader(script))) {
+            System.out.println("Анализ файла " + script.getAbsolutePath());
+            String scriptCommand = scriptReader.readLine();
+            while (scriptCommand != null) {
+                if (commandCheck(scriptCommand)) {
+                    scriptCommand = relativeToAbsolutePath(scriptCommand);
+                    scriptCommand = parentFileMarker(scriptCommand);
                 }
+                CommandList.addLast(scriptCommand);
+                scriptCommand = scriptReader.readLine();
             }
-        } else {
-            System.out.println("Обнаружен цикл!");
-            while (activeScriptList.size() - activeScriptList.indexOf(script) > 2)
-                activeScriptList.remove(activeScriptList.size() - 1);
         }
+
         return CommandList;
+    }
+    /**
+     * Метод устанавливает метку файла, вызвавшего execute_script
+     */
+    private String parentFileMarker(String execute) {
+        String markedString = execute + marker + currentFile;
+        return markedString;
+    }
+    /**
+     * Метод снимает метку файла, вызвавшего execute_script
+     */
+    private String deMarker(String execute) {
+        String deMarkedString = execute.trim().split(marker, 2)[0];
+        return deMarkedString;
+    }
+    /**
+     * Метод возвращает метку файла, вызвавшего execute_script
+     */
+    private String getMarker(String execute) {
+        String MarkedString = ((execute.trim().split(marker, 2))[1]);
+        return MarkedString;
     }
 
     /**
@@ -102,13 +141,17 @@ public class VirtualStack {
         }
         return script;
     }
-
+    /**
+     * Метод выделяет адрес файла из команды
+     */
     private String getAddressScript(String command) {
         String[] trimScriptCommand;
         trimScriptCommand = command.trim().split(" ", 2);
         return trimScriptCommand[1];
     }
-
+    /**
+     * Метод проверяет команду на соответствие execute_script
+     */
     private Boolean commandCheck(String command) {
         if (command != null) {
             String[] trimScriptCommand;
