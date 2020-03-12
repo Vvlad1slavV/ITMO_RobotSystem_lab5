@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.TreeMap;
 
 /**
  * Класс для извлечения команд из скрипта.
@@ -17,12 +18,14 @@ public class VirtualStack {
     private ArrayList<String> commandStack;
     private File currentFile;
     private ArrayList<String> lastRemove;
+    private TreeMap<ArrayList<File>, String> derevo;
 
 
     {
         activeScriptList = new ArrayList<>();
         commandStack = new ArrayList<>(100000);
         lastRemove = new ArrayList<>();
+        derevo = new  TreeMap<>();
     }
 
     /**
@@ -39,9 +42,11 @@ public class VirtualStack {
             if (commandCheck(commandStack.get(i))) {
                 scriptAddress = getAddressScript(commandStack.get(i));
                 commandStack.remove(commandStack.get(i));
-                if (getExecuteFromLastFile(activeScriptList.get(activeScriptList.size()-1)).equals(lastRemove)){
+                while (getExecuteFromLastFile(activeScriptList.get(activeScriptList.size() - 1)).equals(lastRemove)) {
                     lastRemove.clear();
-                    activeScriptList.remove(activeScriptList.size()-1);
+                    lastRemove.add(activeScriptList.get(activeScriptList.size()-1).getAbsolutePath());
+                    activeScriptList.remove(activeScriptList.size() - 1);
+
                 }
                 if (checkFile(scriptAddress) != null) {
                     insertScript(readFile(checkFile(scriptAddress)), i);
@@ -59,7 +64,7 @@ public class VirtualStack {
             activeScriptList.add(script);
             lastRemove.clear();
             try (BufferedReader scriptReader = new BufferedReader(new FileReader(script))) {
-                System.out.println("Анализ файла "+ script.getAbsolutePath());
+                System.out.println("Анализ файла " + script.getAbsolutePath());
                 String scriptCommand = scriptReader.readLine();
                 while (scriptCommand != null) {
                     if (commandCheck(scriptCommand)) {
