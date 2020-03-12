@@ -6,7 +6,9 @@ import com.itmo.r3135.Control;
 import com.itmo.r3135.World.Product;
 
 import java.util.HashSet;
-
+/**
+ * Класс обработки комадны update_id
+ */
 public class UpdeteIdCommand extends AbstractCommand {
     public UpdeteIdCommand(Control control) {
         super(control);

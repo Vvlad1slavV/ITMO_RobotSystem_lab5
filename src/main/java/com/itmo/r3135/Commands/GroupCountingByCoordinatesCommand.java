@@ -4,7 +4,9 @@ import com.itmo.r3135.Control;
 import com.itmo.r3135.World.Product;
 
 import java.util.HashSet;
-
+/**
+ * Класс обработки комадны group_counting_by_coordinates
+ */
 public class GroupCountingByCoordinatesCommand extends AbstractCommand {
 
     public GroupCountingByCoordinatesCommand(Control control) {

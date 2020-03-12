@@ -7,14 +7,16 @@ import java.util.HashSet;
 
 public class RemoveByIdCommand extends AbstractCommand {
 
-
+    /**
+     * Класс обработки комадны remove_by_id
+     */
     public RemoveByIdCommand(Control control) {
         super(control);
     }
     /**
      * Удаляет элемент по его id.
      *
-     * @param id id удаляемого элемента.
+     * @param input id удаляемого элемента.
      */
     @Override
     public void activate(String input) {

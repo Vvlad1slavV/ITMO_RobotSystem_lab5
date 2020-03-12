@@ -9,7 +9,9 @@ public class HelpCommand extends AbstractCommand {
     public HelpCommand(Control control) {
         super(control);
     }
-
+    /**
+     * Выводит список доступных команд.
+     */
     @Override
     public void activate(String input) {
         System.out.printf("%-30s%5s%n", "add {element}", "Добавить новый элемент в коллекцию");

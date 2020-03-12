@@ -12,12 +12,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.HashSet;
-
+/**
+ * Класс загрузки коллекции
+ */
 public class LoadCollectionCommand extends AbstractCommand {
     public LoadCollectionCommand(Control control) {
         super(control);
     }
-
+    /**
+     * Загружает коллекцию
+     */
     @Override
     public void activate(String input) {
 

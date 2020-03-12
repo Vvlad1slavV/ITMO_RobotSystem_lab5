@@ -4,7 +4,9 @@ import com.itmo.r3135.Control;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
+/**
+ * Класс обработки комадны execute_script
+ */
 public class ExecuteScriptCommand extends AbstractCommand {
     public ExecuteScriptCommand(Control control) {
         super(control);
