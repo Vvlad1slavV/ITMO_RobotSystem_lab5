@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.itmo.r3135.Control;
+import com.itmo.r3135.Picture;
 import com.itmo.r3135.World.Product;
 
 import java.io.BufferedReader;
@@ -63,7 +64,8 @@ public class LoadCollectionCommand extends AbstractCommand {
                 System.out.println("Ошибка синтаксиса Json. Файл не может быть загружен.");
                 System.exit(666);
             }catch (Exception e){
-                System.out.println(e.getMessage());
+                System.out.println("Чувак, у тея битый json, делай новый");
+                Picture.prepod();
             }
             System.out.println("Коллекций успешно загружена. Добавлено " + (products.size() - startSize) + " элементов.");
         } catch (IOException e) {
