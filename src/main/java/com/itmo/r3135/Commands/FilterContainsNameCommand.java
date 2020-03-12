@@ -5,6 +5,9 @@ import com.itmo.r3135.World.Product;
 
 import java.util.HashSet;
 
+/**
+ * Класс обработки комадны filter_contains_name
+ */
 public class FilterContainsNameCommand extends AbstractCommand {
     public FilterContainsNameCommand(Control control) {
         super(control);

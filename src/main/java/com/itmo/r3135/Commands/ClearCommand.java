@@ -4,7 +4,9 @@ import com.itmo.r3135.Control;
 import com.itmo.r3135.World.Product;
 
 import java.util.HashSet;
-
+/**
+ * Класс обработки комадны clear
+ */
 public class ClearCommand extends AbstractCommand {
     public ClearCommand(Control control) {
         super(control);

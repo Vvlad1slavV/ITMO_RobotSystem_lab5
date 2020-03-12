@@ -7,7 +7,9 @@ import com.itmo.r3135.World.Product;
 
 import java.util.Collections;
 import java.util.HashSet;
-
+/**
+ * Класс обработки комадны add_if_min
+ */
 public class AddIfMinCommand extends AbstractCommand {
     public AddIfMinCommand(Control control) {
         super(control);

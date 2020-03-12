@@ -6,7 +6,9 @@ import com.itmo.r3135.World.Product;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-
+/**
+ * Класс обработки комадны print_field_descending_price
+ */
 public class PrintFieldDescendingPriceCommand extends AbstractCommand {
 
     public PrintFieldDescendingPriceCommand(Control control) {

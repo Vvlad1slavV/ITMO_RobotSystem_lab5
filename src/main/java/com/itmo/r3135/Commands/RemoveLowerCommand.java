@@ -7,6 +7,9 @@ import com.itmo.r3135.World.Product;
 
 import java.util.HashSet;
 
+/**
+ * Класс обработки комадны remove_lower
+ */
 public class RemoveLowerCommand extends AbstractCommand {
 
     public RemoveLowerCommand(Control control) {

@@ -1,7 +1,9 @@
 package com.itmo.r3135.Commands;
 
 import com.itmo.r3135.Control;
-
+/**
+ * Класс обработки комадны help
+ */
 public class ExitCommand extends AbstractCommand {
     public ExitCommand(Control control) {
         super(control);

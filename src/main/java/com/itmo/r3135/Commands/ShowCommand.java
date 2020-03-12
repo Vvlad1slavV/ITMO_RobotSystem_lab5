@@ -4,15 +4,20 @@ import com.itmo.r3135.Control;
 import com.itmo.r3135.World.Product;
 
 import java.util.HashSet;
+
 /**
- * Функция выводит на экран все элементы коллекции.
+ * Класс обработки комадны show
  */
+
 public class ShowCommand extends AbstractCommand {
 
     public ShowCommand(Control control) {
         super(control);
     }
 
+    /**
+     * Функция выводит на экран все элементы коллекции.
+     */
     @Override
     public void activate(String s) {
         HashSet<Product> products = control.getProducts();

@@ -3,7 +3,7 @@ package com.itmo.r3135;
 import java.util.Scanner;
 
 /**
- * Класс для читывания команд из командной строки.
+ * Класс для считывания команд из командной строки.
  */
 public class Commander {
 
@@ -19,8 +19,7 @@ public class Commander {
     }
 
     /**
-     * Промежуточный метод для использования команд управления коллекцией.
-     * Для выхода используйте команду exit
+     * Промежуточный метод для управления коллекцией через командную строку.
      */
     public void interactiveMod(){
         try (Scanner commandReader = new Scanner(System.in)) {

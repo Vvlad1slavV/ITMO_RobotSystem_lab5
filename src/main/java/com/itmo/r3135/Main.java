@@ -1,27 +1,27 @@
 package com.itmo.r3135;
 
-import java.io.File;
-import java.io.IOException;
-
 /**
  * Основной клас программы.
  */
 public class Main {
 
     public static void main(String[] args) {
-        for (int i = 0; i < 10; i++) {
-            System.out.println("add " + Generator.nextGsonProduct());
-        }
         Picture.gamepad();
-try {
-    if (args.length != 0) {
-        Commander commander = new Commander(new Control(args[0]));
-        commander.interactiveMod();
-    } else
-        System.out.println("Адрес файла не был обнаружен. Для Корректной работы программы при запуске в аргументах укажите путь к файлу JSON");
-}catch (java.lang.OutOfMemoryError e){
-    Picture.bruh();
-}
+        System.out.println("Держи немного примеров для коллекции в формате json :)");
+        System.out.println("-----------");
+        for (int i = 0; i < 10; i++) {
+            System.out.println(Generator.nextGsonProduct());
+        }
+        System.out.println("-----------");
+        try {
+            if (args.length != 0) {
+                Commander commander = new Commander(new Control(args[0]));
+                commander.interactiveMod();
+            } else
+                System.out.println("Адрес файла не был обнаружен. Для Корректной работы программы при запуске в аргументах укажите путь к файлу JSON");
+        } catch (java.lang.OutOfMemoryError e) {
+            Picture.bruh();
+        }
     }
 }
 

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
- * Класс для извлечения команд из скрипта.
+ * Класс для извлечения команд из скрипта для последующего выполнения.
  */
 public class VirtualStack {
     private LinkedList<File> activeScriptList;

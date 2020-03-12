@@ -7,6 +7,9 @@ import com.itmo.r3135.World.Product;
 
 import java.util.HashSet;
 
+/**
+ * Класс обработки комадны remove_greater
+ */
 public class RemoveGreaterCommand extends AbstractCommand {
     public RemoveGreaterCommand(Control control) {
         super(control);

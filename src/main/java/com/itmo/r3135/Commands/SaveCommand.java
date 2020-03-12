@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashSet;
 
+/**
+ * Класс обработки комадны save
+ */
 public class SaveCommand extends AbstractCommand {
     public SaveCommand(Control control) {
         super(control);
