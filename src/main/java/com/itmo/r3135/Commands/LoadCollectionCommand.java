@@ -62,6 +62,8 @@ public class LoadCollectionCommand extends AbstractCommand {
             } catch (JsonSyntaxException e) {
                 System.out.println("Ошибка синтаксиса Json. Файл не может быть загружен.");
                 System.exit(666);
+            }catch (Exception e){
+                System.out.println(e.getMessage());
             }
             System.out.println("Коллекций успешно загружена. Добавлено " + (products.size() - startSize) + " элементов.");
         } catch (IOException e) {
