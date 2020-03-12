@@ -13,12 +13,15 @@ public class Main {
             System.out.println("add " + Generator.nextGsonProduct());
         }
         Picture.gamepad();
-
-        if (args.length != 0) {
-            Commander commander = new Commander(new Control(args[0]));
-            commander.interactiveMod();
-        } else System.out.println("Адрес файла не был обнаружен. Для Корректной работы программы при запуске в аргументах укажите путь к файлу JSON");
-
+try {
+    if (args.length != 0) {
+        Commander commander = new Commander(new Control(args[0]));
+        commander.interactiveMod();
+    } else
+        System.out.println("Адрес файла не был обнаружен. Для Корректной работы программы при запуске в аргументах укажите путь к файлу JSON");
+}catch (java.lang.OutOfMemoryError e){
+    Picture.bruh();
+}
     }
 }
 
